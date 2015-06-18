@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2003035E1B31DE81003D55EA /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003035D1B31DE81003D55EA /* MyLabel.swift */; };
 		200A75731B306EA700FA596A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75721B306EA700FA596A /* AppDelegate.swift */; };
 		200A75761B306EA700FA596A /* JLines.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 200A75741B306EA700FA596A /* JLines.xcdatamodeld */; };
 		200A75781B306EA700FA596A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75771B306EA700FA596A /* ViewController.swift */; };
@@ -14,6 +15,27 @@
 		200A757D1B306EA700FA596A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 200A757C1B306EA700FA596A /* Images.xcassets */; };
 		200A75801B306EA700FA596A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 200A757E1B306EA700FA596A /* LaunchScreen.xib */; };
 		200A758C1B306EA700FA596A /* JLinesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A758B1B306EA700FA596A /* JLinesTests.swift */; };
+		200A75961B306FBE00FA596A /* MyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75951B306FBE00FA596A /* MyButton.swift */; };
+		200A75981B30700900FA596A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75971B30700900FA596A /* Extensions.swift */; };
+		200A759A1B30703A00FA596A /* MyStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75991B30703A00FA596A /* MyStructs.swift */; };
+		200A759C1B3070D000FA596A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A759B1B3070D000FA596A /* SettingsViewController.swift */; };
+		200A75A01B3074F300FA596A /* ChooseColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A759F1B3074F300FA596A /* ChooseColorViewController.swift */; };
+		200A75A21B30751C00FA596A /* Accelerometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75A11B30751C00FA596A /* Accelerometer.swift */; };
+		200A75A41B30752E00FA596A /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75A31B30752E00FA596A /* Line.swift */; };
+		200A75A61B30754200FA596A /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75A51B30754200FA596A /* Package.swift */; };
+		200A75A81B30759800FA596A /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75A71B30759800FA596A /* Language.swift */; };
+		200A75AA1B3075AB00FA596A /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75A91B3075AB00FA596A /* DataStore.swift */; };
+		200A75AC1B3075C500FA596A /* DrawImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75AB1B3075C500FA596A /* DrawImages.swift */; };
+		200A75AE1B30762000FA596A /* GameStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75AD1B30762000FA596A /* GameStatus.swift */; };
+		200A75B01B30763500FA596A /* AppVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75AF1B30763500FA596A /* AppVariables.swift */; };
+		200A75B21B30768A00FA596A /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75B11B30768A00FA596A /* SwiftyJSON.swift */; };
+		200A75B41B3076CB00FA596A /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75B31B3076CB00FA596A /* Point.swift */; };
+		200A75B61B3076EA00FA596A /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75B51B3076EA00FA596A /* Array2D.swift */; };
+		200A75BC1B30972400FA596A /* hu.json in Resources */ = {isa = PBXBuildFile; fileRef = 200A75B81B30972400FA596A /* hu.json */; };
+		200A75BD1B30972400FA596A /* ru.json in Resources */ = {isa = PBXBuildFile; fileRef = 200A75B91B30972400FA596A /* ru.json */; };
+		200A75BE1B30972400FA596A /* de.json in Resources */ = {isa = PBXBuildFile; fileRef = 200A75BA1B30972400FA596A /* de.json */; };
+		200A75BF1B30972400FA596A /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 200A75BB1B30972400FA596A /* en.json */; };
+		200A75C11B309F0600FA596A /* PlayWithColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2003035D1B31DE81003D55EA /* MyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		200A756D1B306EA700FA596A /* JLines.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JLines.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		200A75711B306EA700FA596A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		200A75721B306EA700FA596A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +61,27 @@
 		200A75851B306EA700FA596A /* JLinesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JLinesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		200A758A1B306EA700FA596A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		200A758B1B306EA700FA596A /* JLinesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JLinesTests.swift; sourceTree = "<group>"; };
+		200A75951B306FBE00FA596A /* MyButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyButton.swift; sourceTree = "<group>"; };
+		200A75971B30700900FA596A /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		200A75991B30703A00FA596A /* MyStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyStructs.swift; sourceTree = "<group>"; };
+		200A759B1B3070D000FA596A /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		200A759F1B3074F300FA596A /* ChooseColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseColorViewController.swift; sourceTree = "<group>"; };
+		200A75A11B30751C00FA596A /* Accelerometer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accelerometer.swift; sourceTree = "<group>"; };
+		200A75A31B30752E00FA596A /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		200A75A51B30754200FA596A /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		200A75A71B30759800FA596A /* Language.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		200A75A91B3075AB00FA596A /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		200A75AB1B3075C500FA596A /* DrawImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawImages.swift; sourceTree = "<group>"; };
+		200A75AD1B30762000FA596A /* GameStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStatus.swift; sourceTree = "<group>"; };
+		200A75AF1B30763500FA596A /* AppVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppVariables.swift; sourceTree = "<group>"; };
+		200A75B11B30768A00FA596A /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		200A75B31B3076CB00FA596A /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		200A75B51B3076EA00FA596A /* Array2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
+		200A75B81B30972400FA596A /* hu.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = hu.json; path = "../../../XCODE Projekte/Code/Swift/JLinesV2/JLinesV2/hu.json"; sourceTree = "<group>"; };
+		200A75B91B30972400FA596A /* ru.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = ru.json; path = "../../../XCODE Projekte/Code/Swift/JLinesV2/JLinesV2/ru.json"; sourceTree = "<group>"; };
+		200A75BA1B30972400FA596A /* de.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = de.json; path = "../../../XCODE Projekte/Code/Swift/JLinesV2/JLinesV2/de.json"; sourceTree = "<group>"; };
+		200A75BB1B30972400FA596A /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = en.json; path = "../../../XCODE Projekte/Code/Swift/JLinesV2/JLinesV2/en.json"; sourceTree = "<group>"; };
+		200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithColorViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +124,25 @@
 			isa = PBXGroup;
 			children = (
 				200A75721B306EA700FA596A /* AppDelegate.swift */,
+				200A75AF1B30763500FA596A /* AppVariables.swift */,
+				200A75AD1B30762000FA596A /* GameStatus.swift */,
+				200A75A91B3075AB00FA596A /* DataStore.swift */,
 				200A75771B306EA700FA596A /* ViewController.swift */,
+				200A759B1B3070D000FA596A /* SettingsViewController.swift */,
+				200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */,
+				2003035D1B31DE81003D55EA /* MyLabel.swift */,
+				200A75951B306FBE00FA596A /* MyButton.swift */,
+				200A759F1B3074F300FA596A /* ChooseColorViewController.swift */,
+				200A75A11B30751C00FA596A /* Accelerometer.swift */,
+				200A75991B30703A00FA596A /* MyStructs.swift */,
+				200A75A31B30752E00FA596A /* Line.swift */,
+				200A75B31B3076CB00FA596A /* Point.swift */,
+				200A75AB1B3075C500FA596A /* DrawImages.swift */,
+				200A75971B30700900FA596A /* Extensions.swift */,
+				200A75A71B30759800FA596A /* Language.swift */,
+				200A75B11B30768A00FA596A /* SwiftyJSON.swift */,
+				200A75A51B30754200FA596A /* Package.swift */,
+				200A75B51B3076EA00FA596A /* Array2D.swift */,
 				200A75791B306EA700FA596A /* Main.storyboard */,
 				200A757C1B306EA700FA596A /* Images.xcassets */,
 				200A757E1B306EA700FA596A /* LaunchScreen.xib */,
@@ -93,6 +155,7 @@
 		200A75701B306EA700FA596A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				200A75B71B3096FD00FA596A /* Languages */,
 				200A75711B306EA700FA596A /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -113,6 +176,17 @@
 				200A758A1B306EA700FA596A /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		200A75B71B3096FD00FA596A /* Languages */ = {
+			isa = PBXGroup;
+			children = (
+				200A75B81B30972400FA596A /* hu.json */,
+				200A75B91B30972400FA596A /* ru.json */,
+				200A75BA1B30972400FA596A /* de.json */,
+				200A75BB1B30972400FA596A /* en.json */,
+			);
+			name = Languages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,9 +269,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				200A75BE1B30972400FA596A /* de.json in Resources */,
+				200A75BC1B30972400FA596A /* hu.json in Resources */,
 				200A757B1B306EA700FA596A /* Main.storyboard in Resources */,
 				200A75801B306EA700FA596A /* LaunchScreen.xib in Resources */,
 				200A757D1B306EA700FA596A /* Images.xcassets in Resources */,
+				200A75BD1B30972400FA596A /* ru.json in Resources */,
+				200A75BF1B30972400FA596A /* en.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,9 +293,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				200A75C11B309F0600FA596A /* PlayWithColorViewController.swift in Sources */,
+				200A75AA1B3075AB00FA596A /* DataStore.swift in Sources */,
+				200A75A21B30751C00FA596A /* Accelerometer.swift in Sources */,
+				200A75B61B3076EA00FA596A /* Array2D.swift in Sources */,
+				200A75981B30700900FA596A /* Extensions.swift in Sources */,
+				200A75A01B3074F300FA596A /* ChooseColorViewController.swift in Sources */,
 				200A75781B306EA700FA596A /* ViewController.swift in Sources */,
+				200A759C1B3070D000FA596A /* SettingsViewController.swift in Sources */,
+				200A759A1B30703A00FA596A /* MyStructs.swift in Sources */,
+				200A75B01B30763500FA596A /* AppVariables.swift in Sources */,
+				200A75AE1B30762000FA596A /* GameStatus.swift in Sources */,
+				2003035E1B31DE81003D55EA /* MyLabel.swift in Sources */,
 				200A75761B306EA700FA596A /* JLines.xcdatamodeld in Sources */,
 				200A75731B306EA700FA596A /* AppDelegate.swift in Sources */,
+				200A75961B306FBE00FA596A /* MyButton.swift in Sources */,
+				200A75A81B30759800FA596A /* Language.swift in Sources */,
+				200A75AC1B3075C500FA596A /* DrawImages.swift in Sources */,
+				200A75B41B3076CB00FA596A /* Point.swift in Sources */,
+				200A75B21B30768A00FA596A /* SwiftyJSON.swift in Sources */,
+				200A75A61B30754200FA596A /* Package.swift in Sources */,
+				200A75A41B30752E00FA596A /* Line.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +443,7 @@
 				INFOPLIST_FILE = JLines/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -357,6 +454,7 @@
 				INFOPLIST_FILE = JLines/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -413,6 +511,7 @@
 				200A75911B306EA700FA596A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		200A75921B306EA700FA596A /* Build configuration list for PBXNativeTarget "JLinesTests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +520,7 @@
 				200A75941B306EA700FA596A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
