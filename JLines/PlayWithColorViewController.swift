@@ -82,28 +82,16 @@ class PlayWithColorViewController: UIViewController {
             sliderTab[index].minimumValue = 0
             sliderTab[index].maximumValue = 255
             sliderTab[index].layer.name = sliderNameTab[index]
+            sliderTab[index].value = 255
             sliderTab[index].addTarget(self, action: "sliderMoved:", forControlEvents: UIControlEvents.ValueChanged)
             
         }
-        //redSliderView.backgroundColor = UIColor.redColor()
-        //greenSliderView.backgroundColor = UIColor.greenColor()
-        //blueSliderView.backgroundColor = UIColor.blueColor()
-        //redSliderView.minimumValue = 0
-        //redSliderView.maximumValue = 255
-        //greenSliderView.minimumValue = 0
-        //greenSliderView.maximumValue = 255
-        //blueSliderView.minimumValue = 0
-        //blueSliderView.maximumValue = 255
-        //redSliderView.setThumbImage(nil, forState:.Normal)
-        //redSliderView.layer.name = "redSliderView"
-        //greenSliderView.layer.name = "greenSliderView"
-        //blueSliderView.layer.name = "blueSliderView"
         
         generatedColorView.layer.cornerRadius = viewRadius / 5
         answerView.backgroundColor = UIColor.clearColor()
         answerView.layer.borderWidth = 1
         answerView.layer.borderColor = UIColor.blackColor().CGColor
-        answerView.layer.cornerRadius = viewRadius / 5
+        answerView.layer.cornerRadius = 4 * GV.dX
         checkButton.addTarget(self, action: "checkResults:", forControlEvents: .TouchUpInside)
         newGameButton.addTarget(self, action: "startNewGame:", forControlEvents: .TouchUpInside)
         returnButton.addTarget(self, action:"stopPlayWithColors:", forControlEvents: .TouchUpInside)
@@ -132,8 +120,8 @@ class PlayWithColorViewController: UIViewController {
         generateNewGame()
 
         self.view.addSubview(playingView)
-        playingView.addSubview(generatedColorView)
         playingView.addSubview(answerView)
+        playingView.addSubview(generatedColorView)
         playingView.addSubview(sliderTab[redIndex - 1])
         playingView.addSubview(sliderTab[greenIndex - 1])
         playingView.addSubview(sliderTab[blueIndex - 1])
@@ -152,25 +140,8 @@ class PlayWithColorViewController: UIViewController {
     
     func sliderMoved(sender: UISlider) {
         let name = sender.layer.name
-        
         let sliderValue = "\(lroundf(sender.value))"
-        //println("text: \(text), sliderValue: \(sliderValue)")
-    }
-    
-    func startNewGame(sender: UIButton) {
-        generateNewGame()
-        answerView.backgroundColor = UIColor.clearColor()
-        answerView.layer.borderColor = UIColor.blackColor().CGColor
-        for index in 0..<countSliders {
-            sliderTab[index].value = 0
-        }
-        //redSliderView.value = 0
-        //greenSliderView.value = 0
-        //blueSliderView.value = 0
-    
-    }
-    
-    func checkResults(sender: UIButton) {
+        //checkResults(checkButton)
         choosedRed = CGFloat(sliderTab[redIndex - 1].value) / 255
         choosedGreen = CGFloat(sliderTab[greenIndex - 1].value) / 255
         choosedBlue = CGFloat(sliderTab[blueIndex - 1].value) / 255
@@ -179,6 +150,18 @@ class PlayWithColorViewController: UIViewController {
         evaluateTable[redIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedRed))
         evaluateTable[greenIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedGreen))
         evaluateTable[blueIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedBlue))
+    }
+    
+    func startNewGame(sender: UIButton) {
+        generateNewGame()
+        answerView.backgroundColor = UIColor.clearColor()
+        answerView.layer.borderColor = UIColor.blackColor().CGColor
+        for index in 0..<countSliders {
+            sliderTab[index].value = 255
+        }
+    }
+    
+    func checkResults(sender: UIButton) {
         evaluateTable[redIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedRed))
         evaluateTable[greenIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedGreen))
         evaluateTable[blueIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedBlue))
@@ -202,7 +185,7 @@ class PlayWithColorViewController: UIViewController {
 
         for row in 1..<countColumns {
             for column in 1..<countColumns {
-                println("row: \(row), column:\(column), index: \(row * countColumns + column)")
+                //println("row: \(row), column:\(column), index: \(row * countColumns + column)")
                 evaluateTable[row * countColumns + column].text = ""
             }
         }
@@ -228,9 +211,6 @@ class PlayWithColorViewController: UIViewController {
         for index in 0..<countSliders {
             sliderTab[index].setTranslatesAutoresizingMaskIntoConstraints(false)
         }
-        //redSliderView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        //greenSliderView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        //blueSliderView.setTranslatesAutoresizingMaskIntoConstraints(false)
         checkButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         newGameButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         returnButton.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -251,70 +231,44 @@ class PlayWithColorViewController: UIViewController {
         // playingView
         constraintsArray.append(NSLayoutConstraint(item: playingView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
         
-        constraintsArray.append(NSLayoutConstraint(item: playingView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 20 * GV.dX))
+        constraintsArray.append(NSLayoutConstraint(item: playingView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 10 * GV.dX))
         
         constraintsArray.append(NSLayoutConstraint(item: playingView, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 0.95, constant: 0))
         
-        constraintsArray.append(NSLayoutConstraint(item: playingView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: playingViewHeight))
+        constraintsArray.append(NSLayoutConstraint(item: playingView, attribute: .Height, relatedBy: .Equal, toItem: self.view, attribute: .Height, multiplier: 0.4, constant: 0))
+        
 
-        // generatedColorView
-        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Left, relatedBy: .Equal, toItem: playingView, attribute: .Left, multiplier: 1.0, constant: 4 * GV.dX))
-        
-        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Bottom, relatedBy: .Equal, toItem: playingView, attribute: .Bottom, multiplier: 1.0, constant: -viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 2 * viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 2 * viewRadius))
-        
         // answerView
-        constraintsArray.append(NSLayoutConstraint(item: answerView, attribute: .Left, relatedBy: .Equal, toItem: generatedColorView, attribute: .Right, multiplier: 1.0, constant: viewRadius / 10))
+        constraintsArray.append(NSLayoutConstraint(item: answerView, attribute: .CenterX, relatedBy: .Equal, toItem: playingView, attribute: .CenterX, multiplier: 1.0, constant: 0))
         
-        constraintsArray.append(NSLayoutConstraint(item: answerView, attribute: .CenterY, relatedBy: .Equal, toItem: generatedColorView, attribute: .CenterY, multiplier: 1.0, constant: 0))
+        constraintsArray.append(NSLayoutConstraint(item: answerView, attribute: .Top, relatedBy: .Equal, toItem: playingView, attribute: .Top, multiplier: 1.0, constant: 1 * viewRadius))
         
-        constraintsArray.append(NSLayoutConstraint(item: answerView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 2 * viewRadius))
+        constraintsArray.append(NSLayoutConstraint(item: answerView, attribute: .Width, relatedBy: .Equal, toItem: playingView, attribute: .Width, multiplier: 0.9, constant: 0))
         
-        constraintsArray.append(NSLayoutConstraint(item: answerView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 2 * viewRadius))
+        constraintsArray.append(NSLayoutConstraint(item: answerView, attribute: .Height, relatedBy: .Equal, toItem: playingView, attribute: .Height, multiplier: 0.4, constant: 0))
+        
+        // generatedColorView
+        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .CenterX, relatedBy: .Equal, toItem: answerView, attribute: .CenterX, multiplier: 1.0, constant: 4 * GV.dX))
+        
+        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .CenterY, relatedBy: .Equal, toItem: answerView, attribute: .CenterY, multiplier: 1.0, constant:0))
+        
+        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Width, relatedBy: .Equal, toItem: answerView, attribute: .Width, multiplier: 0.6, constant: 0))
+        
+        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Height, relatedBy: .Equal, toItem: answerView, attribute: .Height, multiplier: 0.6, constant: 0))
 
         for index in 0..<countSliders {
-            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Left, relatedBy: .Equal, toItem: playingView, attribute: .Left, multiplier: 1.0, constant: viewRadius))
+            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .CenterX, relatedBy: .Equal, toItem: answerView, attribute: .CenterX, multiplier: 1.0, constant: 0))
             if index == 0 {
-                constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Top, relatedBy: .Equal, toItem: playingView, attribute: .Top, multiplier: 1.0, constant: viewRadius))
+                constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Top, relatedBy: .Equal, toItem: answerView, attribute: .Bottom, multiplier: 1.0, constant: 1.5 * viewRadius))
             } else {
-                constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Top, relatedBy: .Equal, toItem: sliderTab[index - 1], attribute: .Bottom, multiplier: 1.0, constant: viewRadius))
+                constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Top, relatedBy: .Equal, toItem: sliderTab[index - 1], attribute: .Bottom, multiplier: 1.0, constant: 1.5 * viewRadius))
             }
             
-            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 16 * viewRadius))
+            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Width, relatedBy: .Equal, toItem: answerView, attribute: .Width, multiplier: 1.0, constant: 0))
             
             constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 1.0 * viewRadius))
         }
-/*
-        // redSliderView
-        constraintsArray.append(NSLayoutConstraint(item: redSliderView, attribute: .Left, relatedBy: .Equal, toItem: playingView, attribute: .Left, multiplier: 1.0, constant: viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: redSliderView, attribute: .Top, relatedBy: .Equal, toItem: playingView, attribute: .Top, multiplier: 1.0, constant: 1 * viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: redSliderView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 16 * viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: redSliderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 1.0 * viewRadius))
-       
-        // greenSliderView
-        constraintsArray.append(NSLayoutConstraint(item: greenSliderView, attribute: .Left, relatedBy: .Equal, toItem: playingView, attribute: .Left, multiplier: 1.0, constant: viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: greenSliderView, attribute: .Top, relatedBy: .Equal, toItem: redSliderView, attribute: .Bottom, multiplier: 1.0, constant: viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: greenSliderView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 16 * viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: greenSliderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 1.0 * viewRadius))
-        
-        // blueSliderView
-        constraintsArray.append(NSLayoutConstraint(item: blueSliderView, attribute: .Left, relatedBy: .Equal, toItem: playingView, attribute: .Left, multiplier: 1.0, constant: viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: blueSliderView, attribute: .Top, relatedBy: .Equal, toItem: greenSliderView, attribute: .Bottom, multiplier: 1.0, constant: viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: blueSliderView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 16 * viewRadius))
-        
-        constraintsArray.append(NSLayoutConstraint(item: blueSliderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 1.0 * viewRadius))
-*/
+
         // evaluationView
         constraintsArray.append(NSLayoutConstraint(item: evaluationView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
         
@@ -385,5 +339,6 @@ class PlayWithColorViewController: UIViewController {
         self.view.addConstraints(constraintsArray)
 
     }
+    
 
 }

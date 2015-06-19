@@ -50,6 +50,7 @@ class ViewController: UIViewController {
         
         colorPlayButton!.addTarget(self, action: "callPlayWithColors:", forControlEvents: .TouchUpInside)
         settingsButton!.addTarget(self, action: "callSettings:", forControlEvents: .TouchUpInside)
+        linesPlayButton!.addTarget(self, action: "callChoosePlayWithLines:", forControlEvents: .TouchUpInside)
         GV.language.callBackWhenNewLanguage(self.updateLanguage)
         
         
@@ -65,6 +66,11 @@ class ViewController: UIViewController {
     func callSettings(sender: UIButton) {
         let settingsViewController = SettingsViewController(callBack: continueAfterSettingsViewController)
         self.presentViewController(settingsViewController, animated: true, completion: {})
+    }
+    
+    func callChoosePlayWithLines(sender: UIButton) {
+        let choosePlayWithLinesViewController = ChoosePlayWithLinesViewController(callBack: continueAfterPlayWithLinesViewController)
+        self.presentViewController(choosePlayWithLinesViewController, animated: true, completion: {})
     }
     func updateLanguage() {
         linesPlayButton!.setTitle(GV.language.getText("playWithLines"), forState: .Normal)
@@ -82,6 +88,10 @@ class ViewController: UIViewController {
     }
     
     func continueAfterPlayWithColorViewController() {
+        
+    }
+    
+    func continueAfterPlayWithLinesViewController() {
         
     }
 

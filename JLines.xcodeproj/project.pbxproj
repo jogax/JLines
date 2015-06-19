@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2003035E1B31DE81003D55EA /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003035D1B31DE81003D55EA /* MyLabel.swift */; };
+		2005AE531B3462F000D1DA36 /* ChoosePlayWithLinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AE521B3462F000D1DA36 /* ChoosePlayWithLinesViewController.swift */; };
+		2005AE571B34744200D1DA36 /* MyButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AE561B34744200D1DA36 /* MyButtonsView.swift */; };
 		200A75731B306EA700FA596A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75721B306EA700FA596A /* AppDelegate.swift */; };
 		200A75761B306EA700FA596A /* JLines.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 200A75741B306EA700FA596A /* JLines.xcdatamodeld */; };
 		200A75781B306EA700FA596A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75771B306EA700FA596A /* ViewController.swift */; };
@@ -50,6 +52,8 @@
 
 /* Begin PBXFileReference section */
 		2003035D1B31DE81003D55EA /* MyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
+		2005AE521B3462F000D1DA36 /* ChoosePlayWithLinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosePlayWithLinesViewController.swift; sourceTree = "<group>"; };
+		2005AE561B34744200D1DA36 /* MyButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyButtonsView.swift; sourceTree = "<group>"; };
 		200A756D1B306EA700FA596A /* JLines.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JLines.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		200A75711B306EA700FA596A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		200A75721B306EA700FA596A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -129,7 +133,9 @@
 				200A75A91B3075AB00FA596A /* DataStore.swift */,
 				200A75771B306EA700FA596A /* ViewController.swift */,
 				200A759B1B3070D000FA596A /* SettingsViewController.swift */,
+				2005AE561B34744200D1DA36 /* MyButtonsView.swift */,
 				200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */,
+				2005AE521B3462F000D1DA36 /* ChoosePlayWithLinesViewController.swift */,
 				2003035D1B31DE81003D55EA /* MyLabel.swift */,
 				200A75951B306FBE00FA596A /* MyButton.swift */,
 				200A759F1B3074F300FA596A /* ChooseColorViewController.swift */,
@@ -308,6 +314,8 @@
 				200A75761B306EA700FA596A /* JLines.xcdatamodeld in Sources */,
 				200A75731B306EA700FA596A /* AppDelegate.swift in Sources */,
 				200A75961B306FBE00FA596A /* MyButton.swift in Sources */,
+				2005AE571B34744200D1DA36 /* MyButtonsView.swift in Sources */,
+				2005AE531B3462F000D1DA36 /* ChoosePlayWithLinesViewController.swift in Sources */,
 				200A75A81B30759800FA596A /* Language.swift in Sources */,
 				200A75AC1B3075C500FA596A /* DrawImages.swift in Sources */,
 				200A75B41B3076CB00FA596A /* Point.swift in Sources */,
