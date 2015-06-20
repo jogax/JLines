@@ -10,7 +10,6 @@ import UIKit
 
 class ChoosePlayWithLinesViewController: UIViewController {
     var goWhenEnd: ()->()
-    var funcTab: [()->()]
     let buttonsViewParamTab = ["firstPackButton","bonusPackButton","greenPackButton","return"]
     
     var buttonsView: MyButtonsView?
@@ -18,12 +17,7 @@ class ChoosePlayWithLinesViewController: UIViewController {
 
     init(callBack: ()->()) {
         goWhenEnd = callBack
-        funcTab = []
         super.init(nibName: nil, bundle: nil)
-        funcTab.append(callFirstPack)
-        funcTab.append(returnToCaller)
-        funcTab.append(returnToCaller)
-        funcTab.append(returnToCaller)
         GV.language.callBackWhenNewLanguage(self.updateLanguage)
     }
 
@@ -32,10 +26,24 @@ class ChoosePlayWithLinesViewController: UIViewController {
     }
 
     func callBackFromMyButtonsView(index: Int) {
-       funcTab[index]()
+        switch index {
+            case 0: callFirstPack()
+            case 1: callBonusPack()
+            case 2: callGreenPack()
+            case 3: returnToCaller()
+            default: returnToCaller()
+        }
     }
     
     func callFirstPack() {
+        
+    }
+    
+    func callBonusPack() {
+        
+    }
+    
+    func callGreenPack() {
         
     }
     
@@ -49,11 +57,13 @@ class ChoosePlayWithLinesViewController: UIViewController {
         buttonsView = MyButtonsView(paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
         
         self.view.addSubview(buttonsView!)
+        /*
         buttonsView!.backgroundColor = GV.darkTurquoiseColor
         buttonsView!.layer.cornerRadius = 10
         buttonsView!.layer.shadowOpacity = 1.0
         buttonsView!.layer.shadowOffset = CGSizeMake(3, 3)
         buttonsView!.layer.shadowColor = UIColor.blackColor().CGColor
+    */
         setupLayout()
     }
 
@@ -87,7 +97,7 @@ class ChoosePlayWithLinesViewController: UIViewController {
         
         constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 0.8, constant: 0))
         
-        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsViewHeight))
+        //constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsViewHeight))
         
         self.view.addConstraints(constraintsArray)
         

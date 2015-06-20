@@ -10,12 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var buttonsView = UIView()
-    var countButtons = 3
-    var linesPlayButton: MyButton?
-    var colorPlayButton: MyButton?
-    var settingsButton: MyButton?
-    
+    var buttonsView: MyButtonsView?
+    let buttonsViewParamTab = ["playWithLines","playWithColors","settings"]
 
 
     override func viewDidLoad() {
@@ -32,50 +28,37 @@ class ViewController: UIViewController {
         } else {
             GV.dX = self.view.frame.width / 100
         }
-        linesPlayButton = MyButton(title: "playWithLines")
-        colorPlayButton = MyButton(title: "playWithColors")
-        settingsButton  = MyButton(title: "settings")
-        
         super.viewDidLoad()
+        buttonsView = MyButtonsView(paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
         self.view.backgroundColor = GV.lightSalmonColor
-        self.view.addSubview(buttonsView)
-        buttonsView.addSubview(linesPlayButton!)
-        buttonsView.addSubview(colorPlayButton!)
-        buttonsView.addSubview(settingsButton!)
-        buttonsView.backgroundColor = GV.darkTurquoiseColor
-        buttonsView.layer.cornerRadius = 10
-        buttonsView.layer.shadowOpacity = 1.0
-        buttonsView.layer.shadowOffset = CGSizeMake(3, 3)
-        buttonsView.layer.shadowColor = UIColor.blackColor().CGColor
-        
-        colorPlayButton!.addTarget(self, action: "callPlayWithColors:", forControlEvents: .TouchUpInside)
-        settingsButton!.addTarget(self, action: "callSettings:", forControlEvents: .TouchUpInside)
-        linesPlayButton!.addTarget(self, action: "callChoosePlayWithLines:", forControlEvents: .TouchUpInside)
-        GV.language.callBackWhenNewLanguage(self.updateLanguage)
-        
+        self.view.addSubview(buttonsView!)
         
         setupLayout()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    func callPlayWithColors(sender: UIButton) {
+    func callPlayWithColors() {
         let playWithColorViewController = PlayWithColorViewController(callBack: continueAfterPlayWithColorViewController)
         self.presentViewController(playWithColorViewController, animated: true, completion: {})
     }
 
-    func callSettings(sender: UIButton) {
+    func callSettings() {
         let settingsViewController = SettingsViewController(callBack: continueAfterSettingsViewController)
         self.presentViewController(settingsViewController, animated: true, completion: {})
     }
     
-    func callChoosePlayWithLines(sender: UIButton) {
+    func callChoosePlayWithLines() {
         let choosePlayWithLinesViewController = ChoosePlayWithLinesViewController(callBack: continueAfterPlayWithLinesViewController)
         self.presentViewController(choosePlayWithLinesViewController, animated: true, completion: {})
     }
-    func updateLanguage() {
-        linesPlayButton!.setTitle(GV.language.getText("playWithLines"), forState: .Normal)
-        colorPlayButton!.setTitle(GV.language.getText("playWithColors"), forState: .Normal)
-        settingsButton!.setTitle(GV.language.getText("settings"), forState: .Normal)
+    
+    func callBackFromMyButtonsView(index: Int) {
+        switch index {
+        case 0: callChoosePlayWithLines()
+        case 1: callPlayWithColors()
+        case 2: callSettings()
+        default: callSettings()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -97,52 +80,19 @@ class ViewController: UIViewController {
 
     func setupLayout() {
         var constraintsArray = Array<NSObject>()
-        buttonsView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        linesPlayButton!.setTranslatesAutoresizingMaskIntoConstraints(false)
-        colorPlayButton!.setTranslatesAutoresizingMaskIntoConstraints(false)
-        settingsButton!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        buttonsView!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        let buttonsHeight = 3 * GV.dX
+        let gap = 3 * GV.dX
+        let buttonsViewHeight = CGFloat(buttonsViewParamTab.count) * (buttonsHeight + gap) + gap
         
-        
-        let buttonsHeight = GV.dX * 15
-        let buttonsGap = GV.dX * 3
-        let buttonsViewHeight = CGFloat(countButtons) * (buttonsHeight + buttonsGap) + buttonsGap
         
         // buttonsView
-        constraintsArray.append(NSLayoutConstraint(item: buttonsView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
+        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
         
-        constraintsArray.append(NSLayoutConstraint(item: buttonsView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 20 * GV.dX))
+        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 10 * GV.dX))
         
-        constraintsArray.append(NSLayoutConstraint(item: buttonsView, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 0.8, constant: 0))
-        
-        constraintsArray.append(NSLayoutConstraint(item: buttonsView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsViewHeight))
+        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 0.8, constant: 0))
 
-         // linesPlayButton
-        constraintsArray.append(NSLayoutConstraint(item: linesPlayButton!, attribute: .CenterX, relatedBy: .Equal, toItem: buttonsView, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
-        
-        constraintsArray.append(NSLayoutConstraint(item: linesPlayButton!, attribute: .Top, relatedBy: .Equal, toItem: buttonsView, attribute: .Top, multiplier: 1.0, constant: buttonsGap))
-        
-        constraintsArray.append(NSLayoutConstraint(item: linesPlayButton!, attribute: .Width, relatedBy: .Equal, toItem: buttonsView, attribute: .Width, multiplier: 0.9, constant: 0))
-        
-        constraintsArray.append(NSLayoutConstraint(item: linesPlayButton!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsHeight))
-        
-        // colorPlayButton
-        constraintsArray.append(NSLayoutConstraint(item: colorPlayButton!, attribute: .CenterX, relatedBy: .Equal, toItem: buttonsView, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
-        
-        constraintsArray.append(NSLayoutConstraint(item: colorPlayButton!, attribute: .Top, relatedBy: .Equal, toItem: linesPlayButton, attribute: .Bottom, multiplier: 1.0, constant: buttonsGap))
-        
-        constraintsArray.append(NSLayoutConstraint(item: colorPlayButton!, attribute: .Width, relatedBy: .Equal, toItem: buttonsView, attribute: .Width, multiplier: 0.9, constant: 0))
-        
-        constraintsArray.append(NSLayoutConstraint(item: colorPlayButton!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsHeight))
-        
-        // settingsButton
-        constraintsArray.append(NSLayoutConstraint(item: settingsButton!, attribute: .CenterX, relatedBy: .Equal, toItem: buttonsView, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
-        
-        constraintsArray.append(NSLayoutConstraint(item: settingsButton!, attribute: .Top, relatedBy: .Equal, toItem: colorPlayButton, attribute: .Bottom, multiplier: 1.0, constant: buttonsGap))
-        
-        constraintsArray.append(NSLayoutConstraint(item: settingsButton!, attribute: .Width, relatedBy: .Equal, toItem: buttonsView, attribute: .Width, multiplier: 0.9, constant: 0))
-        
-        constraintsArray.append(NSLayoutConstraint(item: settingsButton!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsHeight))
-        
         self.view.addConstraints(constraintsArray)
     
     }

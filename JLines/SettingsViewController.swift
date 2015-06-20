@@ -10,17 +10,19 @@ import UIKit
 
 class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate  {
 
+    var buttonsView: MyButtonsView?
+    let buttonsViewParamTab = ["language","gameModus","cleangame","ChooseColor","return"]
+
     var backButton = UIButton()
-    var languageButton = MyButton(title: "language")
-    var clearButton = MyButton(title:"cleangame")
-    var gameModusButton = MyButton(title: "gameModus")
-    var chooseColorButton = MyButton(title:"ChooseColor")
-    var returnButton = MyButton(title:"return")
+    //var languageButton = MyButton(title: "language")
+    //var clearButton = MyButton(title:"cleangame")
+    //var gameModusButton = MyButton(title: "gameModus")
+    //var chooseColorButton = MyButton(title:"ChooseColor")
+    //var returnButton = MyButton(title:"return")
     var pickerData: [[String]] = []
     let chooseView = UIPickerView()
     var gameControllView = UISegmentedControl()
     let chooseOKButton = MyButton()
-    let buttonsView = UIView()
     var goWhenEnd: ()->()
     var topping: String = ""
     var chooseLanguageOpen = false
@@ -33,7 +35,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
         super.init(nibName: nil, bundle: nil)
 
-        GV.language.callBackWhenNewLanguage(self.updateLanguage)
+        //GV.language.callBackWhenNewLanguage(self.updateLanguage)
     }
 
     func continueAfterSetting () {
@@ -49,36 +51,40 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        buttonsView = MyButtonsView(paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
         
         self.view.backgroundColor = GV.lightSalmonColor
-        self.view.addSubview(buttonsView)
+        self.view.addSubview(buttonsView!)
         self.view.addSubview(backButton)
+        /*
         buttonsView.addSubview(languageButton)
         buttonsView.addSubview(clearButton)
         buttonsView.addSubview(gameModusButton)
         buttonsView.addSubview(chooseColorButton)
         buttonsView.addSubview(returnButton)
-        
+        */
         
         //let myWert = self.view.frame.width / 10
         NSLayoutConstraint.deactivateConstraints(self.view.constraints())
         
-        buttonsView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        buttonsView!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        /*
         languageButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         clearButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         returnButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        chooseView.setTranslatesAutoresizingMaskIntoConstraints(false)
         gameModusButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         chooseColorButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        
+        */
+        chooseView.setTranslatesAutoresizingMaskIntoConstraints(false)
+
         setupLayout()
-        
+        /*
         buttonsView.backgroundColor = GV.darkTurquoiseColor
         buttonsView.layer.cornerRadius = 10
         buttonsView.layer.shadowOpacity = 1.0
         buttonsView.layer.shadowOffset = CGSizeMake(3, 3)
         buttonsView.layer.shadowColor = UIColor.blackColor().CGColor
-        
+
         //languageButton.setTitle(GV.language.getText("language"), forState: .Normal)
         languageButton.addTarget(self, action: "chooseLanguage:", forControlEvents: .TouchUpInside)
 
@@ -96,23 +102,34 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
         backButton.setImage(GV.images.getBack(), forState: .Normal)
         backButton.addTarget(self, action: "endSettings:", forControlEvents: .TouchUpInside)
-
+        */
         chooseView.delegate = self
         chooseView.dataSource = self
         
     }
 
+    func callBackFromMyButtonsView(index: Int) {
+        switch index {
+        case 0: chooseLanguage()
+        case 1: chooseGameControll()
+        case 2: clearGame()
+        case 3: chooseColor()
+        case 4: endSettings()
+        default: endSettings()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
     
-    func endSettings(sender: UIButton) {
+    func endSettings() {
         self.dismissViewControllerAnimated(true, completion: {self.goWhenEnd()})
     }
 
-    func chooseGameControll (sender: UIButton) {
+    func chooseGameControll () {
         
         let items = ["Finger", "Joystick", "Accelerometer", "Pipeline"]
         gameControllView = UISegmentedControl(items: items)
@@ -148,7 +165,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         gameControllView.removeFromSuperview()
     }    
 
-    func chooseColor(sender: UIButton) {
+    func chooseColor() {
         chooseColorViewController = ChooseColorViewController(callBack: goWhenEnd)
         self.presentViewController(chooseColorViewController!, animated: true, completion: {
             
@@ -156,12 +173,13 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         
     }
 
-    func chooseLanguage(sender: UIButton) {
-        
+    func chooseLanguage() {
+        /*
         languageButton.enabled = false
         clearButton.enabled = false
         gameModusButton.enabled = false
         returnButton.enabled = false
+        */
         chooseLanguageOpen = true
         chooseOKButton.setTitle(GV.language.getText("OK"), forState: .Normal)
         chooseOKButton.addTarget(self, action: "chooseOKFunc:", forControlEvents: .TouchUpInside)
@@ -186,13 +204,15 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         chooseOKButton.removeFromSuperview()
         GV.language.setLanguage(topping)
         pickerData.removeAll(keepCapacity: false)
+        /*
         languageButton.enabled = true
         clearButton.enabled = true
         gameModusButton.enabled = true
         returnButton.enabled = true
+        */
     }
     
-    func clearGame(sender: UIButton) {
+    func clearGame() {
         var clearGameAlert:UIAlertController
         var messageTxt = GV.language.getText("areYouSure")
 
@@ -248,7 +268,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
     func callBackWhenEnded(callBack: ()->()) {
         goWhenEnd = callBack
     }
-    
+/*
     func updateLanguage() {
         languageButton.setTitle(GV.language.getText("language"), forState: .Normal)
         clearButton.setTitle(GV.language.getText("cleangame"), forState: .Normal)
@@ -256,7 +276,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         chooseColorButton.setTitle(GV.language.getText("ChooseColor"), forState: .Normal)
         returnButton.setTitle(GV.language.getText("return"), forState: .Normal)
     }
-
+*/
     func setupGameControllView() {
         
         gameControllView.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -315,23 +335,25 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         let buttonsGap = buttonsHeight / 5
         let buttonsViewHeight = countButtons * (buttonsHeight + buttonsGap) + buttonsGap
         
-
+/*
         buttonsView.setTranslatesAutoresizingMaskIntoConstraints(false)
         languageButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         clearButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+*/
         backButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         
         // buttonsView
-        constraintsArray.append(NSLayoutConstraint(item: buttonsView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
+        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
         
-        constraintsArray.append(NSLayoutConstraint(item: buttonsView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 50.0))
+        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 50.0))
         
-        constraintsArray.append(NSLayoutConstraint(item: buttonsView, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 0.8, constant: 0))
+        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 0.8, constant: 0))
         
-        constraintsArray.append(NSLayoutConstraint(item: buttonsView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsViewHeight))
+        //constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsViewHeight))
         
       // constraintsArray.append(NSLayoutConstraint(item: buttonsView, attribute: .Height , relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: countButtons * (buttonsHeight + buttonsGap) + buttonsGap)
-        
+
+        /*
         // languageButton
         
         constraintsArray.append(NSLayoutConstraint(item: languageButton, attribute: .CenterX, relatedBy: NSLayoutRelation.Equal, toItem: buttonsView, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
@@ -381,7 +403,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         constraintsArray.append(NSLayoutConstraint(item: returnButton, attribute: .Width, relatedBy: .Equal, toItem: languageButton, attribute: .Width, multiplier: 1.0, constant: 0.0))
         
         constraintsArray.append(NSLayoutConstraint(item: returnButton, attribute: .Height , relatedBy: .Equal, toItem: languageButton, attribute: .Height, multiplier: 1.0, constant: 0.0))
-        
+*/
         // backButton
         constraintsArray.append(NSLayoutConstraint(item: backButton, attribute: NSLayoutAttribute.Right, relatedBy: .Equal, toItem: self.view, attribute: NSLayoutAttribute.Right, multiplier: 1.0, constant: -10.0))
         
@@ -397,14 +419,5 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.view.addConstraints(constraintsArray)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
