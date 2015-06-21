@@ -168,6 +168,7 @@ class DataStore {
         //GV.cloudData.saveRecord(gameData)
         appVariablesEntity = AppVariables(entity:appVariablesDescription!, insertIntoManagedObjectContext: managedObjectContext)
         appVariablesEntity!.gameControll = NSNumber(longLong: appData.gameControll)
+        appVariablesEntity!.farbSchemaIndex = NSNumber(longLong: appData.farbSchemaIndex)
         managedObjectContext?.save(&error)
         if let err = error {
             let errorMessage = GV.language.getText("errorBySaveData",par:String(_cocoaString: err))
@@ -184,10 +185,11 @@ class DataStore {
         
         var results = managedObjectContext!.executeFetchRequest(request, error: &error)
         if let match = results!.first as? NSManagedObject {
-
             appData.gameControll = Int64(match.valueForKey("gameControll") as! NSInteger)
+            appData.farbSchemaIndex = Int64(match.valueForKey("farbSchemaIndex") as! NSInteger)
         } else {
             appData.gameControll = Int64(GameControll.Finger.rawValue)
+            appData.farbSchemaIndex = Int64(GV.colorSetIndex)
         }
         return appData
     }

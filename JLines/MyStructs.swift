@@ -253,9 +253,11 @@ struct MyGames {
 
 struct AppData {
     var gameControll: Int64
+    var farbSchemaIndex: Int64
 
     init() {
         gameControll = Int64(GameControll.Finger.rawValue)
+        farbSchemaIndex = Int64(GV.colorSetIndex)
     }
 }
 

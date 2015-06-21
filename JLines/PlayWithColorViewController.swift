@@ -22,12 +22,16 @@ class PlayWithColorViewController: UIViewController {
     var checkButton = MyButton(title: "checkResult")
     var newGameButton = MyButton(title: "newGame")
     var returnButton = MyButton(title: "return")
-    var generatedRed:CGFloat = 0
-    var generatedGreen:CGFloat = 0
-    var generatedBlue:CGFloat = 0
-    var choosedRed: CGFloat = 0
-    var choosedGreen: CGFloat = 0
-    var choosedBlue: CGFloat = 0
+    
+    var generatedTab = [CGFloat]()
+    var choosedTab = [CGFloat]()
+    
+    //var generatedRed:CGFloat = 0
+    //var generatedGreen:CGFloat = 0
+    //var generatedBlue:CGFloat = 0
+    //var choosedRed: CGFloat = 0
+    //var choosedGreen: CGFloat = 0
+    //var choosedBlue: CGFloat = 0
     var goWhenEnd: ()->()
     let viewRadius = 4 * GV.dX
 
@@ -78,6 +82,8 @@ class PlayWithColorViewController: UIViewController {
         
         for index in 0..<countSliders {
             sliderTab.append(UISlider())
+            choosedTab.append(0)
+            generatedTab.append(0)
             sliderTab[index].backgroundColor = colorTab[index]
             sliderTab[index].minimumValue = 0
             sliderTab[index].maximumValue = 255
@@ -140,16 +146,24 @@ class PlayWithColorViewController: UIViewController {
     
     func sliderMoved(sender: UISlider) {
         let name = sender.layer.name
-        let sliderValue = "\(lroundf(sender.value))"
+        //let sliderValue = "\(lroundf(sender.value))"
         //checkResults(checkButton)
-        choosedRed = CGFloat(sliderTab[redIndex - 1].value) / 255
-        choosedGreen = CGFloat(sliderTab[greenIndex - 1].value) / 255
-        choosedBlue = CGFloat(sliderTab[blueIndex - 1].value) / 255
-        answerView.backgroundColor = UIColor(red: choosedRed, green: choosedGreen, blue: choosedBlue, alpha: 1)
-        answerView.layer.borderColor = UIColor(red: choosedRed, green: choosedGreen, blue: choosedBlue, alpha: 1).CGColor
-        evaluateTable[redIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedRed))
-        evaluateTable[greenIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedGreen))
-        evaluateTable[blueIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedBlue))
+        //choosedRed = CGFloat(sliderTab[redIndex - 1].value) / 255
+        //choosedGreen = CGFloat(sliderTab[greenIndex - 1].value) / 255
+        //choosedBlue = CGFloat(sliderTab[blueIndex - 1].value) / 255
+        for index in 0..<countSliders {
+            let colorIndex = index + 1
+            choosedTab[index] = CGFloat(sliderTab[index].value) / 255
+            evaluateTable[colorIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedTab[index]))
+            
+        }
+        answerView.backgroundColor = UIColor(red: choosedTab[redIndex - 1], green: choosedTab[greenIndex - 1], blue: choosedTab[blueIndex - 1], alpha: 1)
+        answerView.layer.borderColor = UIColor(red: choosedTab[redIndex - 1], green: choosedTab[greenIndex - 1], blue: choosedTab[blueIndex - 1], alpha: 1).CGColor
+        //answerView.backgroundColor = UIColor(red: choosedRed, green: choosedGreen, blue: choosedBlue, alpha: 1)
+        //answerView.layer.borderColor = UIColor(red: choosedRed, green: choosedGreen, blue: choosedBlue, alpha: 1).CGColor
+        //evaluateTable[redIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedRed))
+        //evaluateTable[greenIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedGreen))
+        //evaluateTable[blueIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedBlue))
     }
     
     func startNewGame(sender: UIButton) {
@@ -162,31 +176,114 @@ class PlayWithColorViewController: UIViewController {
     }
     
     func checkResults(sender: UIButton) {
-        evaluateTable[redIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedRed))
+        var alpha: CGFloat = 0
+        for index in 0..<countSliders {
+            let colorIndex = index + 1
+            evaluateTable[colorIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedTab[index]))
+            evaluateTable[colorIndex * countColumns + differenceIndex].text = String(NSString(format:"%.3f", abs(generatedTab[index] - choosedTab[index])))
+            let difference = abs(generatedTab[index] - choosedTab[index])
+            if  difference < 0.05 {
+                alpha = (0.05 - difference) * 20
+                evaluateTable[colorIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: alpha)
+            } else {
+                alpha = 1
+                evaluateTable[colorIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: alpha)
+            }
+            //evaluateTable[colorIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        }
+        /*
+        evaluateTable[(redIndex) * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedRed))
         evaluateTable[greenIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedGreen))
         evaluateTable[blueIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedBlue))
         evaluateTable[redIndex * countColumns + differenceIndex].text = String(NSString(format:"%.3f", abs(generatedRed - choosedRed)))
         evaluateTable[greenIndex * countColumns + differenceIndex].text = String(NSString(format:"%.3f", abs(generatedGreen - choosedGreen)))
         evaluateTable[blueIndex * countColumns + differenceIndex].text = String(NSString(format:"%.3f", abs(generatedBlue - choosedBlue)))
-        
+        if abs(generatedRed - choosedRed) < 0.05 {
+            evaluateTable[redIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        } else {
+            evaluateTable[redIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
+        }
+        if abs(generatedGreen - choosedGreen) < 0.05 {
+            evaluateTable[greenIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        } else {
+            evaluateTable[greenIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
+        }
+        if abs(generatedBlue - choosedBlue) < 0.05 {
+            evaluateTable[blueIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        } else {
+            evaluateTable[blueIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
+        }
+        */
+        sliderTab[redIndex - 1].userInteractionEnabled = false
+        sliderTab[redIndex - 1].enabled = false
+        sliderTab[greenIndex - 1].userInteractionEnabled = false
+        sliderTab[greenIndex - 1].enabled = false
+        sliderTab[blueIndex - 1].userInteractionEnabled = false
+        sliderTab[blueIndex - 1].enabled = false
+        checkButton.enabled = false
+        checkButton.alpha = 0.5
     }
-
+/*
+    func checkResults(sender: UIButton) {
+        evaluateTable[(redIndex) * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedRed))
+        evaluateTable[greenIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedGreen))
+        evaluateTable[blueIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedBlue))
+        evaluateTable[redIndex * countColumns + differenceIndex].text = String(NSString(format:"%.3f", abs(generatedRed - choosedRed)))
+        evaluateTable[greenIndex * countColumns + differenceIndex].text = String(NSString(format:"%.3f", abs(generatedGreen - choosedGreen)))
+        evaluateTable[blueIndex * countColumns + differenceIndex].text = String(NSString(format:"%.3f", abs(generatedBlue - choosedBlue)))
+        if abs(generatedRed - choosedRed) < 0.05 {
+            evaluateTable[redIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        } else {
+            evaluateTable[redIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
+        }
+        if abs(generatedGreen - choosedGreen) < 0.05 {
+            evaluateTable[greenIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        } else {
+            evaluateTable[greenIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
+        }
+        if abs(generatedBlue - choosedBlue) < 0.05 {
+            evaluateTable[blueIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        } else {
+            evaluateTable[blueIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
+        }
+        sliderTab[redIndex - 1].userInteractionEnabled = false
+        sliderTab[redIndex - 1].enabled = false
+        sliderTab[greenIndex - 1].userInteractionEnabled = false
+        sliderTab[greenIndex - 1].enabled = false
+        sliderTab[blueIndex - 1].userInteractionEnabled = false
+        sliderTab[blueIndex - 1].enabled = false
+        checkButton.enabled = false
+        checkButton.alpha = 0.5
+    }
+*/
     func updateLanguage() {
-        checkButton.setTitle(GV.language.getText("checkResult"), forState: .Normal)
+        //checkButton.setTitle(GV.language.getText("checkResult"), forState: .Normal)
     }
 
     func generateNewGame() {
         // generate a new random Color
         
-        generatedRed = CGFloat(random(0, max: 255)) / 255
-        generatedGreen = CGFloat(random(0, max: 255)) / 255
-        generatedBlue = CGFloat(random(0, max: 255)) / 255
-        let generatedColor = UIColor(red: generatedRed, green: generatedGreen, blue: generatedBlue, alpha: 1)
+        sliderTab[redIndex - 1].userInteractionEnabled = true
+        sliderTab[redIndex - 1].enabled = true
+        sliderTab[greenIndex - 1].userInteractionEnabled = true
+        sliderTab[greenIndex - 1].enabled = true
+        sliderTab[blueIndex - 1].userInteractionEnabled = true
+        sliderTab[blueIndex - 1].enabled = true
+        checkButton.enabled = true
+        checkButton.alpha = 1.0
+        for index in 0..<countSliders {
+            generatedTab[index] = CGFloat(random(0, max: 255)) / 255
+        }
+        //generatedRed = CGFloat(random(0, max: 255)) / 255
+        //generatedGreen = CGFloat(random(0, max: 255)) / 255
+        //generatedBlue = CGFloat(random(0, max: 255)) / 255
+        let generatedColor = UIColor(red: generatedTab[redIndex - 1], green: generatedTab[greenIndex - 1], blue: generatedTab[blueIndex - 1], alpha: 1)
 
         for row in 1..<countColumns {
             for column in 1..<countColumns {
                 //println("row: \(row), column:\(column), index: \(row * countColumns + column)")
                 evaluateTable[row * countColumns + column].text = ""
+                evaluateTable[row * countColumns + column].backgroundColor = UIColor.clearColor()
             }
         }
 

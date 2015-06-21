@@ -85,6 +85,10 @@ class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPic
             colorSetButtons[index].addTarget(self, action: "colorSetChoosed:", forControlEvents: UIControlEvents.TouchUpInside)
             colorSetButtons[index].setTitle(GV.language.getText("choose"), forState: UIControlState.Normal)
             colorSetButtons[index].titleLabel!.numberOfLines = 3
+            if index == GV.colorSetIndex {
+                colorSetViews[index].layer.borderColor = UIColor.darkGrayColor().CGColor
+                colorSetViews[index].layer.borderWidth = 3
+            }
             //colorSetButtons[index].titleLabel!.textAlignment = NSTextAlignmentCenter
             colorSet.removeAll(keepCapacity: false)
             for colorIndex in 0..<GV.colorSets[index].count - 4 {
@@ -109,7 +113,14 @@ class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     func colorSetChoosed (sender: UIButton) {
+        colorSetViews[GV.colorSetIndex].layer.borderColor = UIColor.clearColor().CGColor
+        colorSetViews[GV.colorSetIndex].layer.borderWidth = 0
+
         GV.colorSetIndex = sender.layer.name.toInt()!
+        GV.appData.farbSchemaIndex = Int64(GV.colorSetIndex)
+        GV.dataStore.createAppVariablesRecord(GV.appData)
+        colorSetViews[GV.colorSetIndex].layer.borderColor = UIColor.darkGrayColor().CGColor
+        colorSetViews[GV.colorSetIndex].layer.borderWidth = 3
     }
 
     func endChooseColor(sender: UIButton) {

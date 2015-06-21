@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         
         let origin = self.view.frame.origin
         GV.gameSizeMultiplier = (self.view.frame.height / self.view.frame.width) / 1.8
-        GV.notificationCenter.addObserver(self, selector: "handleGameControllChanging", name: GV.notificationGameControllChanged, object: nil)
+        //GV.notificationCenter.addObserver(self, selector: "handleGameControllChanging", name: GV.notificationGameControllChanged, object: nil)
         if GV.gameSizeMultiplier > 0.8  { // IPhone?
             GV.onIpad = false
         }
