@@ -8,22 +8,24 @@
 
 import UIKit
 
-class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate   {
+class ChooseColorViewController: UIViewController   {
 
     var backButton = UIButton()
     var pickerData: [[String]] = []
     var topping: String = ""
-    let chooseView = UIPickerView()
+    var chooseView: MyColorChooseView?
     var descriptionsLabel = UILabel()
     let buttonsView = UIView()
     var colorSetViews = [UIView]()
     var colorSetButtons = [MyButton]()
     var colorSets = [[]]
     var goWhenEnd: ()->()
+    var aktIndex = 0
+    var aktColorIndex = 0
 
-    var sliderTab = [UISlider]()
-    var sliderView = UIView()
-    var choosedColorView = UIView()
+    //var sliderTab = [UISlider]()
+    //var sliderView = UIView()
+    //var choosedColorView = UIView()
     let countSliders = 3
     var choosedTab = [CGFloat]()
     let colorTab: [UIColor] = [UIColor.redColor(), UIColor.greenColor(), UIColor.blueColor()]
@@ -49,6 +51,10 @@ class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPic
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func dummy (UIColor) {
+        
+    }
 
 
     override func viewDidLoad() {
@@ -58,7 +64,7 @@ class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPic
         dY = view.frame.size.height / 100
         dX = view.frame.size.width / 100
         
-        
+        chooseView = MyColorChooseView(returnWhenEnded: goHearWhenColorChoosed, withOKButton: true)
         descriptionsLabel.backgroundColor = UIColor.whiteColor()
         descriptionsLabel.text = GV.language.getText("chooseColorSet")
         descriptionsLabel.numberOfLines = 3
@@ -70,9 +76,11 @@ class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPic
         view.addSubview(descriptionsLabel)
         view.addSubview(buttonsView)
         view.addSubview(backButton)
-        view.addSubview(sliderView)
+        //view.addSubview(sliderView)
+        view.addSubview(chooseView!)
+        chooseView!.alpha = 0
 
-        view.addSubview(choosedColorView)
+        //view.addSubview(choosedColorView)
         
         buttonsView.backgroundColor = GV.darkTurquoiseColor
         buttonsView.layer.cornerRadius = 10
@@ -122,39 +130,29 @@ class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPic
             view.addSubview(colorSetViews[index])
             view.addSubview(colorSetButtons[index])
         }
-        
-        for index in 0..<countSliders {
-            sliderTab.append(UISlider())
-            choosedTab.append(0)
-            sliderTab[index].backgroundColor = colorTab[index]
-            sliderTab[index].minimumValue = 0
-            sliderTab[index].maximumValue = 255
-            //sliderTab[index].layer.name = sliderNameTab[index]
-            sliderTab[index].value = 255
-            sliderTab[index].addTarget(self, action: "sliderMoved:", forControlEvents: UIControlEvents.ValueChanged)
-            
-        }
-        sliderView.addSubview(sliderTab[redIndex])
-        sliderView.addSubview(sliderTab[greenIndex])
-        sliderView.addSubview(sliderTab[blueIndex])
-        sliderView.alpha = 0
-        sliderView.backgroundColor = UIColor.whiteColor()
         backButton.setImage(GV.images.getBack(), forState: .Normal)
         backButton.addTarget(self, action: "endChooseColor:", forControlEvents: .TouchUpInside)
         setupLayout()
+    }
+    
+    func goHearWhenColorChoosed(color: UIColor) {
+        chooseView!.alpha = 0
+        GV.colorSets[aktIndex][aktColorIndex + 1] = color
+        
     }
     
     func sliderMoved (sender: UISlider) {
         
     }
     func colorChoosed (sender: MyButton) {
-        let index = sender.layer.name.toInt()! / 100
-        let colorIndex = sender.layer.name.toInt()! % 100
-        let aktColorSet = colorSets[index]
+        aktIndex = sender.layer.name.toInt()! / 100
+        aktColorIndex = sender.layer.name.toInt()! % 100
+        //let aktColorSet = colorSets[aktColorIndex]
         //let colorSet:[UIButton] = aktColorSet[colorIndex] as! [UIButton]
-        let aktColor:UIColor = GV.colorSets[index][colorIndex + 1]
-        sliderView.alpha = 1
-        choosedColorView.backgroundColor = aktColor
+        let aktColor:UIColor = GV.colorSets[aktIndex][aktColorIndex + 1]
+        //sliderView.alpha = 1
+        chooseView!.alpha = 1
+        chooseView!.setColorViewBackgroundColor(aktColor)
     }
     
     func colorSetChoosed (sender: UIButton) {
@@ -180,24 +178,7 @@ class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPic
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return pickerData.count
-    }
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData[0].count
-    }
-    
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        return pickerData[0][row]
-    }
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        updateLabel()
-    }
 
-    func updateLabel(){
-        topping = pickerData[0][chooseView.selectedRowInComponent(0)]
-    }
 
     func setupLayout() {
         
@@ -210,19 +191,21 @@ class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPic
 
         buttonsView.setTranslatesAutoresizingMaskIntoConstraints(false)
         backButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        sliderView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        chooseView!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        //sliderView.setTranslatesAutoresizingMaskIntoConstraints(false)
         descriptionsLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        choosedColorView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        //choosedColorView.setTranslatesAutoresizingMaskIntoConstraints(false)
         for index in 0..<colorSetViews.count {
             colorSetViews[index].setTranslatesAutoresizingMaskIntoConstraints(false)
             for colorIndex in 0..<colorSets[index].count {
                 colorSets[index][colorIndex].setTranslatesAutoresizingMaskIntoConstraints(false)
             }
         }
+        /*
         for index in 0..<countSliders {
             sliderTab[index].setTranslatesAutoresizingMaskIntoConstraints(false)
         }
-        
+        */
         // descriptionsLabel
         
         constraintsArray.append(NSLayoutConstraint(item: descriptionsLabel, attribute: .CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
@@ -292,7 +275,16 @@ class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPic
         constraintsArray.append(NSLayoutConstraint(item: backButton, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 0.05, constant: 0.0))
         
         constraintsArray.append(NSLayoutConstraint(item: backButton, attribute: .Height , relatedBy: .Equal, toItem: backButton, attribute: .Width, multiplier: 1.0, constant: 0.0))
-
+        
+        // chooseView
+        constraintsArray.append(NSLayoutConstraint(item: chooseView!, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
+        
+        constraintsArray.append(NSLayoutConstraint(item: chooseView!, attribute: .Top, relatedBy: .Equal, toItem: buttonsView, attribute: .Bottom, multiplier: 1.0, constant: GV.dX))
+        
+        constraintsArray.append(NSLayoutConstraint(item: chooseView!, attribute: .Width, relatedBy: .Equal, toItem: buttonsView, attribute: .Width, multiplier: 1.0, constant: 0.0))
+        
+        constraintsArray.append(NSLayoutConstraint(item: chooseView!, attribute: .Height , relatedBy: .Equal, toItem: buttonsView, attribute: .Height, multiplier: 1.0, constant: 0))
+/*
         // sliderView
         constraintsArray.append(NSLayoutConstraint(item: sliderView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
         
@@ -324,7 +316,7 @@ class ChooseColorViewController: UIViewController, UIPickerViewDataSource, UIPic
             
             constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 1.0 * viewRadius))
         }
-        
+*/
         self.view.addConstraints(constraintsArray)
     }
 

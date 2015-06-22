@@ -10,7 +10,8 @@ import UIKit
 
 class PlayWithColorViewController: UIViewController {
 
-    var playingView = UIView()
+    //var playingView = UIView()
+    var playingView: MyColorChooseView?
     var evaluationView = UIView()
     var generatedColorView = UIView()
     var answerView = UIView()
@@ -25,8 +26,9 @@ class PlayWithColorViewController: UIViewController {
     var goWhenEnd: ()->()
     let viewRadius = 4 * GV.dX
 
-    let countSliders = 3
+    //let countSliders = 3
     let countColumns = 4
+    let countColors = 3
 
     let redIndex = 1
     let greenIndex = 2
@@ -36,11 +38,11 @@ class PlayWithColorViewController: UIViewController {
     let differenceIndex = 3
 
 
-    var sliderTab = [UISlider]()
+    //var sliderTab = [UISlider]()
     var evaluateTable = [MyLabel]()
     let headerRow: [String] = ["color", "generatedColor","choosedColor", "difference"]
     let headerColumn: [String] = ["", "red","green", "blue"]
-    let colorTab: [UIColor] = [UIColor.redColor(), UIColor.greenColor(), UIColor.blueColor()]
+    //let colorTab: [UIColor] = [UIColor.redColor(), UIColor.greenColor(), UIColor.blueColor()]
     //let sliderNameTab: [String] = ["redSliderView", "greenSliderView", "blueSliderView"]
 
 
@@ -63,27 +65,25 @@ class PlayWithColorViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        /*
         playingView.backgroundColor = UIColor.whiteColor()
         playingView.layer.cornerRadius = 5 * GV.dX
         playingView.layer.shadowColor = UIColor.blackColor().CGColor
         playingView.layer.shadowOffset = CGSizeMake(3,3)
+    */
         self.view.backgroundColor = GV.lightSalmonColor
         
-        for index in 0..<countSliders {
-            sliderTab.append(UISlider())
+        
+        for index in 0..<countColors {
+            //sliderTab.append(UISlider())
             choosedTab.append(0)
             generatedTab.append(0)
-            sliderTab[index].backgroundColor = colorTab[index]
-            sliderTab[index].minimumValue = 0
-            sliderTab[index].maximumValue = 255
-            //sliderTab[index].layer.name = sliderNameTab[index]
-            sliderTab[index].value = 255
-            sliderTab[index].addTarget(self, action: "sliderMoved:", forControlEvents: UIControlEvents.ValueChanged)
-            
         }
         
+        playingView = MyColorChooseView(returnWhenEnded: goHearWhenColorChoosed, withOKButton: false)
+        
         generatedColorView.layer.cornerRadius = viewRadius / 5
+        answerView.alpha = 0
         answerView.backgroundColor = UIColor.clearColor()
         answerView.layer.borderWidth = 1
         answerView.layer.borderColor = UIColor.blackColor().CGColor
@@ -114,12 +114,9 @@ class PlayWithColorViewController: UIViewController {
         }
         generateNewGame()
 
-        self.view.addSubview(playingView)
-        playingView.addSubview(answerView)
-        playingView.addSubview(generatedColorView)
-        playingView.addSubview(sliderTab[redIndex - 1])
-        playingView.addSubview(sliderTab[greenIndex - 1])
-        playingView.addSubview(sliderTab[blueIndex - 1])
+        self.view.addSubview(playingView!)
+        playingView!.addSubview(answerView)
+        playingView!.addSubview(generatedColorView)
         self.view.addSubview(evaluationView)
         self.view.addSubview(headTableNameLabel)
         self.view.addSubview(checkButton)
@@ -133,31 +130,25 @@ class PlayWithColorViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: {self.goWhenEnd()})
     }
     
-    func sliderMoved(sender: UISlider) {
-        //let name = sender.layer.name
-        for index in 0..<countSliders {
-            let colorIndex = index + 1
-            choosedTab[index] = CGFloat(sliderTab[index].value) / 255
-            evaluateTable[colorIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedTab[index]))
-            
-        }
-        answerView.backgroundColor = UIColor(red: choosedTab[redIndex - 1], green: choosedTab[greenIndex - 1], blue: choosedTab[blueIndex - 1], alpha: 1)
-        answerView.layer.borderColor = UIColor(red: choosedTab[redIndex - 1], green: choosedTab[greenIndex - 1], blue: choosedTab[blueIndex - 1], alpha: 1).CGColor
+    func goHearWhenColorChoosed(color: UIColor) {
+        
     }
-    
+
     func startNewGame(sender: UIButton) {
         generateNewGame()
         answerView.backgroundColor = UIColor.clearColor()
         answerView.layer.borderColor = UIColor.blackColor().CGColor
-        for index in 0..<countSliders {
-            sliderTab[index].value = 255
-        }
+        playingView!.reset()
     }
     
     func checkResults(sender: UIButton) {
         var alpha: CGFloat = 0
-        for index in 0..<countSliders {
+        //choosedTab[index] = CGFloat(sliderTab[index].value) / 255
+        choosedTab = playingView!.getChoosedColorCompnents()
+        for index in 0..<choosedTab.count {
             let colorIndex = index + 1
+            let components = playingView!.getChoosedColorCompnents()
+            evaluateTable[colorIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedTab[index]))
             evaluateTable[colorIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedTab[index]))
             evaluateTable[colorIndex * countColumns + differenceIndex].text = String(NSString(format:"%.3f", abs(generatedTab[index] - choosedTab[index])))
             let difference = abs(generatedTab[index] - choosedTab[index])
@@ -169,12 +160,7 @@ class PlayWithColorViewController: UIViewController {
                 evaluateTable[colorIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: alpha)
             }
         }
-        sliderTab[redIndex - 1].userInteractionEnabled = false
-        sliderTab[redIndex - 1].enabled = false
-        sliderTab[greenIndex - 1].userInteractionEnabled = false
-        sliderTab[greenIndex - 1].enabled = false
-        sliderTab[blueIndex - 1].userInteractionEnabled = false
-        sliderTab[blueIndex - 1].enabled = false
+        playingView!.disable()
         checkButton.enabled = false
         checkButton.alpha = 0.5
     }
@@ -184,26 +170,15 @@ class PlayWithColorViewController: UIViewController {
 
     func generateNewGame() {
         // generate a new random Color
-        
-        sliderTab[redIndex - 1].userInteractionEnabled = true
-        sliderTab[redIndex - 1].enabled = true
-        sliderTab[greenIndex - 1].userInteractionEnabled = true
-        sliderTab[greenIndex - 1].enabled = true
-        sliderTab[blueIndex - 1].userInteractionEnabled = true
-        sliderTab[blueIndex - 1].enabled = true
         checkButton.enabled = true
         checkButton.alpha = 1.0
-        for index in 0..<countSliders {
+        for index in 0..<countColors {
             generatedTab[index] = CGFloat(random(0, max: 255)) / 255
         }
-        //generatedRed = CGFloat(random(0, max: 255)) / 255
-        //generatedGreen = CGFloat(random(0, max: 255)) / 255
-        //generatedBlue = CGFloat(random(0, max: 255)) / 255
         let generatedColor = UIColor(red: generatedTab[redIndex - 1], green: generatedTab[greenIndex - 1], blue: generatedTab[blueIndex - 1], alpha: 1)
 
         for row in 1..<countColumns {
             for column in 1..<countColumns {
-                //println("row: \(row), column:\(column), index: \(row * countColumns + column)")
                 evaluateTable[row * countColumns + column].text = ""
                 evaluateTable[row * countColumns + column].backgroundColor = UIColor.clearColor()
             }
@@ -224,12 +199,9 @@ class PlayWithColorViewController: UIViewController {
     func setupLayout() {
         var constraintsArray = Array<NSObject>()
         
-        playingView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        playingView!.setTranslatesAutoresizingMaskIntoConstraints(false)
         generatedColorView.setTranslatesAutoresizingMaskIntoConstraints(false)
         answerView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        for index in 0..<countSliders {
-            sliderTab[index].setTranslatesAutoresizingMaskIntoConstraints(false)
-        }
         checkButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         newGameButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         returnButton.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -248,13 +220,13 @@ class PlayWithColorViewController: UIViewController {
     
         
         // playingView
-        constraintsArray.append(NSLayoutConstraint(item: playingView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
+        constraintsArray.append(NSLayoutConstraint(item: playingView!, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
         
-        constraintsArray.append(NSLayoutConstraint(item: playingView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 10 * GV.dX))
+        constraintsArray.append(NSLayoutConstraint(item: playingView!, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 10 * GV.dX))
         
-        constraintsArray.append(NSLayoutConstraint(item: playingView, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 0.95, constant: 0))
+        constraintsArray.append(NSLayoutConstraint(item: playingView!, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 0.95, constant: 0))
         
-        constraintsArray.append(NSLayoutConstraint(item: playingView, attribute: .Height, relatedBy: .Equal, toItem: self.view, attribute: .Height, multiplier: 0.4, constant: 0))
+        constraintsArray.append(NSLayoutConstraint(item: playingView!, attribute: .Height, relatedBy: .Equal, toItem: self.view, attribute: .Height, multiplier: 0.4, constant: 0))
         
 
         // answerView
@@ -274,20 +246,7 @@ class PlayWithColorViewController: UIViewController {
         constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Width, relatedBy: .Equal, toItem: answerView, attribute: .Width, multiplier: 0.6, constant: 0))
         
         constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Height, relatedBy: .Equal, toItem: answerView, attribute: .Height, multiplier: 0.6, constant: 0))
-
-        for index in 0..<countSliders {
-            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .CenterX, relatedBy: .Equal, toItem: answerView, attribute: .CenterX, multiplier: 1.0, constant: 0))
-            if index == 0 {
-                constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Top, relatedBy: .Equal, toItem: answerView, attribute: .Bottom, multiplier: 1.0, constant: 1.5 * viewRadius))
-            } else {
-                constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Top, relatedBy: .Equal, toItem: sliderTab[index - 1], attribute: .Bottom, multiplier: 1.0, constant: 1.5 * viewRadius))
-            }
-            
-            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Width, relatedBy: .Equal, toItem: answerView, attribute: .Width, multiplier: 1.0, constant: 0))
-            
-            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 1.0 * viewRadius))
-        }
-
+        
         // evaluationView
         constraintsArray.append(NSLayoutConstraint(item: evaluationView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
         

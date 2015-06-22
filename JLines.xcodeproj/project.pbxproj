@@ -52,6 +52,7 @@
 		200A75BF1B30972400FA596A /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 200A75BB1B30972400FA596A /* en.json */; };
 		200A75C11B309F0600FA596A /* PlayWithColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */; };
 		20A9AEC21B35A7DF0006F060 /* AppVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A9AEC11B35A7DF0006F060 /* AppVariables.swift */; };
+		20DED7731B382D7C00B4F098 /* MyColorChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,7 @@
 		200A75BB1B30972400FA596A /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = en.json; path = "../../../XCODE Projekte/Code/Swift/JLinesV2/JLinesV2/en.json"; sourceTree = "<group>"; };
 		200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithColorViewController.swift; sourceTree = "<group>"; };
 		20A9AEC11B35A7DF0006F060 /* AppVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppVariables.swift; sourceTree = "<group>"; };
+		20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyColorChooseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 				200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */,
 				2005AE521B3462F000D1DA36 /* ChoosePlayWithLinesViewController.swift */,
 				200A759F1B3074F300FA596A /* ChooseColorViewController.swift */,
+				20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */,
 				2001B7C81B359BD90029E2A6 /* PagedViewController.swift */,
 				2001B7D61B359CC20029E2A6 /* JoyStick.swift */,
 				2001B7CC1B359C420029E2A6 /* Game.swift */,
@@ -375,6 +378,7 @@
 				200A75761B306EA700FA596A /* JLines.xcdatamodeld in Sources */,
 				200A75731B306EA700FA596A /* AppDelegate.swift in Sources */,
 				200A75961B306FBE00FA596A /* MyButton.swift in Sources */,
+				20DED7731B382D7C00B4F098 /* MyColorChooseView.swift in Sources */,
 				2001B7CB1B359BF90029E2A6 /* MyScrollView.swift in Sources */,
 				2005AE571B34744200D1DA36 /* MyButtonsView.swift in Sources */,
 				2005AE531B3462F000D1DA36 /* ChoosePlayWithLinesViewController.swift in Sources */,
