@@ -11,6 +11,7 @@ import UIKit
 class MyColorChooseView: UIView {
     var sliderTab = [UISlider]()
     var colorView = UIView()
+    var colorInCenterView = UIView()
     var choosedTab = [CGFloat]()
     var OKButton = MyButton(title: "OK")
     var cancelButton = MyButton(title: "cancel")
@@ -20,12 +21,13 @@ class MyColorChooseView: UIView {
     let redIndex = 0
     let greenIndex = 1
     let blueIndex = 2
-    let viewRadius = 4 * GV.dX
     var goBack: (UIColor)->()
+    var callBackSliderMoved: (UIColor)->()
     var withOKButton: Bool
     
-    init(returnWhenEnded: (UIColor)->(), withOKButton: Bool) {
+    init(returnWhenEnded: (UIColor)->(), sliderMoved: (UIColor)->(), withOKButton: Bool, colorInCenter: UIColor) {
         self.goBack = returnWhenEnded
+        self.callBackSliderMoved = sliderMoved
         self.withOKButton = withOKButton
         super.init(frame:CGRectZero)
         self.backgroundColor = UIColor.whiteColor()
@@ -37,6 +39,9 @@ class MyColorChooseView: UIView {
         colorView.layer.borderColor = UIColor.blackColor().CGColor
         colorView.layer.cornerRadius = 4 * GV.dX
         self.addSubview(colorView)
+        colorView.addSubview(colorInCenterView)
+        colorInCenterView.backgroundColor = colorInCenter
+        colorInCenterView.layer.cornerRadius = 4 * GV.dX / 5
         if withOKButton {
             self.addSubview(OKButton)
             self.addSubview(cancelButton)
@@ -70,7 +75,9 @@ class MyColorChooseView: UIView {
             let colorIndex = index + 1
             choosedTab[index] = CGFloat(sliderTab[index].value) / 255
         }
-        colorView.backgroundColor = UIColor(red: choosedTab[redIndex], green: choosedTab[greenIndex], blue: choosedTab[blueIndex], alpha: 1)
+        let color = UIColor(red: choosedTab[redIndex], green: choosedTab[greenIndex], blue: choosedTab[blueIndex], alpha: 1)
+        callBackSliderMoved(color)
+        colorView.backgroundColor = color
     }
     
     func reset ()  {
@@ -120,28 +127,37 @@ class MyColorChooseView: UIView {
     func setupLayout() {
         var constraintsArray = Array<NSObject>()
         colorView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        colorInCenterView.setTranslatesAutoresizingMaskIntoConstraints(false)
         
         // colorView
         constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: viewRadius))
+        constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: GV.dY))
         
         constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.9, constant: 0))
         
         constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.3, constant: 1))
+        
+        // colorInCenterView
+        constraintsArray.append(NSLayoutConstraint(item: colorInCenterView, attribute: .CenterX, relatedBy: .Equal, toItem: colorView, attribute: .CenterX, multiplier: 1.0, constant: 0))
+        constraintsArray.append(NSLayoutConstraint(item: colorInCenterView, attribute: .CenterY, relatedBy: .Equal, toItem: colorView, attribute: .CenterY, multiplier: 1.0, constant: 1.0))
+        
+        constraintsArray.append(NSLayoutConstraint(item: colorInCenterView, attribute: .Width, relatedBy: .Equal, toItem: colorView, attribute: .Width, multiplier: 0.7, constant: 0))
+        
+        constraintsArray.append(NSLayoutConstraint(item: colorInCenterView, attribute: .Height, relatedBy: .Equal, toItem: colorView, attribute: .Height, multiplier: 0.5, constant: 0))
         
         
         for index in 0..<countSliders {
             sliderTab[index].setTranslatesAutoresizingMaskIntoConstraints(false)
             constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
             if index == 0 {
-            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Top, relatedBy: .Equal, toItem: colorView, attribute: .Bottom, multiplier: 1.0, constant: 2.0 * viewRadius))
+            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Top, relatedBy: .Equal, toItem: colorView, attribute: .Bottom, multiplier: 1.0, constant: 2 * GV.dY))
             } else {
-            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Top, relatedBy: .Equal, toItem: sliderTab[index - 1], attribute: .Bottom, multiplier: 1.0, constant: viewRadius))
+            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Top, relatedBy: .Equal, toItem: sliderTab[index - 1], attribute: .Bottom, multiplier: 1.0, constant: 2 * GV.dY))
             }
             
             constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.95, constant: 0))
             
-            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 1.0 * viewRadius))
+            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 2 * GV.dY))
         }
         
         if withOKButton {
@@ -149,7 +165,7 @@ class MyColorChooseView: UIView {
             cancelButton.setTranslatesAutoresizingMaskIntoConstraints(false)
             // OKButton
             constraintsArray.append(NSLayoutConstraint(item: OKButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.5, constant: 0))
-            constraintsArray.append(NSLayoutConstraint(item: OKButton, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -viewRadius))
+            constraintsArray.append(NSLayoutConstraint(item: OKButton, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -4 * GV.dY))
             
             constraintsArray.append(NSLayoutConstraint(item: OKButton, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.4, constant: 0))
             
@@ -157,7 +173,7 @@ class MyColorChooseView: UIView {
             
             // cancelButton
             constraintsArray.append(NSLayoutConstraint(item: cancelButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 0.5, constant: 0))
-            constraintsArray.append(NSLayoutConstraint(item: cancelButton, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -viewRadius))
+            constraintsArray.append(NSLayoutConstraint(item: cancelButton, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -4 * GV.dY))
             
             constraintsArray.append(NSLayoutConstraint(item: cancelButton, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.4, constant: 0))
             

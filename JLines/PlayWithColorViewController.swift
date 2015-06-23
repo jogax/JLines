@@ -13,9 +13,9 @@ class PlayWithColorViewController: UIViewController {
     //var playingView = UIView()
     var playingView: MyColorChooseView?
     var evaluationView = UIView()
-    var generatedColorView = UIView()
+    //var generatedColorView = UIView()
     var answerView = UIView()
-
+    var generatedColor: UIColor = UIColor.whiteColor()
     var checkButton = MyButton(title: "checkResult")
     var newGameButton = MyButton(title: "newGame")
     var returnButton = MyButton(title: "return")
@@ -80,9 +80,8 @@ class PlayWithColorViewController: UIViewController {
             generatedTab.append(0)
         }
         
-        playingView = MyColorChooseView(returnWhenEnded: goHearWhenColorChoosed, withOKButton: false)
         
-        generatedColorView.layer.cornerRadius = viewRadius / 5
+        
         answerView.alpha = 0
         answerView.backgroundColor = UIColor.clearColor()
         answerView.layer.borderWidth = 1
@@ -113,10 +112,11 @@ class PlayWithColorViewController: UIViewController {
             }
         }
         generateNewGame()
+        playingView = MyColorChooseView(returnWhenEnded: goHearWhenColorChoosed, sliderMoved: sliderMoved, withOKButton: false, colorInCenter: generatedColor)
 
         self.view.addSubview(playingView!)
         playingView!.addSubview(answerView)
-        playingView!.addSubview(generatedColorView)
+        //playingView!.addSubview(generatedColorView)
         self.view.addSubview(evaluationView)
         self.view.addSubview(headTableNameLabel)
         self.view.addSubview(checkButton)
@@ -140,7 +140,10 @@ class PlayWithColorViewController: UIViewController {
         answerView.layer.borderColor = UIColor.blackColor().CGColor
         playingView!.reset()
     }
-    
+
+    func sliderMoved(color: UIColor) {
+        
+    }
     func checkResults(sender: UIButton) {
         var alpha: CGFloat = 0
         //choosedTab[index] = CGFloat(sliderTab[index].value) / 255
@@ -175,7 +178,7 @@ class PlayWithColorViewController: UIViewController {
         for index in 0..<countColors {
             generatedTab[index] = CGFloat(random(0, max: 255)) / 255
         }
-        let generatedColor = UIColor(red: generatedTab[redIndex - 1], green: generatedTab[greenIndex - 1], blue: generatedTab[blueIndex - 1], alpha: 1)
+        generatedColor = UIColor(red: generatedTab[redIndex - 1], green: generatedTab[greenIndex - 1], blue: generatedTab[blueIndex - 1], alpha: 1)
 
         for row in 1..<countColumns {
             for column in 1..<countColumns {
@@ -184,7 +187,7 @@ class PlayWithColorViewController: UIViewController {
             }
         }
 
-        generatedColorView.backgroundColor = generatedColor
+        //generatedColorView.backgroundColor = generatedColor
     }
 
     override func didReceiveMemoryWarning() {
@@ -200,7 +203,7 @@ class PlayWithColorViewController: UIViewController {
         var constraintsArray = Array<NSObject>()
         
         playingView!.setTranslatesAutoresizingMaskIntoConstraints(false)
-        generatedColorView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        //generatedColorView.setTranslatesAutoresizingMaskIntoConstraints(false)
         answerView.setTranslatesAutoresizingMaskIntoConstraints(false)
         checkButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         newGameButton.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -239,13 +242,13 @@ class PlayWithColorViewController: UIViewController {
         constraintsArray.append(NSLayoutConstraint(item: answerView, attribute: .Height, relatedBy: .Equal, toItem: playingView, attribute: .Height, multiplier: 0.4, constant: 0))
         
         // generatedColorView
-        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .CenterX, relatedBy: .Equal, toItem: answerView, attribute: .CenterX, multiplier: 1.0, constant: 4 * GV.dX))
+        //constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .CenterX, relatedBy: .Equal, toItem: answerView, attribute: .CenterX, multiplier: 1.0, constant: 4 * GV.dX))
         
-        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .CenterY, relatedBy: .Equal, toItem: answerView, attribute: .CenterY, multiplier: 1.0, constant:0))
+        //constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .CenterY, relatedBy: .Equal, toItem: answerView, attribute: .CenterY, multiplier: 1.0, constant:0))
         
-        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Width, relatedBy: .Equal, toItem: answerView, attribute: .Width, multiplier: 0.6, constant: 0))
+        //constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Width, relatedBy: .Equal, toItem: answerView, attribute: .Width, multiplier: 0.6, constant: 0))
         
-        constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Height, relatedBy: .Equal, toItem: answerView, attribute: .Height, multiplier: 0.6, constant: 0))
+        //constraintsArray.append(NSLayoutConstraint(item: generatedColorView, attribute: .Height, relatedBy: .Equal, toItem: answerView, attribute: .Height, multiplier: 0.6, constant: 0))
         
         // evaluationView
         constraintsArray.append(NSLayoutConstraint(item: evaluationView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))

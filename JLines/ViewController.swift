@@ -25,8 +25,10 @@ class ViewController: UIViewController {
         
         if GV.onIpad {
             GV.dX = self.view.frame.width / 120
+            GV.dY = self.view.frame.height / 80
         } else {
             GV.dX = self.view.frame.width / 100
+            GV.dY = self.view.frame.height / 100
         }
         super.viewDidLoad()
         buttonsView = MyButtonsView(paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)

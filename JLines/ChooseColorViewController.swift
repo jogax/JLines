@@ -64,7 +64,7 @@ class ChooseColorViewController: UIViewController   {
         dY = view.frame.size.height / 100
         dX = view.frame.size.width / 100
         
-        chooseView = MyColorChooseView(returnWhenEnded: goHearWhenColorChoosed, withOKButton: true)
+        chooseView = MyColorChooseView(returnWhenEnded: goHearWhenColorChoosed, sliderMoved: sliderMoved, withOKButton: true, colorInCenter: UIColor.clearColor())
         descriptionsLabel.backgroundColor = UIColor.whiteColor()
         descriptionsLabel.text = GV.language.getText("chooseColorSet")
         descriptionsLabel.numberOfLines = 3
@@ -137,13 +137,15 @@ class ChooseColorViewController: UIViewController   {
     
     func goHearWhenColorChoosed(color: UIColor) {
         chooseView!.alpha = 0
-        GV.colorSets[aktIndex][aktColorIndex + 1] = color
-        
+        GV.colorSets[aktIndex][aktColorIndex + 1] = color        
     }
     
-    func sliderMoved (sender: UISlider) {
-        
+    func sliderMoved (color: UIColor) {
+        GV.colorSets[aktIndex][aktColorIndex] = color
+        let button:MyButton = colorSets[aktIndex][aktColorIndex] as! MyButton
+        button.backgroundColor = color
     }
+    
     func colorChoosed (sender: MyButton) {
         aktIndex = sender.layer.name.toInt()! / 100
         aktColorIndex = sender.layer.name.toInt()! % 100
