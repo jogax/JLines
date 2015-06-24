@@ -187,8 +187,8 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.view.addSubview(chooseView)
         self.view.addSubview(chooseOKButton)
         setupChooseLayout()
-        chooseView.backgroundColor = GV.darkTurquoiseColor
-        chooseView.layer.cornerRadius = 10
+        chooseView.backgroundColor = UIColor(red: 0x84/255, green: 0x84/255, blue: 0x82/255, alpha: 1.0)
+        chooseView.layer.cornerRadius = 5
         let languageIndex = GV.language.getAktLanguageIndex()
         
         pickerData.append(GV.language.getLanguages())
@@ -196,6 +196,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         chooseView.layer.shadowColor = GV.BlackColor.CGColor
         chooseView.layer.shadowOpacity = 1.0
         chooseView.layer.shadowOffset = CGSizeMake(5, 5)
+
         
     }
     

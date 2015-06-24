@@ -138,7 +138,8 @@ class PlayWithColorViewController: UIViewController {
         generateNewGame()
         answerView.backgroundColor = UIColor.clearColor()
         answerView.layer.borderColor = UIColor.blackColor().CGColor
-        playingView!.reset()
+        playingView!.reset(generatedColor)
+
     }
 
     func sliderMoved(color: UIColor) {

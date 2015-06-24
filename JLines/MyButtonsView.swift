@@ -18,7 +18,7 @@ class MyButtonsView: UIView {
         self.callBackToParent = callBack
         super.init(frame:CGRect(x: 0, y: 0, width: 0, height: 0))
         self.backgroundColor = GV.darkTurquoiseColor
-        self.layer.cornerRadius = 10
+        self.layer.cornerRadius = 5
         self.layer.shadowOpacity = 1.0
         self.layer.shadowOffset = CGSizeMake(3, 3)
         self.layer.shadowColor = UIColor.blackColor().CGColor

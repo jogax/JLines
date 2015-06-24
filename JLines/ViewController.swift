@@ -24,8 +24,8 @@ class ViewController: UIViewController {
         }
         
         if GV.onIpad {
-            GV.dX = self.view.frame.width / 120
-            GV.dY = self.view.frame.height / 80
+            GV.dX = self.view.frame.width / 100
+            GV.dY = self.view.frame.height / 60
         } else {
             GV.dX = self.view.frame.width / 100
             GV.dY = self.view.frame.height / 100

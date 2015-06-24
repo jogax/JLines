@@ -80,13 +80,17 @@ class MyColorChooseView: UIView {
         colorView.backgroundColor = color
     }
     
-    func reset ()  {
+    func reset (colorInCenter: UIColor)  {
         for index in 0..<countSliders {
             sliderTab[index].value = 255
+            sliderTab[index].userInteractionEnabled = true
+            sliderTab[index].enabled = true
+            colorView.backgroundColor = UIColor.whiteColor()
         }
-        self.backgroundColor = UIColor(red: choosedTab[redIndex], green: choosedTab[greenIndex], blue: choosedTab[blueIndex], alpha: 1)
+        colorInCenterView.backgroundColor = colorInCenter
+        //self.backgroundColor = UIColor(red: choosedTab[redIndex], green: choosedTab[greenIndex], blue: choosedTab[blueIndex], alpha: 1)
     }
-    
+        
     func disable () {
         sliderTab[redIndex].userInteractionEnabled = false
         sliderTab[redIndex].enabled = false
@@ -110,7 +114,7 @@ class MyColorChooseView: UIView {
             let blue = components[2]
             for index in 0..<numComponents {
                 sliderTab[index].value = Float(components[index] * 255)
-                sliderTab[index].setNeedsLayout()
+                //sliderTab[index].setNeedsLayout()
             }
         }
 
