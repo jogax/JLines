@@ -61,8 +61,8 @@ class MyButtonsView: UIView {
     func setupLayout() {
         var constraintsArray = Array<NSObject>()
         
-        let buttonsHeight = 16 * GV.dX
-        let gap = 4 * GV.dX
+        let buttonsHeight = 16 * GV.dX * GV.ipadKorrektur
+        let gap = 3 * GV.dX
         let borderGap = 2 * GV.dX
         let buttonsViewHeight = CGFloat(buttonsTab.count) * (buttonsHeight + gap) + gap + 2 * borderGap
         

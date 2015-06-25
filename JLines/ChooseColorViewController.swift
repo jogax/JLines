@@ -22,6 +22,8 @@ class ChooseColorViewController: UIViewController   {
     var goWhenEnd: ()->()
     var aktIndex = 0
     var aktColorIndex = 0
+    var aktColorButton = MyButton()
+    var tempColorSets = [[UIColor]]()
 
     //var sliderTab = [UISlider]()
     //var sliderView = UIView()
@@ -37,7 +39,7 @@ class ChooseColorViewController: UIViewController   {
 
     // Constants
     var dX: CGFloat = 0
-    var dY: CGFloat = 0
+    //var dY: CGFloat = 0
 
 
 
@@ -62,7 +64,7 @@ class ChooseColorViewController: UIViewController   {
         super.viewDidLoad()
         
         view.backgroundColor = GV.lightSalmonColor
-        dY = GV.dY
+        //dY = GV.dY
         dX = GV.dX
         
         chooseView = MyColorChooseView(returnWhenEnded: goHearWhenColorChoosed, sliderMoved: sliderMoved, withOKButton: true, colorInCenter: UIColor.clearColor())
@@ -81,8 +83,7 @@ class ChooseColorViewController: UIViewController   {
         view.addSubview(chooseView!)
         chooseView!.alpha = 0
 
-        //view.addSubview(choosedColorView)
-        
+        tempColorSets = GV.colorSets
         buttonsView.backgroundColor = GV.darkTurquoiseColor
         buttonsView.layer.cornerRadius = 10
         buttonsView.layer.shadowOpacity = 1.0
@@ -136,13 +137,27 @@ class ChooseColorViewController: UIViewController   {
         setupLayout()
     }
     
-    func goHearWhenColorChoosed(color: UIColor) {
+    func goHearWhenColorChoosed(cancel: Bool) {
+        aktColorButton.layer.borderWidth = 0
+        aktColorButton.layer.borderColor = UIColor.clearColor().CGColor
         chooseView!.alpha = 0
-        GV.colorSets[aktIndex][aktColorIndex + 1] = color        
+        if cancel {
+            for index in 0..<colorSets.count {
+                for colorIndex in 0..<GV.colorSets[index].count - 4 {
+                    var tempView:UIView = colorSets[index][colorIndex] as! UIView
+                    let tempColor = GV.colorSets[index][colorIndex]
+                    tempView.backgroundColor = GV.colorSets[index][colorIndex + 1]
+                }
+            }
+            tempColorSets = GV.colorSets
+        } else {
+            GV.colorSets = tempColorSets
+        }
+        //GV.colorSets[aktIndex][aktColorIndex + 1] = color
     }
     
     func sliderMoved (color: UIColor) {
-        GV.colorSets[aktIndex][aktColorIndex] = color
+        tempColorSets[aktIndex][aktColorIndex + 1] = color
         let button:MyButton = colorSets[aktIndex][aktColorIndex] as! MyButton
         button.backgroundColor = color
     }
@@ -152,7 +167,14 @@ class ChooseColorViewController: UIViewController   {
         aktColorIndex = sender.layer.name.toInt()! % 100
         //let aktColorSet = colorSets[aktColorIndex]
         //let colorSet:[UIButton] = aktColorSet[colorIndex] as! [UIButton]
-        let aktColor:UIColor = GV.colorSets[aktIndex][aktColorIndex + 1]
+        aktColorButton.layer.borderWidth = 0
+        aktColorButton.layer.borderColor = UIColor.clearColor().CGColor
+        aktColorButton = colorSets[aktIndex][aktColorIndex] as! MyButton
+        
+        aktColorButton.layer.borderColor = choosedColorBorderColor.CGColor
+        aktColorButton.layer.borderWidth = 1.0
+
+        let aktColor:UIColor = tempColorSets[aktIndex][aktColorIndex + 1]
         //sliderView.alpha = 1
         chooseView!.alpha = 1
         chooseView!.setColorViewBackgroundColor(aktColor)
@@ -186,7 +208,6 @@ class ChooseColorViewController: UIViewController   {
     func setupLayout() {
         
         var constraintsArray = Array<NSObject>()
-        var colorRadius: CGFloat = 4 * dX
         var gap: CGFloat = dX
         let countButtons: CGFloat = 3
         let buttonsHeight = 15 * gap * GV.ipadKorrektur
@@ -257,14 +278,14 @@ class ChooseColorViewController: UIViewController   {
                     constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Left, relatedBy: .Equal, toItem: colorSets[index][colorIndex - 1], attribute: .Right, multiplier: 1.0, constant: gap))
                 }
                 if colorIndex < 7 {
-                    constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Top, relatedBy: .Equal, toItem: colorSetViews[index], attribute: .Top, multiplier: 1.5, constant: gap))
+                    constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .CenterY, relatedBy: .Equal, toItem: colorSetViews[index], attribute: .CenterY, multiplier: 1.0, constant: -0.25 * buttonsHeight))
                 } else {
-                    constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Top, relatedBy: .Equal, toItem: colorSets[index][0], attribute: .Bottom, multiplier: 1.0, constant: gap))
+                    constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .CenterY, relatedBy: .Equal, toItem: colorSetViews[index], attribute: .CenterY, multiplier: 1.0, constant: 0.25 * buttonsHeight))
                 }
                 
-                constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Width, relatedBy: .Equal, toItem: colorSetButtons[index], attribute: .Height, multiplier: 0.40, constant: 0))
+                constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Width, relatedBy: .Equal, toItem: colorSetButtons[index], attribute: .Height, multiplier: 0.42, constant: 0))
                 
-                constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Height, relatedBy: .Equal, toItem: colorSetButtons[index], attribute: .Height, multiplier: 0.40, constant: 0))
+                constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Height, relatedBy: .Equal, toItem: colorSetButtons[index], attribute: .Height, multiplier: 0.42, constant: 0))
             }
         }
 

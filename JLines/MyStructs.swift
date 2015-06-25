@@ -26,7 +26,7 @@ struct GV {
     static let notificationJoystickMoved = "joystickMoved"
     static let notificationColorChanged = "colorChanged"
     static var dX: CGFloat = 0
-    static var dY: CGFloat = 0
+    //static var dY: CGFloat = 0
     static let accelerometer   = Accelerometer()
     static var aktColor: LineType = .Unknown
     static var speed: CGSize = CGSizeZero

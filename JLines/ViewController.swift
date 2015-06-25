@@ -25,11 +25,11 @@ class ViewController: UIViewController {
         
         if GV.onIpad {
             GV.dX = self.view.frame.width / 100
-            GV.dY = self.view.frame.height / 60
-            GV.ipadKorrektur = 0.8
+            //GV.dY = self.view.frame.height / 60
+            GV.ipadKorrektur = 0.85
         } else {
             GV.dX = self.view.frame.width / 100
-            GV.dY = self.view.frame.height / 100
+            //GV.dY = self.view.frame.height / 100
             GV.ipadKorrektur = 1.0
         }
         super.viewDidLoad()

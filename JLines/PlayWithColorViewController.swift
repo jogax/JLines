@@ -130,7 +130,7 @@ class PlayWithColorViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: {self.goWhenEnd()})
     }
     
-    func goHearWhenColorChoosed(color: UIColor) {
+    func goHearWhenColorChoosed(cancel: Bool) {
         
     }
 
@@ -148,10 +148,10 @@ class PlayWithColorViewController: UIViewController {
     func checkResults(sender: UIButton) {
         var alpha: CGFloat = 0
         //choosedTab[index] = CGFloat(sliderTab[index].value) / 255
-        choosedTab = playingView!.getChoosedColorCompnents()
+        choosedTab = playingView!.getChoosedColorComponents()
         for index in 0..<choosedTab.count {
             let colorIndex = index + 1
-            let components = playingView!.getChoosedColorCompnents()
+            let components = playingView!.getChoosedColorComponents()
             evaluateTable[colorIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedTab[index]))
             evaluateTable[colorIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedTab[index]))
             evaluateTable[colorIndex * countColumns + differenceIndex].text = String(NSString(format:"%.3f", abs(generatedTab[index] - choosedTab[index])))
