@@ -35,6 +35,7 @@ struct GV {
     static var gameNr = 0
     static var gameSizeMultiplier: CGFloat = 1.0
     static var onIpad = true
+    static var ipadKorrektur: CGFloat = 0
     static var maxGameNr = 0
     static var volumeNr = 0 {
         didSet {

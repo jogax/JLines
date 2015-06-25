@@ -33,6 +33,7 @@ class ChooseColorViewController: UIViewController   {
     let greenIndex = 1
     let blueIndex = 2
     let viewRadius = 4 * GV.dX
+    let choosedColorBorderColor = UIColor.whiteColor()
 
     // Constants
     var dX: CGFloat = 0
@@ -108,7 +109,7 @@ class ChooseColorViewController: UIViewController   {
             colorSetButtons[index].setTitle(GV.language.getText("choose"), forState: UIControlState.Normal)
             colorSetButtons[index].titleLabel!.numberOfLines = 3
             if index == GV.colorSetIndex {
-                colorSetViews[index].layer.borderColor = UIColor.darkGrayColor().CGColor
+                colorSetViews[index].layer.borderColor = choosedColorBorderColor.CGColor
                 colorSetViews[index].layer.borderWidth = 3
             }
             //colorSetButtons[index].titleLabel!.textAlignment = NSTextAlignmentCenter
@@ -188,7 +189,7 @@ class ChooseColorViewController: UIViewController   {
         var colorRadius: CGFloat = 4 * dX
         var gap: CGFloat = dX
         let countButtons: CGFloat = 3
-        let buttonsHeight = 16 * gap
+        let buttonsHeight = 15 * gap * GV.ipadKorrektur
         let buttonsViewHeight = countButtons * (buttonsHeight + gap) + 5 * gap
 
         buttonsView.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -256,14 +257,14 @@ class ChooseColorViewController: UIViewController   {
                     constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Left, relatedBy: .Equal, toItem: colorSets[index][colorIndex - 1], attribute: .Right, multiplier: 1.0, constant: gap))
                 }
                 if colorIndex < 7 {
-                    constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Top, relatedBy: .Equal, toItem: colorSetViews[index], attribute: .Top, multiplier: 1.0, constant: gap))
+                    constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Top, relatedBy: .Equal, toItem: colorSetViews[index], attribute: .Top, multiplier: 1.5, constant: gap))
                 } else {
-                    constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Top, relatedBy: .Equal, toItem: colorSets[index][0], attribute: .Bottom, multiplier: 1, constant: gap))
+                    constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Top, relatedBy: .Equal, toItem: colorSets[index][0], attribute: .Bottom, multiplier: 1.0, constant: gap))
                 }
                 
-                constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Width, relatedBy: .Equal, toItem: colorSetButtons[index], attribute: .Height, multiplier: 0.35, constant: 0))
+                constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Width, relatedBy: .Equal, toItem: colorSetButtons[index], attribute: .Height, multiplier: 0.40, constant: 0))
                 
-                constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Height, relatedBy: .Equal, toItem: colorSetButtons[index], attribute: .Height, multiplier: 0.35, constant: 0))
+                constraintsArray.append(NSLayoutConstraint(item: colorSets[index][colorIndex], attribute: .Height, relatedBy: .Equal, toItem: colorSetButtons[index], attribute: .Height, multiplier: 0.40, constant: 0))
             }
         }
 

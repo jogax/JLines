@@ -258,7 +258,7 @@ class PlayWithColorViewController: UIViewController {
         
         constraintsArray.append(NSLayoutConstraint(item: evaluationView, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 0.95, constant: 0))
         
-        constraintsArray.append(NSLayoutConstraint(item: evaluationView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: playingViewHeight))
+        constraintsArray.append(NSLayoutConstraint(item: evaluationView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: playingViewHeight * GV.ipadKorrektur))
 
         // headTableNameLabel
         constraintsArray.append(NSLayoutConstraint(item: headTableNameLabel, attribute: .CenterX, relatedBy: .Equal, toItem: evaluationView, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
