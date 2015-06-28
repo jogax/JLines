@@ -169,7 +169,7 @@ class DataStore {
         appVariablesEntity = AppVariables(entity:appVariablesDescription!, insertIntoManagedObjectContext: managedObjectContext)
         appVariablesEntity!.gameControll = NSNumber(longLong: appData.gameControll)
         appVariablesEntity!.farbSchemaIndex = NSNumber(longLong: appData.farbSchemaIndex)
-        appVariablesEntity!.farbSchemas = String(appData.farbSchemaIndex)
+        appVariablesEntity!.farbSchemas = appData.farbSchemas
         managedObjectContext?.save(&error)
         if let err = error {
             let errorMessage = GV.language.getText("errorBySaveData",par:String(_cocoaString: err))
@@ -189,6 +189,7 @@ class DataStore {
             appData.gameControll = Int64(match.valueForKey("gameControll") as! NSInteger)
             appData.farbSchemaIndex = Int64(match.valueForKey("farbSchemaIndex") as! NSInteger)
             appData.farbSchemas = String(match.valueForKey("farbSchemas") as! NSString)
+            convertStringToFarbSchemas (appData.farbSchemas)
         } else {
             appData.gameControll = Int64(GameControll.Finger.rawValue)
             appData.farbSchemaIndex = Int64(GV.colorSetIndex)
@@ -226,6 +227,41 @@ class DataStore {
 
         }
         
+    }
+    
+    func convertFarbschemasToString () -> String{
+        var str: String = ""
+        for index in 0..<GV.colorSets.count {
+            for colorIndex in 1..<GV.colorSets[0].count - 4 {
+                let components = CGColorGetComponents(GV.colorSets[index][colorIndex].CGColor)
+                let red = Int(components[0] * 255)
+                let green = Int(components[1] * 255)
+                let blue = Int(components[2] * 255)
+                
+                let redStr = red == 0 ? "000" : red < 10 ? "00" + String(red) : red < 100 ? "0" + String(red) : String(red)
+                let greenStr = green == 0 ? "000" : green < 10 ? "00" + String(green) : green < 100 ? "0" + String(green) : String(green)
+                let blueStr = blue == 0 ? "000" : blue < 10 ? "00" + String(blue) : blue < 100 ? "0" + String(blue) : String(blue)
+                str = str + "\(redStr)\(greenStr)\(blueStr)"
+            }
+        }
+        return str
+    }
+    
+    func convertStringToFarbSchemas (farbSchemas: String) {
+        let str = farbSchemas as NSString
+        for index in 0..<GV.colorSets.count {
+            let colorSetLength = (GV.colorSets[0].count - 5) * 9
+            let startIndex = index * colorSetLength
+            let colorSetString = str.substringWithRange(NSRange(location: startIndex, length: colorSetLength)) as NSString
+            for colorIndex in 1..<GV.colorSets[0].count - 4 {
+                let aktLocation = (colorIndex - 1) * 9
+                let aktColor = colorSetString.substringWithRange(NSRange(location:aktLocation, length: 9)) as NSString
+                let red = CGFloat(aktColor.substringWithRange(NSRange(location: 0, length: 3)).toInt()!) / 255
+                let green = CGFloat(aktColor.substringWithRange(NSRange(location: 3, length: 3)).toInt()!) / 255
+                let blue = CGFloat(aktColor.substringWithRange(NSRange(location: 6, length: 3)).toInt()!) / 255
+                GV.colorSets[index][colorIndex] = UIColor(red: red, green: green, blue: blue, alpha: 1)
+            }
+        }
     }
     
 }

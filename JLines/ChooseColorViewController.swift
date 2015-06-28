@@ -186,7 +186,7 @@ class ChooseColorViewController: UIViewController   {
 
         GV.colorSetIndex = sender.layer.name.toInt()!
         GV.appData.farbSchemaIndex = Int64(GV.colorSetIndex)
-        GV.appData.farbSchemas = convertFarbschemasToString()
+        GV.appData.farbSchemas = GV.dataStore.convertFarbschemasToString()
         GV.dataStore.createAppVariablesRecord(GV.appData)
         colorSetViews[GV.colorSetIndex].layer.borderColor = UIColor.whiteColor().CGColor
         colorSetViews[GV.colorSetIndex].layer.borderWidth = 2
@@ -205,25 +205,6 @@ class ChooseColorViewController: UIViewController   {
         // Dispose of any resources that can be recreated.
     }
     
-    func convertFarbschemasToString () -> String{
-        var str: String = ""
-        for index in 0..<GV.colorSets.count {
-            for colorIndex in 1..<GV.colorSets[0].count - 4{
-                let components = CGColorGetComponents(GV.colorSets[index][colorIndex].CGColor)
-                let red = Int(components[0] * 255)
-                let green = Int(components[1] * 255)
-                let blue = Int(components[2] * 255)
-                
-                let redStr = red == 0 ? "000" : red < 10 ? "00" + String(red) : red < 100 ? "0" + String(red) : String(red)
-                let greenStr = green == 0 ? "000" : green < 10 ? "00" + String(green) : green < 100 ? "0" + String(green) : String(green)
-                let blueStr = blue == 0 ? "000" : blue < 10 ? "00" + String(blue) : blue < 100 ? "0" + String(blue) : String(blue)
-                let str1 = "\(redStr)\(greenStr)\(blueStr)"
-                println(str1)
-                str = str + str1
-            }
-        }
-       return str
-    }
 
 
 

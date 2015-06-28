@@ -38,6 +38,10 @@ class ViewController: UIViewController {
         self.view.addSubview(buttonsView!)
         
         setupLayout()
+        
+        //GV.gameData = GV.dataStore.getDataArray()
+        GV.appData = GV.dataStore.getAppVariablesData()
+
         // Do any additional setup after loading the view, typically from a nib.
     }
     
