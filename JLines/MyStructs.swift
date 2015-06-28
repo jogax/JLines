@@ -95,6 +95,7 @@ struct GV {
     static let SilverColor          = UIColor(red: 192/255, green: 192/255, blue: 192/255, alpha: 1)
     static let BlackColor           = UIColor(red: 0/255,   green: 0/255,   blue: 0/255,    alpha: 1)
     static let DarkForrestGreen     = UIColor(red: 0x25/0xff, green: 0x41/0xff, blue: 0x17/0xff, alpha: 1)
+    static let backgroundColor      = UIColor.whiteColor()
     
 
     // generierung new game
@@ -256,10 +257,13 @@ struct MyGames {
 struct AppData {
     var gameControll: Int64
     var farbSchemaIndex: Int64
+    var farbSchemas: String
 
     init() {
         gameControll = Int64(GameControll.Finger.rawValue)
         farbSchemaIndex = Int64(GV.colorSetIndex)
+        farbSchemas = ""
     }
+    
 }
 

@@ -2,6 +2,7 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AppVariables" representedClassName="JLines.AppVariables" syncable="YES">
         <attribute name="farbSchemaIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="farbSchemas" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gameControll" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="GameStatus" representedClassName="JLines.GameStatus" syncable="YES">
@@ -13,7 +14,7 @@
         <attribute name="timeStamp" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AppVariables" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="AppVariables" positionX="-63" positionY="-18" width="128" height="90"/>
         <element name="GameStatus" positionX="-54" positionY="0" width="128" height="135"/>
     </elements>
 </model>

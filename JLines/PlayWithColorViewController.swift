@@ -71,7 +71,7 @@ class PlayWithColorViewController: UIViewController {
         playingView.layer.shadowColor = UIColor.blackColor().CGColor
         playingView.layer.shadowOffset = CGSizeMake(3,3)
     */
-        self.view.backgroundColor = GV.lightSalmonColor
+        self.view.backgroundColor = GV.backgroundColor // GV.lightSalmonColor
         
         
         for index in 0..<countColors {

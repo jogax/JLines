@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20002E371B40404B00F390A2 /* AppVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20002E361B40404B00F390A2 /* AppVariables.swift */; };
 		2001B7C91B359BD90029E2A6 /* PagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2001B7C81B359BD90029E2A6 /* PagedViewController.swift */; };
 		2001B7CB1B359BF90029E2A6 /* MyScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2001B7CA1B359BF90029E2A6 /* MyScrollView.swift */; };
 		2001B7CD1B359C420029E2A6 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2001B7CC1B359C420029E2A6 /* Game.swift */; };
@@ -51,7 +52,6 @@
 		200A75BE1B30972400FA596A /* de.json in Resources */ = {isa = PBXBuildFile; fileRef = 200A75BA1B30972400FA596A /* de.json */; };
 		200A75BF1B30972400FA596A /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 200A75BB1B30972400FA596A /* en.json */; };
 		200A75C11B309F0600FA596A /* PlayWithColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */; };
-		20A9AEC21B35A7DF0006F060 /* AppVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A9AEC11B35A7DF0006F060 /* AppVariables.swift */; };
 		20DED7731B382D7C00B4F098 /* MyColorChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +66,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		20002E311B403AC800F390A2 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
+		20002E361B40404B00F390A2 /* AppVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppVariables.swift; sourceTree = "<group>"; };
 		2001B7C81B359BD90029E2A6 /* PagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedViewController.swift; sourceTree = "<group>"; };
 		2001B7CA1B359BF90029E2A6 /* MyScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyScrollView.swift; sourceTree = "<group>"; };
 		2001B7CC1B359C420029E2A6 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -114,7 +116,6 @@
 		200A75BA1B30972400FA596A /* de.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = de.json; path = "../../../XCODE Projekte/Code/Swift/JLinesV2/JLinesV2/de.json"; sourceTree = "<group>"; };
 		200A75BB1B30972400FA596A /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = en.json; path = "../../../XCODE Projekte/Code/Swift/JLinesV2/JLinesV2/en.json"; sourceTree = "<group>"; };
 		200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithColorViewController.swift; sourceTree = "<group>"; };
-		20A9AEC11B35A7DF0006F060 /* AppVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppVariables.swift; sourceTree = "<group>"; };
 		20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyColorChooseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,10 +162,10 @@
 		200A756F1B306EA700FA596A /* JLines */ = {
 			isa = PBXGroup;
 			children = (
+				20002E361B40404B00F390A2 /* AppVariables.swift */,
 				200A75721B306EA700FA596A /* AppDelegate.swift */,
 				200A75741B306EA700FA596A /* JLines.xcdatamodeld */,
 				200A75AD1B30762000FA596A /* GameStatus.swift */,
-				20A9AEC11B35A7DF0006F060 /* AppVariables.swift */,
 				200A75A91B3075AB00FA596A /* DataStore.swift */,
 				200A75771B306EA700FA596A /* ViewController.swift */,
 				200A759B1B3070D000FA596A /* SettingsViewController.swift */,
@@ -183,6 +184,7 @@
 				200A75951B306FBE00FA596A /* MyButton.swift */,
 				2005AE561B34744200D1DA36 /* MyButtonsView.swift */,
 				200A75991B30703A00FA596A /* MyStructs.swift */,
+				20002E311B403AC800F390A2 /* MyPlayground.playground */,
 				2001B7CA1B359BF90029E2A6 /* MyScrollView.swift */,
 				200A75A11B30751C00FA596A /* Accelerometer.swift */,
 				200A75A31B30752E00FA596A /* Line.swift */,
@@ -362,11 +364,11 @@
 				2001B7D71B359CC20029E2A6 /* JoyStick.swift in Sources */,
 				200A75C11B309F0600FA596A /* PlayWithColorViewController.swift in Sources */,
 				200A75AA1B3075AB00FA596A /* DataStore.swift in Sources */,
-				20A9AEC21B35A7DF0006F060 /* AppVariables.swift in Sources */,
 				200A75A21B30751C00FA596A /* Accelerometer.swift in Sources */,
 				2001B7D51B359CAA0029E2A6 /* MyLayer.swift in Sources */,
 				2001B7CF1B359C610029E2A6 /* MyGameView.swift in Sources */,
 				2001B7CD1B359C420029E2A6 /* Game.swift in Sources */,
+				20002E371B40404B00F390A2 /* AppVariables.swift in Sources */,
 				200A75B61B3076EA00FA596A /* Array2D.swift in Sources */,
 				200A75981B30700900FA596A /* Extensions.swift in Sources */,
 				200A75A01B3074F300FA596A /* ChooseColorViewController.swift in Sources */,

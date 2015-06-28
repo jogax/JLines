@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         }
         super.viewDidLoad()
         buttonsView = MyButtonsView(paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
-        self.view.backgroundColor = GV.lightSalmonColor
+        self.view.backgroundColor = GV.backgroundColor
         self.view.addSubview(buttonsView!)
         
         setupLayout()

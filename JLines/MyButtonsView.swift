@@ -17,14 +17,14 @@ class MyButtonsView: UIView {
     init(paramTab: [String], callBack: (Int)->()) {
         self.callBackToParent = callBack
         super.init(frame:CGRect(x: 0, y: 0, width: 0, height: 0))
-        self.backgroundColor = GV.darkTurquoiseColor
+        self.backgroundColor = UIColor.whiteColor()//GV.darkTurquoiseColor
         self.layer.cornerRadius = 5
         self.layer.shadowOpacity = 1.0
         self.layer.shadowOffset = CGSizeMake(3, 3)
         self.layer.shadowColor = UIColor.blackColor().CGColor
         decoFrame.layer.backgroundColor = UIColor.clearColor().CGColor
-        decoFrame.layer.borderColor = UIColor.blueColor().CGColor
-        decoFrame.layer.borderWidth = 3
+        decoFrame.layer.borderColor = UIColor(red: 0, green: 0, blue: 1, alpha: 0.5).CGColor//UIColor.blueColor().CGColor
+        decoFrame.layer.borderWidth = 1
         decoFrame.layer.cornerRadius = 10
         
         self.addSubview(decoFrame)

@@ -50,7 +50,7 @@ class Game: UIView, Printable {
         var device = UIDevice.currentDevice()					//Get the device object
         super.init(frame: frame)
         GV.joyStickRadius = self.frame.width / 8
-        self.backgroundColor = GV.lightSalmonColor
+        self.backgroundColor = GV.backgroundColor //GV.lightSalmonColor
         self.hidden = false
         let size = frame.size
         let origin = frame.origin
@@ -68,7 +68,7 @@ class Game: UIView, Printable {
         
         
         //gameContainer = UIView()
-        gameContainer.backgroundColor = GV.lightSalmonColor
+        gameContainer.backgroundColor = GV.backgroundColor //GV.lightSalmonColor
         gameContainer.layer.name = "gameContainer"
         self.addSubview(gameContainer)
         let width = self.frame.width * 0.99
@@ -101,7 +101,7 @@ class Game: UIView, Printable {
         
         //firstGameView = MyGameView(frame:CGRect(origin: CGPointZero, size: vSize), package: package, parent: parent, gameEnded: nextAction)
         firstGameView = MyGameView(frame:vBounds, package: package, parent: parent, gameEnded: nextAction)
-        firstGameView!.backgroundColor = GV.lightSalmonColor
+        firstGameView!.backgroundColor = GV.backgroundColor //GV.lightSalmonColor
         
         gameContainer.addSubview(firstGameView!)
         //vSize = CGSize(width: GV.horNormWert * 38, height: GV.horNormWert * 38)
@@ -146,15 +146,15 @@ class Game: UIView, Printable {
         if !countdown {
             timerLabel.text = "\(GV.timeCount)"
         }
-        timerLabel.backgroundColor = GV.lightSalmonColor
+        timerLabel.backgroundColor = GV.backgroundColor //GV.lightSalmonColor
         let font = UIFont(name: "TimesNewRoman", size: self.frame.width / 20)
         let gameName = GV.package!.getVolumeName(GV.volumeNr)
         gameNrPar = "\(GV.gameNr + 1)  \(gameName)"
         gameNumber.text =  GV.language.getText("gameNumber", par: gameNrPar ) //"Játék sorszáma: \(GV.gameNr)"
         gameNumber.font = UIFont(name: gameNumber.font.fontName, size: 20)
-        gameNumber.layer.shadowColor = UIColor.redColor().CGColor
-        gameNumber.layer.shadowOffset = CGSizeMake(2, 2)
-        gameNumber.layer.shadowOpacity = 1.0
+        gameNumber.layer.shadowColor = UIColor.blackColor().CGColor
+        gameNumber.layer.shadowOffset = CGSizeMake(1, 1)
+        gameNumber.layer.shadowOpacity = 0.5
         
         GV.lineCount = 0
         GV.moveCount = 0
@@ -348,7 +348,7 @@ class Game: UIView, Printable {
                 
                 //self.vSize = self.gameContainer.frame.size
                 self.firstGameView = MyGameView(frame:CGRect(origin: CGPointZero, size: self.vSize), package: self.package!, parent: self.parent, gameEnded:self.nextAction )
-                self.backgroundColor = GV.lightSalmonColor
+                self.backgroundColor = GV.backgroundColor //GV.lightSalmonColor
                 self.gameContainer.addSubview(self.firstGameView!)
             }, completion: {finisched in})
             
