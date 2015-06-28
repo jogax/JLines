@@ -165,7 +165,7 @@ class MyColorChooseView: UIView {
             
             constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.95, constant: 0))
             
-            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 2 * GV.dX))
+            constraintsArray.append(NSLayoutConstraint(item: sliderTab[index], attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.1, constant: 0))
         }
         
         if withOKButton {
