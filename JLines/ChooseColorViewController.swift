@@ -84,7 +84,7 @@ class ChooseColorViewController: UIViewController   {
         chooseView!.alpha = 0
 
         tempColorSets = GV.colorSets
-        buttonsView.backgroundColor = GV.darkTurquoiseColor
+        buttonsView.backgroundColor = GV.backgroundColor //GV.darkTurquoiseColor
         buttonsView.layer.cornerRadius = 10
         buttonsView.layer.shadowOpacity = 1.0
         buttonsView.layer.shadowOffset = CGSizeMake(3, 3)
@@ -94,7 +94,7 @@ class ChooseColorViewController: UIViewController   {
         for index in 0..<GV.colorSets.count {
             colorSetViews.append(UIView())
             colorSetViews[index].setTranslatesAutoresizingMaskIntoConstraints(false)
-            colorSetViews[index].backgroundColor = GV.PeachPuffColor
+            colorSetViews[index].backgroundColor = GV.backgroundColor //GV.PeachPuffColor
             colorSetViews[index].clipsToBounds = true
             colorSetViews[index].layer.masksToBounds = false
             colorSetViews[index].layer.cornerRadius = 3.0
@@ -110,8 +110,10 @@ class ChooseColorViewController: UIViewController   {
             colorSetButtons[index].setTitle(GV.language.getText("choose"), forState: UIControlState.Normal)
             colorSetButtons[index].titleLabel!.numberOfLines = 3
             if index == GV.colorSetIndex {
-                colorSetViews[index].layer.borderColor = choosedColorBorderColor.CGColor
-                colorSetViews[index].layer.borderWidth = 3
+                colorSetViews[GV.colorSetIndex].backgroundColor = GV.lightBackgroundColor
+                colorSetButtons[GV.colorSetIndex].backgroundColor = GV.lightBackgroundColor
+                //colorSetViews[index].layer.borderColor = choosedColorBorderColor.CGColor
+                //colorSetViews[index].layer.borderWidth = 3
             }
             //colorSetButtons[index].titleLabel!.textAlignment = NSTextAlignmentCenter
             colorSet.removeAll(keepCapacity: false)
@@ -143,7 +145,7 @@ class ChooseColorViewController: UIViewController   {
         chooseView!.alpha = 0
         if cancel {
             for index in 0..<colorSets.count {
-                for colorIndex in 0..<GV.colorSets[index].count - 4 {
+                for colorIndex in 0..<GV.colorSets[index].count - 3 {
                     var tempView:UIView = colorSets[index][colorIndex] as! UIView
                     let tempColor = GV.colorSets[index][colorIndex]
                     tempView.backgroundColor = GV.colorSets[index][colorIndex + 1]
@@ -152,6 +154,7 @@ class ChooseColorViewController: UIViewController   {
             tempColorSets = GV.colorSets
         } else {
             GV.colorSets = tempColorSets
+            saveAppData()
         }
         //GV.colorSets[aktIndex][aktColorIndex + 1] = color
     }
@@ -181,17 +184,23 @@ class ChooseColorViewController: UIViewController   {
     }
     
     func colorSetChoosed (sender: UIButton) {
-        colorSetViews[GV.colorSetIndex].layer.borderColor = UIColor.clearColor().CGColor
-        colorSetViews[GV.colorSetIndex].layer.borderWidth = 0
-
+        colorSetViews[GV.colorSetIndex].backgroundColor = GV.backgroundColor
+        colorSetButtons[GV.colorSetIndex].backgroundColor = GV.backgroundColor
+        //colorSetViews[GV.colorSetIndex].layer.borderColor = UIColor.clearColor().CGColor
+        //colorSetViews[GV.colorSetIndex].layer.borderWidth = 0
         GV.colorSetIndex = sender.layer.name.toInt()!
+        colorSetViews[GV.colorSetIndex].backgroundColor = GV.lightBackgroundColor
+        colorSetButtons[GV.colorSetIndex].backgroundColor = GV.lightBackgroundColor
+        //colorSetViews[GV.colorSetIndex].layer.borderColor = UIColor.whiteColor().CGColor
+        //colorSetViews[GV.colorSetIndex].layer.borderWidth = 2
+        saveAppData()
+    }
+
+    func saveAppData() {
         GV.appData.farbSchemaIndex = Int64(GV.colorSetIndex)
         GV.appData.farbSchemas = GV.dataStore.convertFarbschemasToString()
         GV.dataStore.createAppVariablesRecord(GV.appData)
-        colorSetViews[GV.colorSetIndex].layer.borderColor = UIColor.whiteColor().CGColor
-        colorSetViews[GV.colorSetIndex].layer.borderWidth = 2
     }
-
     func endChooseColor(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: {self.goWhenEnd()})
     }

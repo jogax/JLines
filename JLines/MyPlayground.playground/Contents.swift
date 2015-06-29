@@ -17,3 +17,13 @@ var farbe1 = st2.substringWithRange(NSRange(location: 0, length: 3))
 
 var farbe2 = st2.substringWithRange(NSRange(location: 3, length: 3))
 var farbe3 = st2.substringWithRange(NSRange(location: 6, length: 3))
+
+let red = 25
+let green = 3
+let blue  = 143
+
+let redStr = String(format: "%03d", red)
+let greenStr = String(format: "%03d", green)
+let blueStr = String(format: "%03d", blue)
+
+
