@@ -33,7 +33,7 @@ class ViewController: UIViewController {
             GV.ipadKorrektur = 1.0
         }
         super.viewDidLoad()
-        buttonsView = MyButtonsView(paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
+        buttonsView = MyButtonsView(verticalButtons: true,paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
         self.view.backgroundColor = GV.backgroundColor
         self.view.addSubview(buttonsView!)
         

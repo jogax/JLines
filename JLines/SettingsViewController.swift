@@ -51,7 +51,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        buttonsView = MyButtonsView(paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
+        buttonsView = MyButtonsView(verticalButtons: true, paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
         
         self.view.backgroundColor = GV.backgroundColor //GV.lightSalmonColor
         self.view.addSubview(buttonsView!)

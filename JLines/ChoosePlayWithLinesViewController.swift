@@ -58,7 +58,7 @@ class ChoosePlayWithLinesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GV.backgroundColor //GV.lightSalmonColor
-        buttonsView = MyButtonsView(paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
+        buttonsView = MyButtonsView(verticalButtons: true, paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
         
         self.view.addSubview(buttonsView!)
         setupLayout()

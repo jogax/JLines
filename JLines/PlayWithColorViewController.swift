@@ -13,9 +13,12 @@ class PlayWithColorViewController: UIViewController {
     //var playingView = UIView()
     var playingView: MyColorChooseView?
     var evaluationView = UIView()
+    var buttonsView: MyButtonsView?
     //var generatedColorView = UIView()
     var answerView = UIView()
     var generatedColor: UIColor = UIColor.whiteColor()
+    let buttonsViewParamTab = ["return", "checkResult","newGame"]
+
     var checkButton = MyButton(title: "checkResult")
     var newGameButton = MyButton(title: "newGame")
     var returnButton = MyButton(title: "return")
@@ -87,6 +90,8 @@ class PlayWithColorViewController: UIViewController {
         answerView.layer.borderWidth = 1
         answerView.layer.borderColor = UIColor.blackColor().CGColor
         answerView.layer.cornerRadius = 4 * GV.dX
+        buttonsView = MyButtonsView(verticalButtons: false,paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
+        buttonsView?.backgroundColor = UIColor.clearColor()
         checkButton.addTarget(self, action: "checkResults:", forControlEvents: .TouchUpInside)
         newGameButton.addTarget(self, action: "startNewGame:", forControlEvents: .TouchUpInside)
         returnButton.addTarget(self, action:"stopPlayWithColors:", forControlEvents: .TouchUpInside)
@@ -119,14 +124,23 @@ class PlayWithColorViewController: UIViewController {
         //playingView!.addSubview(generatedColorView)
         self.view.addSubview(evaluationView)
         self.view.addSubview(headTableNameLabel)
-        self.view.addSubview(checkButton)
-        self.view.addSubview(newGameButton)
-        self.view.addSubview(returnButton)
+        self.view.addSubview(buttonsView!)
+        //self.view.addSubview(checkButton)
+        //self.view.addSubview(newGameButton)
+        //self.view.addSubview(returnButton)
         
         setupLayout()
     }
+    
+    func callBackFromMyButtonsView(index: Int) {
+        switch index {
+        case 0: stopPlayWithColors()
+        case 1: checkResults()
+        default: startNewGame()
+        }
+    }
 
-    func stopPlayWithColors(sender: UIButton) {
+    func stopPlayWithColors () { //(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: {self.goWhenEnd()})
     }
     
@@ -134,7 +148,8 @@ class PlayWithColorViewController: UIViewController {
         
     }
 
-    func startNewGame(sender: UIButton) {
+
+    func startNewGame() {// (sender: UIButton) {
         generateNewGame()
         answerView.backgroundColor = UIColor.clearColor()
         answerView.layer.borderColor = UIColor.blackColor().CGColor
@@ -145,7 +160,7 @@ class PlayWithColorViewController: UIViewController {
     func sliderMoved(color: UIColor) {
         
     }
-    func checkResults(sender: UIButton) {
+    func checkResults() { //(sender: UIButton) {
         var alpha: CGFloat = 0
         //choosedTab[index] = CGFloat(sliderTab[index].value) / 255
         choosedTab = playingView!.getChoosedColorComponents()
@@ -206,10 +221,10 @@ class PlayWithColorViewController: UIViewController {
         playingView!.setTranslatesAutoresizingMaskIntoConstraints(false)
         //generatedColorView.setTranslatesAutoresizingMaskIntoConstraints(false)
         answerView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        checkButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        newGameButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        returnButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        
+        //checkButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        //newGameButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        //returnButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        buttonsView!.setTranslatesAutoresizingMaskIntoConstraints(false)
         evaluationView.setTranslatesAutoresizingMaskIntoConstraints(false)
         headTableNameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         for row in 0..<4 {
@@ -287,8 +302,20 @@ class PlayWithColorViewController: UIViewController {
                 constraintsArray.append(NSLayoutConstraint(item: evaluateTable[4 * row + column], attribute: .Height, relatedBy: .Equal, toItem: evaluationView, attribute: .Height, multiplier: 0.25, constant: 0))
             }
         }
+        
+        // buttonsView
+        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 1))
+        
+        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: 0))
+        
+        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Width, relatedBy: .Equal, toItem: evaluationView, attribute: .Width, multiplier: 1.0, constant: 0))
+        
+        constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .Height, relatedBy: .Equal, toItem: self.view, attribute: .Height, multiplier: 0.1, constant: 0))
+        
+        
+        
 
-       
+/*
         // returnButton
         
         constraintsArray.append(NSLayoutConstraint(item: returnButton, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 0.4, constant: 1))
@@ -317,7 +344,7 @@ class PlayWithColorViewController: UIViewController {
         constraintsArray.append(NSLayoutConstraint(item: newGameButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 7 * viewRadius))
         
         constraintsArray.append(NSLayoutConstraint(item: newGameButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 2 * viewRadius))
-
+*/
         self.view.addConstraints(constraintsArray)
 
     }
