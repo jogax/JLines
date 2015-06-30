@@ -95,9 +95,10 @@ struct GV {
     static let SilverColor          = UIColor(red: 192/255, green: 192/255, blue: 192/255, alpha: 1)
     static let BlackColor           = UIColor(red: 0/255,   green: 0/255,   blue: 0/255,    alpha: 1)
     static let DarkForrestGreen     = UIColor(red: 0x25/0xff, green: 0x41/0xff, blue: 0x17/0xff, alpha: 1)
-    static let backgroundColor      = UIColor.whiteColor()
+    static let backgroundColor      = UIColor(red: 0xff/0xff, green: 0xff/0xff, blue: 0xff/0xff, alpha: 1)
     static let lightBackgroundColor = UIColor(red: 0xc3/0xff, green: 0xfd/0xff, blue: 0xb8/0xff, alpha: 1)
-    
+    static let clearWhiteColor      = UIColor(red: 0xff/0xff, green: 0xff/0xff, blue: 0xff/0xff, alpha: 0.7)
+
 
     // generierung new game
     static let createNewGame = false

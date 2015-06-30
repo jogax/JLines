@@ -9,7 +9,7 @@
 import UIKit
 
 class MyButton: UIButton {
-    let buttonFont = UIFont(name:"Times New Roman", size: GV.onIpad ? 32 : 16)
+    let buttonFont = UIFont(name:"Times New Roman", size: GV.onIpad ? 28 : 18)
     var decoFrame = UIView()
     
     init(title: String) {
@@ -29,9 +29,9 @@ class MyButton: UIButton {
         self.setupDepression()
         self.layer.cornerRadius = 5
         self.layer.shadowColor = UIColor.blackColor().CGColor
-        self.layer.shadowOffset = CGSizeMake(3, 3)
+        self.layer.shadowOffset = CGSizeMake(1, 1)
         self.layer.shadowOpacity = 1.0
-        self.backgroundColor = UIColor.whiteColor()//GV.PeachPuffColor
+        self.backgroundColor = GV.backgroundColor//GV.PeachPuffColor
         self.titleLabel?.font = buttonFont
         /*
         decoFrame.layer.backgroundColor = UIColor(red: 0, green: 1, blue: 1, alpha: 0.2).CGColor//UIColor.clearColor().CGColor

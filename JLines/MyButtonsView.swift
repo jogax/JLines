@@ -22,7 +22,7 @@ class MyButtonsView: UIView {
         self.backgroundColor = UIColor.whiteColor()//GV.darkTurquoiseColor
         self.layer.cornerRadius = 5
         self.layer.shadowOpacity = 1.0
-        self.layer.shadowOffset = CGSizeMake(3, 3)
+        self.layer.shadowOffset = CGSizeMake(1, 1)
         self.layer.shadowColor = UIColor.blackColor().CGColor
         
         if self.verticalButtons {
@@ -62,6 +62,10 @@ class MyButtonsView: UIView {
         callBackToParent(sender.layer.name.toInt()!)
     }
     
+    func getButton(index:Int) -> MyButton {
+        return buttonsTab[index]
+    }
+    
     func setupLayout() {
         var constraintsArray = Array<NSObject>()
         
@@ -70,14 +74,14 @@ class MyButtonsView: UIView {
         let borderGap = 2 * GV.dX
         let buttonsViewHeight = CGFloat(buttonsTab.count) * (buttonsHeight + gap) + gap + 2 * borderGap
         
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
-        decoFrame.setTranslatesAutoresizingMaskIntoConstraints(false)
+        //self.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        constraintsArray.append(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsViewHeight))
-
         
         if verticalButtons {
         
+            constraintsArray.append(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsViewHeight))
+            decoFrame.setTranslatesAutoresizingMaskIntoConstraints(false)
+            
             // decoFrame
             constraintsArray.append(NSLayoutConstraint(item: decoFrame, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: borderGap))
             constraintsArray.append(NSLayoutConstraint(item: decoFrame, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1.0, constant: borderGap))
@@ -112,17 +116,17 @@ class MyButtonsView: UIView {
                 constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0.0))
                 
                 if index == 0 {
-                    constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1.0, constant: gap))
+                    constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1.0, constant: 2 * gap))
                 } else {
                     constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Left, relatedBy: .Equal, toItem: buttonsTab[index - 1], attribute: .Right, multiplier: 1.0, constant: gap))
                     
                 }
                 
-                let buttonsWidthMultiplier = CGFloat(0.8) / CGFloat(buttonsTab.count)
+                let buttonsWidthMultiplier = CGFloat(0.85) / CGFloat(buttonsTab.count)
                 
                 constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: buttonsWidthMultiplier, constant: 0))
                 
-                constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.7, constant: 0))
+                constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.6, constant: 0))
                 
             }
         }

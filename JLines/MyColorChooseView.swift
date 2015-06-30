@@ -34,6 +34,8 @@ class MyColorChooseView: UIView {
         self.layer.cornerRadius = 5 * GV.dX
         self.layer.shadowColor = UIColor.blackColor().CGColor
         self.layer.shadowOffset = CGSizeMake(3,3)
+        self.layer.borderColor = UIColor.blackColor().CGColor
+        self.layer.borderWidth = 1.0
         colorView.backgroundColor = UIColor.clearColor()
         colorView.layer.borderWidth = 1
         colorView.layer.borderColor = UIColor.blackColor().CGColor
@@ -56,6 +58,7 @@ class MyColorChooseView: UIView {
             sliderTab[index].maximumValue = 255
             sliderTab[index].value = 255
             sliderTab[index].addTarget(self, action: "sliderMoved:", forControlEvents: UIControlEvents.ValueChanged)
+            sliderTab[index].layer.cornerRadius = 10.0
             self.addSubview(sliderTab[index])
         }
         setupLayout()
@@ -139,15 +142,15 @@ class MyColorChooseView: UIView {
         
         // colorView
         constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: GV.dX))
+        constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 0.5, constant: 0))
         
         constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.9, constant: 0))
         
-        constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.4 * okButtonKorrektur, constant: 1))
+        constraintsArray.append(NSLayoutConstraint(item: colorView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.4 * okButtonKorrektur, constant: 0))
         
         // colorInCenterView
         constraintsArray.append(NSLayoutConstraint(item: colorInCenterView, attribute: .CenterX, relatedBy: .Equal, toItem: colorView, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        constraintsArray.append(NSLayoutConstraint(item: colorInCenterView, attribute: .CenterY, relatedBy: .Equal, toItem: colorView, attribute: .CenterY, multiplier: 1.0, constant: 1.0))
+        constraintsArray.append(NSLayoutConstraint(item: colorInCenterView, attribute: .CenterY, relatedBy: .Equal, toItem: colorView, attribute: .CenterY, multiplier: 1.0, constant: 0))
         
         constraintsArray.append(NSLayoutConstraint(item: colorInCenterView, attribute: .Width, relatedBy: .Equal, toItem: colorView, attribute: .Width, multiplier: 0.7, constant: 0))
         
@@ -177,7 +180,7 @@ class MyColorChooseView: UIView {
             
             constraintsArray.append(NSLayoutConstraint(item: OKButton, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.4, constant: 0))
             
-            constraintsArray.append(NSLayoutConstraint(item: OKButton, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.1, constant: 1))
+            constraintsArray.append(NSLayoutConstraint(item: OKButton, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.1, constant: 0))
             
             // cancelButton
             constraintsArray.append(NSLayoutConstraint(item: cancelButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 0.5, constant: 0))
@@ -185,7 +188,7 @@ class MyColorChooseView: UIView {
             
             constraintsArray.append(NSLayoutConstraint(item: cancelButton, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 0.4, constant: 0))
             
-            constraintsArray.append(NSLayoutConstraint(item: cancelButton, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.1, constant: 1))
+            constraintsArray.append(NSLayoutConstraint(item: cancelButton, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.1, constant: 0))
         }
         self.addConstraints(constraintsArray)
     
