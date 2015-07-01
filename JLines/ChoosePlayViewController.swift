@@ -1,41 +1,49 @@
 //
-//  ChoosePlayWithLinesViewController.swift
+//  ChoosePlayViewController.swift
 //  JLines
 //
-//  Created by Jozsef Romhanyi on 19.06.15.
+//  Created by Jozsef Romhanyi on 01.07.15.
 //  Copyright (c) 2015 Jozsef Romhanyi. All rights reserved.
 //
 
 import UIKit
 
-class ChoosePlayWithLinesViewController: UIViewController {
+class ChoosePlayViewController: UIViewController {
     var goWhenEnd: ()->()
-    let buttonsViewParamTab = ["firstPackButton","bonusPackButton","greenPackButton","return"]
+    let buttonsViewParamTab = [
+        ["firstPackButton","bonusPackButton","greenPackButton","return"],
+        ["playWithColors","playWithPoints","return"]
+    ]
+    let arrayIndex: Int
     
     var buttonsView: MyButtonsView?
     
-
-    init(callBack: ()->()) {
+    
+    init(index: Int, callBack: ()->()) {
+        
+        self.arrayIndex = index
         goWhenEnd = callBack
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func callBackFromMyButtonsView(index: Int) {
-        switch index {
-            case 0: callFirstPack()
-            case 1: callBonusPack()
-            case 2: callGreenPack()
-            case 3: returnToCaller()
-            default: returnToCaller()
+        switch (arrayIndex, index) {
+        case (0, 0): callFirstPack()
+        case (0, 1): callBonusPack()
+        case (0, 2): callGreenPack()
+        case (0, 3): returnToCaller()
+        case (1, 0): callPlayWithColors()
+        case (1, 1): callPlayWithPoints()
+        default: returnToCaller()
         }
     }
     
     func callFirstPack() {
-        let pagedViewController = PagedViewController(packageName: "FirstPack", callBack: continueAfterSettingsViewController)
+        let pagedViewController = PagedViewController(packageName: "FirstPack", callBack: continueAfterViewController)
         self.presentViewController(pagedViewController, animated: true, completion: {})
     }
     
@@ -47,33 +55,43 @@ class ChoosePlayWithLinesViewController: UIViewController {
         
     }
     
-    func continueAfterSettingsViewController() {
+    func callPlayWithColors() {
+        let playWithColorViewController = PlayWithColorViewController(callBack: continueAfterViewController)
+        self.presentViewController(playWithColorViewController, animated: true, completion: {})
+    }
+    
+    func callPlayWithPoints(){
+        let playWithPointsViewController = PlayWithPointsViewController(callBack: continueAfterViewController)
+        self.presentViewController(playWithPointsViewController, animated: true, completion: {})
+    }
+
+    func continueAfterViewController() {
         
     }
     
     func returnToCaller() {
-        self.dismissViewControllerAnimated(true, completion: {self.goWhenEnd()})        
+        self.dismissViewControllerAnimated(true, completion: {self.goWhenEnd()})
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GV.backgroundColor //GV.lightSalmonColor
-        buttonsView = MyButtonsView(verticalButtons: true, paramTab: buttonsViewParamTab, callBack: callBackFromMyButtonsView)
+        buttonsView = MyButtonsView(verticalButtons: true, paramTab: buttonsViewParamTab[arrayIndex], callBack: callBackFromMyButtonsView)
         
         self.view.addSubview(buttonsView!)
         setupLayout()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     func callBack(sender: UIButton) {
         
     }
-
+    
     func setupLayout() {
         var constraintsArray = Array<NSObject>()
         
@@ -95,6 +113,6 @@ class ChoosePlayWithLinesViewController: UIViewController {
         self.view.addConstraints(constraintsArray)
         
     }
-
-
+    
+    
 }

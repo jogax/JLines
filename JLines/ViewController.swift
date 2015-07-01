@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     var buttonsView: MyButtonsView?
-    let buttonsViewParamTab = ["playWithLines","playWithColors","settings"]
+    let buttonsViewParamTab = ["playWithLines","otherPlays","settings"]
 
 
     override func viewDidLoad() {
@@ -55,15 +55,15 @@ class ViewController: UIViewController {
         self.presentViewController(settingsViewController, animated: true, completion: {})
     }
     
-    func callChoosePlayWithLines() {
-        let choosePlayWithLinesViewController = ChoosePlayWithLinesViewController(callBack: continueAfterPlayWithLinesViewController)
-        self.presentViewController(choosePlayWithLinesViewController, animated: true, completion: {})
+    func callChoosePlay(index: Int) {
+        let choosePlayViewController = ChoosePlayViewController(index: index, callBack: continueAfterPlayWithLinesViewController)
+        self.presentViewController(choosePlayViewController, animated: true, completion: {})
     }
     
     func callBackFromMyButtonsView(index: Int) {
         switch index {
-        case 0: callChoosePlayWithLines()
-        case 1: callPlayWithColors()
+        case 0: callChoosePlay(index)
+        case 1: callChoosePlay(index)
         case 2: callSettings()
         default: callSettings()
         }

@@ -150,11 +150,11 @@ class PlayWithColorViewController: UIViewController {
         for index in 0..<choosedTab.count {
             let colorIndex = index + 1
             let components = playingView!.getChoosedColorComponents()
-            let difference = CGFloat(Int(abs(generatedTab[index] - choosedTab[index]) * 100))
+            let difference = CGFloat(100 - (abs(generatedTab[index] - choosedTab[index]) * 100))
             evaluateTable[colorIndex * countColumns + choosedIndex].text = String(NSString(format:"%.3f", choosedTab[index]))
             evaluateTable[colorIndex * countColumns + generatedIndex].text = String(NSString(format:"%.3f", generatedTab[index]))
             evaluateTable[colorIndex * countColumns + differenceIndex].text = String(NSString(format:"%.2f", difference))
-            if  difference < 10 {
+            if  difference > 95 {
                 alpha = 0.9 //(0.05 - difference) * 20
                 evaluateTable[colorIndex * countColumns + differenceIndex].backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: alpha)
             } else {

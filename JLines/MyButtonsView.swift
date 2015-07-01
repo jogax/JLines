@@ -33,6 +33,7 @@ class MyButtonsView: UIView {
             
             self.addSubview(decoFrame)
         }
+        
         for index in 0..<paramTab.count {
             buttonsTab.append(MyButton(title: paramTab[index]))
             buttonsTab[index].addTarget(self, action: "callBack:", forControlEvents: .TouchUpInside)
@@ -115,18 +116,22 @@ class MyButtonsView: UIView {
                 // buttonsTab[index]
                 constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0.0))
                 
-                if index == 0 {
-                    constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1.0, constant: 2 * gap))
+                if buttonsTab.count == 1 {
+                    constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
                 } else {
-                    constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Left, relatedBy: .Equal, toItem: buttonsTab[index - 1], attribute: .Right, multiplier: 1.0, constant: gap))
-                    
+                    if index == 0 {
+                        constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1.0, constant: 2 * gap))
+                    } else {
+                        constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Left, relatedBy: .Equal, toItem: buttonsTab[index - 1], attribute: .Right, multiplier: 1.0, constant: gap))
+                        
+                    }
                 }
                 
-                let buttonsWidthMultiplier = CGFloat(0.85) / CGFloat(buttonsTab.count)
+                var buttonsWidthMultiplier = buttonsTab.count == 1 ? CGFloat(0.4) : CGFloat(0.85) / CGFloat(buttonsTab.count)
                 
                 constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: buttonsWidthMultiplier, constant: 0))
                 
-                constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.6, constant: 0))
+                constraintsArray.append(NSLayoutConstraint(item: buttonsTab[index], attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0.4, constant: 0))
                 
             }
         }
