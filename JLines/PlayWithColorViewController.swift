@@ -195,6 +195,7 @@ class PlayWithColorViewController: UIViewController {
         let randomInt = min + Int(arc4random_uniform(UInt32(max + 1 - min)))
         return randomInt
     }
+    
     func setupLayout() {
         var constraintsArray = Array<NSObject>()
         
