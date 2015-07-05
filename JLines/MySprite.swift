@@ -11,6 +11,9 @@ import UIKit
 class MySprite: UIButton {
     var startTime: NSDate
     var lebensDauer: CGFloat
+    
+    static var spritesCount = 0
+    
     init() {
         startTime = NSDate()
         lebensDauer = CGFloat(GV.random(3, max:10))
@@ -27,6 +30,7 @@ class MySprite: UIButton {
         self.layer.shadowOffset = CGSizeMake(1, 1)
         self.layer.shadowOpacity = 1.0
         self.backgroundColor = GV.backgroundColor//GV.PeachPuffColor
+        MySprite.spritesCount++
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -37,7 +41,6 @@ class MySprite: UIButton {
         let aktZeit = NSDate()
         return aktZeit.timeIntervalSinceDate(startTime) * 1000 / 1000
     }
-    
     
     
 }

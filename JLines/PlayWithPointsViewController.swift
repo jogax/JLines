@@ -19,7 +19,7 @@ class PlayWithPointsViewController: UIViewController {
     var collectCounts = [Int]()
     let countCollectViews = 5
     var timer: NSTimer?
-    var points = [MySprite]()
+    //var points = [MySprite]()
     var playColors = [UIColor]()
     var lastPressed: MyButton?
 
@@ -97,16 +97,17 @@ class PlayWithPointsViewController: UIViewController {
     }
     
     func generateAPoint() {
-        let nextTime = Double(random(5, max: 30)) / 15
-        let colorIndex = random(0, max: countCollectViews - 2)
+        let nextTime = Double(GV.random(5, max: 50)) / 15
+        let colorIndex = GV.random(0, max: countCollectViews - 2)
         self.timer = NSTimer.scheduledTimerWithTimeInterval(nextTime, target: self, selector: Selector("generateAPoint"), userInfo: nil, repeats: false)
         let point = MySprite()
-        points.append(point)
+        //points.append(point)
         point.backgroundColor = playColors[colorIndex]
         point.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
         gameBoardView.addSubview(point)
-        point.layer.name = "\(points.count)"
+        //point.layer.name = "\(points.count)"
         
+        println("Anzahl Sprites: \(MySprite.spritesCount)")
         setupLayoutForPoint(point)
     }
     
@@ -130,6 +131,11 @@ class PlayWithPointsViewController: UIViewController {
                 collectCounts[index!]++
                 lastPressed!.removeFromSuperview()
                 collectViews[index!].setTitle("\(collectCounts[index!])", forState: .Normal)
+                //let spriteIndex = lastPressed!.layer.name.toInt()! - 1
+                //let lebensDauer = points[spriteIndex].getLebensDauer()
+                //points.removeAtIndex(spriteIndex)
+                //println("spriteIndex: \(spriteIndex), pointName: \(points[spriteIndex].layer.name)")
+                println("Anzahl Sprites nach delete: \(MySprite.spritesCount)")
             } else {
                 collectCounts[countCollectViews - 1]++
                 lastPressed!.removeFromSuperview()
@@ -148,18 +154,13 @@ class PlayWithPointsViewController: UIViewController {
         return (red, green, blue, alpha)
     }
     
-    func random(min: Int, max: Int) -> Int {
-        let randomInt = min + Int(arc4random_uniform(UInt32(max + 1 - min)))
-        return randomInt
-    }
-
     func setupLayoutForPoint(point: UIView) {
         var constraintsArray = Array<NSObject>()
         
         point.setTranslatesAutoresizingMaskIntoConstraints(false)
-        let xPosMultiplier = CGFloat(random(20, max: 190)) / 100
-        let yPosMultiplier = CGFloat(random(20, max: 190)) / 100
-        let sizeMultiplier = CGFloat(random(50, max: 80)) / 1000
+        let xPosMultiplier = CGFloat(GV.random(20, max: 190)) / 100
+        let yPosMultiplier = CGFloat(GV.random(20, max: 190)) / 100
+        let sizeMultiplier = CGFloat(GV.random(50, max: 80)) / 1000
         
         constraintsArray.append(NSLayoutConstraint(item: point, attribute: .CenterX, relatedBy: .Equal, toItem: gameBoardView, attribute: .CenterX, multiplier: xPosMultiplier, constant: 0.0))
         
