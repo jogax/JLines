@@ -53,6 +53,7 @@
 		200A75C11B309F0600FA596A /* PlayWithColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */; };
 		202CC60F1B4432310074D44A /* ChoosePlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202CC60E1B4432310074D44A /* ChoosePlayViewController.swift */; };
 		202CC6111B4450890074D44A /* PlayWithPointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */; };
+		206BDB861B49861C00F909CB /* MySprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206BDB851B49861C00F909CB /* MySprite.swift */; };
 		20DED7731B382D7C00B4F098 /* MyColorChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +119,7 @@
 		200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithColorViewController.swift; sourceTree = "<group>"; };
 		202CC60E1B4432310074D44A /* ChoosePlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosePlayViewController.swift; sourceTree = "<group>"; };
 		202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithPointsViewController.swift; sourceTree = "<group>"; };
+		206BDB851B49861C00F909CB /* MySprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySprite.swift; sourceTree = "<group>"; };
 		20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyColorChooseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -174,6 +176,7 @@
 				200A759B1B3070D000FA596A /* SettingsViewController.swift */,
 				200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */,
 				202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */,
+				206BDB851B49861C00F909CB /* MySprite.swift */,
 				200A759F1B3074F300FA596A /* ChooseColorViewController.swift */,
 				20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */,
 				2001B7C81B359BD90029E2A6 /* PagedViewController.swift */,
@@ -388,6 +391,7 @@
 				20DED7731B382D7C00B4F098 /* MyColorChooseView.swift in Sources */,
 				2001B7CB1B359BF90029E2A6 /* MyScrollView.swift in Sources */,
 				2005AE571B34744200D1DA36 /* MyButtonsView.swift in Sources */,
+				206BDB861B49861C00F909CB /* MySprite.swift in Sources */,
 				200A75A81B30759800FA596A /* Language.swift in Sources */,
 				200A75AC1B3075C500FA596A /* DrawImages.swift in Sources */,
 				2001B7D31B359C8D0029E2A6 /* GameBoardNew.swift in Sources */,

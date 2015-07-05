@@ -185,6 +185,12 @@ struct GV {
     // Constraints
     // static let myDevice = MyDevice()
     
+    static func random(min: Int, max: Int) -> Int {
+        let randomInt = min + Int(arc4random_uniform(UInt32(max + 1 - min)))
+        return randomInt
+    }
+
+    
 }
 
 struct GameData {

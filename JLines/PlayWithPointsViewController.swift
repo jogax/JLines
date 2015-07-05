@@ -19,7 +19,7 @@ class PlayWithPointsViewController: UIViewController {
     var collectCounts = [Int]()
     let countCollectViews = 5
     var timer: NSTimer?
-    var points = [MyButton]()
+    var points = [MySprite]()
     var playColors = [UIColor]()
     var lastPressed: MyButton?
 
@@ -97,10 +97,10 @@ class PlayWithPointsViewController: UIViewController {
     }
     
     func generateAPoint() {
-        let nextTime = Double(random(5, max: 50)) / 15
+        let nextTime = Double(random(5, max: 30)) / 15
         let colorIndex = random(0, max: countCollectViews - 2)
         self.timer = NSTimer.scheduledTimerWithTimeInterval(nextTime, target: self, selector: Selector("generateAPoint"), userInfo: nil, repeats: false)
-        let point = MyButton()
+        let point = MySprite()
         points.append(point)
         point.backgroundColor = playColors[colorIndex]
         point.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
@@ -157,8 +157,8 @@ class PlayWithPointsViewController: UIViewController {
         var constraintsArray = Array<NSObject>()
         
         point.setTranslatesAutoresizingMaskIntoConstraints(false)
-        let xPosMultiplier = CGFloat(random(20, max: 199)) / 100
-        let yPosMultiplier = CGFloat(random(20, max: 199)) / 100
+        let xPosMultiplier = CGFloat(random(20, max: 190)) / 100
+        let yPosMultiplier = CGFloat(random(20, max: 190)) / 100
         let sizeMultiplier = CGFloat(random(50, max: 80)) / 1000
         
         constraintsArray.append(NSLayoutConstraint(item: point, attribute: .CenterX, relatedBy: .Equal, toItem: gameBoardView, attribute: .CenterX, multiplier: xPosMultiplier, constant: 0.0))
