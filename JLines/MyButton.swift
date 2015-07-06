@@ -11,6 +11,7 @@ import UIKit
 class MyButton: UIButton {
     let buttonFont = UIFont(name:"Times New Roman", size: GV.onIpad ? 28 : 18)
     var decoFrame = UIView()
+    let type = "MyButton"
     
     init(title: String) {
         super.init(frame:CGRect(x: 0, y: 0, width: 0, height: 0))

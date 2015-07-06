@@ -9,17 +9,21 @@
 import UIKit
 
 class MySprite: UIButton {
+    let spriteFont = UIFont(name:"Times New Roman", size: GV.onIpad ? 20 : 10)
     var startTime: NSDate
     var lebensDauer: Double
     var timer = NSTimer()
-    var callBackWhenExit: (UIButton)->()
+    var callBackWhenExit: (MySprite)->()
+    var index: Int
+    let type = "MySprite"
     
     static var spritesCount = 0
     
-    init(callBack:(UIButton)->()) {
+    init(callBack:(MySprite)->(), index: Int) {
         startTime = NSDate()
-        lebensDauer = Double(GV.random(5, max:10))
+        lebensDauer = Double(GV.random(10, max:15))
         self.callBackWhenExit = callBack
+        self.index = index
         super.init(frame:CGRect(x: 0, y: 0, width: 0, height: 0))
         self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("countDown"), userInfo: nil, repeats: true)
         self.setTitle("\(lebensDauer)", forState: .Normal)
@@ -35,6 +39,7 @@ class MySprite: UIButton {
         self.layer.shadowOffset = CGSizeMake(1, 1)
         self.layer.shadowOpacity = 1.0
         self.backgroundColor = GV.backgroundColor//GV.PeachPuffColor
+        self.titleLabel?.font = spriteFont
         MySprite.spritesCount++
     }
     
@@ -56,9 +61,13 @@ class MySprite: UIButton {
         return aktZeit.timeIntervalSinceDate(startTime) * 1000 / 1000
     }
     
+    func stopObject() {
+        self.removeFromSuperview()
+    }
+    
     deinit {
         MySprite.spritesCount--
-        println("deinit")
+        println("deinit. Count:\(MySprite.spritesCount)")
     }
     
     

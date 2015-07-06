@@ -11,13 +11,17 @@ import SpriteKit
 
 class PlayWithPointsViewController: UIViewController {
 
+    let maxGeneratedColorCount = 20
     var goWhenEnd: ()->()
     var gameBoardView = UIView()
     var buttonsView: MyButtonsView?
-    let buttonsViewParamTab = ["return"]
+    let buttonsViewParamTab = ["return", "pause", "newGame"]
     var collectViews = [MyButton]()
     var collectCounts = [Int]()
-    let countCollectViews = 5
+    var trashView: MyButton?
+    var trashCount = 0
+    var countColorsProCollection = [Int]()
+    let countCollectViews = 4
     var timer: NSTimer?
     //var points = [MySprite]()
     var playColors = [UIColor]()
@@ -26,7 +30,6 @@ class PlayWithPointsViewController: UIViewController {
 
     init(callBack: ()->()) {
         goWhenEnd = callBack
-        
         
         super.init(nibName: nil, bundle: nil)
         
@@ -53,6 +56,7 @@ class PlayWithPointsViewController: UIViewController {
         for index in 0..<countCollectViews {
             collectViews.append(MyButton())
             collectCounts.append(0)
+            countColorsProCollection.append(maxGeneratedColorCount)
             collectViews[index].backgroundColor = UIColor.whiteColor()
             collectViews[index].layer.borderColor = UIColor.blackColor().CGColor
             collectViews[index].layer.borderWidth = 1
@@ -63,14 +67,21 @@ class PlayWithPointsViewController: UIViewController {
             collectViews[index].layer.name = "\(index)"
             collectViews[index].addTarget(self, action: "collectButtonPressed:", forControlEvents: .TouchUpInside)
             let color = GV.colorSets[GV.colorSetIndex][index + 1]
-            if index < countCollectViews - 1 {
-                playColors.append(color)
-            } else {
-                collectViews[index].enabled = false
-            }
+            playColors.append(color)
             collectViews[index].backgroundColor = color
             gameBoardView.addSubview(collectViews[index])
         }
+        trashView = MyButton()
+        trashView!.backgroundColor = UIColor.whiteColor()
+        trashView!.layer.borderColor = UIColor.blackColor().CGColor
+        trashView!.layer.borderWidth = 2.0
+        trashView!.layer.shadowColor = UIColor.lightGrayColor().CGColor
+        trashView!.layer.shadowOffset = CGSizeMake(2,2)
+        trashView!.layer.cornerRadius = 5
+        trashView?.enabled = false
+        
+        //trashView!.textAlignment = .Center
+        gameBoardView.addSubview(trashView!)
         setupLayout()
         generateAPoint()
         
@@ -82,11 +93,35 @@ class PlayWithPointsViewController: UIViewController {
     func callBackFromMyButtonsView(index: Int) {
         switch index {
         case 0: stopPlayWithPoints()
+        case 1: waitPlayWithPoints()
+        case 2: startNewGame()
         default: stopPlayWithPoints()
         }
     }
+    
+    func waitPlayWithPoints() {
+        
+    }
+    
+    func startNewGame() {
+        
+    }
 
     func stopPlayWithPoints () { //(sender: UIButton) {
+        self.timer!.invalidate()
+        var mySpriteTab = [MySprite]()
+        let counter = gameBoardView.subviews.count
+        for index in 0..<gameBoardView.subviews.count {
+            println("index: \(index)")
+            if gameBoardView.subviews[index].type == "MySprite" {
+                mySpriteTab.append(gameBoardView.subviews[index] as! MySprite)
+            }
+        }
+        for index in 0..<mySpriteTab.count {
+            mySpriteTab[index].stopObject()
+        }
+        mySpriteTab.removeAll(keepCapacity: false)
+        println("SpritesCount: \(MySprite.spritesCount)")
         self.dismissViewControllerAnimated(true, completion: {self.goWhenEnd()})
     }
     
@@ -98,24 +133,32 @@ class PlayWithPointsViewController: UIViewController {
     
     func generateAPoint() {
         let nextTime = Double(GV.random(5, max: 50)) / 15
-        let colorIndex = GV.random(0, max: countCollectViews - 2)
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(nextTime, target: self, selector: Selector("generateAPoint"), userInfo: nil, repeats: false)
-        point = MySprite(callBack: callBackWhenMySpriteExists)
-        //points.append(point)
-        point!.backgroundColor = playColors[colorIndex]
-        point!.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
-        gameBoardView.addSubview(point!)
-        //point.layer.name = "\(points.count)"
-        
-        println("Anzahl Sprites: \(MySprite.spritesCount)")
-        setupLayoutForPoint(point!)
+        var colorTab = [Int]()
+        for index in 0..<countColorsProCollection.count {
+            if countColorsProCollection[index] > 0 {
+                colorTab.append(index)
+            }
+        }
+        if colorTab.count > 0 {
+            let colorIndex = colorTab[GV.random(0, max: colorTab.count - 1)]
+            countColorsProCollection[colorIndex]--
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(nextTime, target: self, selector: Selector("generateAPoint"), userInfo: nil, repeats: false)
+            point = MySprite(callBack: callBackWhenMySpriteExits, index: colorIndex)
+            //points.append(point)
+            point!.backgroundColor = playColors[colorIndex]
+            point!.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
+            gameBoardView.addSubview(point!)
+            //point.layer.name = "\(points.count)"
+            
+            println("Anzahl Sprites: \(MySprite.spritesCount)")
+            setupLayoutForPoint(point!)
+        }
     }
     
-    func callBackWhenMySpriteExists(sender: UIButton) {
-        let (red, green, blue, alpha) = getColorComponents(sender.backgroundColor!)
-        for index in 0..<collectViews.count {
-            let (collectRed, collectGreen, collectBlue, collectAlpha) = getColorComponents(collectViews[index].backgroundColor!)
-        }
+    func callBackWhenMySpriteExits(sender: MySprite) {
+        let index = sender.index
+        collectCounts[index]--
+        collectViews[index].setTitle("\(collectCounts[index])", forState: .Normal)
     }
     
     func buttonPressed (sender: MySprite) {
@@ -136,17 +179,14 @@ class PlayWithPointsViewController: UIViewController {
             let index = sender.layer.name.toInt()
             if red == lastRed && green == lastGreen && blue == lastBlue {
                 collectCounts[index!]++
+                lastPressed!.timer.invalidate()
                 lastPressed!.removeFromSuperview()
                 collectViews[index!].setTitle("\(collectCounts[index!])", forState: .Normal)
-                //let spriteIndex = lastPressed!.layer.name.toInt()! - 1
-                //let lebensDauer = points[spriteIndex].getLebensDauer()
-                //points.removeAtIndex(spriteIndex)
-                //println("spriteIndex: \(spriteIndex), pointName: \(points[spriteIndex].layer.name)")
-                println("Anzahl Sprites nach delete: \(MySprite.spritesCount)")
+                //println("Anzahl Sprites nach delete: \(MySprite.spritesCount)")
             } else {
-                collectCounts[countCollectViews - 1]++
+                trashCount++
                 lastPressed!.removeFromSuperview()
-                collectViews[countCollectViews - 1].setTitle("\(collectCounts[countCollectViews - 1])", forState: .Normal)
+                trashView!.setTitle("\(trashCount)", forState: .Normal)
             }
             lastPressed = nil
         }
@@ -167,7 +207,7 @@ class PlayWithPointsViewController: UIViewController {
         point.setTranslatesAutoresizingMaskIntoConstraints(false)
         let xPosMultiplier = CGFloat(GV.random(20, max: 190)) / 100
         let yPosMultiplier = CGFloat(GV.random(20, max: 190)) / 100
-        let sizeMultiplier = CGFloat(GV.random(50, max: 80)) / 1000
+        let sizeMultiplier = CGFloat(GV.random(70, max: 100)) / 1000
         
         constraintsArray.append(NSLayoutConstraint(item: point, attribute: .CenterX, relatedBy: .Equal, toItem: gameBoardView, attribute: .CenterX, multiplier: xPosMultiplier, constant: 0.0))
         
@@ -184,6 +224,7 @@ class PlayWithPointsViewController: UIViewController {
         var constraintsArray = Array<NSObject>()
         gameBoardView.setTranslatesAutoresizingMaskIntoConstraints(false)
         buttonsView!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        trashView!.setTranslatesAutoresizingMaskIntoConstraints(false)
         
         // gameBoardView
         constraintsArray.append(NSLayoutConstraint(item: gameBoardView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
@@ -194,7 +235,16 @@ class PlayWithPointsViewController: UIViewController {
         
         constraintsArray.append(NSLayoutConstraint(item: gameBoardView, attribute: .Height, relatedBy: .Equal, toItem: self.view, attribute: .Height, multiplier: 0.80, constant: 0))
         
+        // trashView!
+        constraintsArray.append(NSLayoutConstraint(item: trashView!, attribute: .CenterX, relatedBy: .Equal, toItem: gameBoardView, attribute: .CenterX, multiplier: 1.0, constant: 0.0))
         
+        constraintsArray.append(NSLayoutConstraint(item: trashView!, attribute: .CenterY, relatedBy: .Equal, toItem: gameBoardView, attribute: .CenterY, multiplier: 1.85, constant: 0.0))
+        
+        constraintsArray.append(NSLayoutConstraint(item: trashView!, attribute: .Width, relatedBy: .Equal, toItem: gameBoardView, attribute: .Width, multiplier: 0.10, constant: 0))
+        
+        constraintsArray.append(NSLayoutConstraint(item: trashView!, attribute: .Height, relatedBy: .Equal, toItem: gameBoardView, attribute: .Width, multiplier: 0.10, constant: 0))
+        
+       
         // buttonsView!
         constraintsArray.append(NSLayoutConstraint(item: buttonsView!, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
         
