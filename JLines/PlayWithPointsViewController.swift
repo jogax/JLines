@@ -21,8 +21,8 @@ class PlayWithPointsViewController: UIViewController {
     var timer: NSTimer?
     //var points = [MySprite]()
     var playColors = [UIColor]()
-    var lastPressed: MyButton?
-
+    var lastPressed: MySprite?
+    var point: MySprite? 
 
     init(callBack: ()->()) {
         goWhenEnd = callBack
@@ -100,18 +100,25 @@ class PlayWithPointsViewController: UIViewController {
         let nextTime = Double(GV.random(5, max: 50)) / 15
         let colorIndex = GV.random(0, max: countCollectViews - 2)
         self.timer = NSTimer.scheduledTimerWithTimeInterval(nextTime, target: self, selector: Selector("generateAPoint"), userInfo: nil, repeats: false)
-        let point = MySprite()
+        point = MySprite(callBack: callBackWhenMySpriteExists)
         //points.append(point)
-        point.backgroundColor = playColors[colorIndex]
-        point.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
-        gameBoardView.addSubview(point)
+        point!.backgroundColor = playColors[colorIndex]
+        point!.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
+        gameBoardView.addSubview(point!)
         //point.layer.name = "\(points.count)"
         
         println("Anzahl Sprites: \(MySprite.spritesCount)")
-        setupLayoutForPoint(point)
+        setupLayoutForPoint(point!)
     }
     
-    func buttonPressed (sender: MyButton) {
+    func callBackWhenMySpriteExists(sender: UIButton) {
+        let (red, green, blue, alpha) = getColorComponents(sender.backgroundColor!)
+        for index in 0..<collectViews.count {
+            let (collectRed, collectGreen, collectBlue, collectAlpha) = getColorComponents(collectViews[index].backgroundColor!)
+        }
+    }
+    
+    func buttonPressed (sender: MySprite) {
         if lastPressed != nil {
             let (lastRed, lastGreen, lastBlue, lastalpha) = getColorComponents(lastPressed!.backgroundColor!)
             lastPressed!.backgroundColor = UIColor(red: lastRed, green: lastGreen, blue: lastBlue, alpha: 1.0)

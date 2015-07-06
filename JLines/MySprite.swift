@@ -10,14 +10,19 @@ import UIKit
 
 class MySprite: UIButton {
     var startTime: NSDate
-    var lebensDauer: CGFloat
+    var lebensDauer: Double
+    var timer = NSTimer()
+    var callBackWhenExit: (UIButton)->()
     
     static var spritesCount = 0
     
-    init() {
+    init(callBack:(UIButton)->()) {
         startTime = NSDate()
-        lebensDauer = CGFloat(GV.random(3, max:10))
+        lebensDauer = Double(GV.random(5, max:10))
+        self.callBackWhenExit = callBack
         super.init(frame:CGRect(x: 0, y: 0, width: 0, height: 0))
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("countDown"), userInfo: nil, repeats: true)
+        self.setTitle("\(lebensDauer)", forState: .Normal)
         doInit()
     }
     
@@ -37,9 +42,23 @@ class MySprite: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func countDown() {
+        lebensDauer--
+        self.setTitle("\(lebensDauer)", forState: .Normal)
+        if lebensDauer == 0 {
+            callBackWhenExit(self)
+            self.removeFromSuperview()
+        }
+    }
+    
     func getLebensDauer() -> Double {
         let aktZeit = NSDate()
         return aktZeit.timeIntervalSinceDate(startTime) * 1000 / 1000
+    }
+    
+    deinit {
+        MySprite.spritesCount--
+        println("deinit")
     }
     
     
