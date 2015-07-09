@@ -132,7 +132,7 @@ class PlayWithPointsViewController: UIViewController {
     }
     
     func generateAPoint() {
-        let nextTime = Double(GV.random(5, max: 50)) / 15
+        let nextTime = Double(GV.random(5, max: 30)) / 15
         var colorTab = [Int]()
         for index in 0..<countColorsProCollection.count {
             if countColorsProCollection[index] > 0 {
@@ -151,7 +151,7 @@ class PlayWithPointsViewController: UIViewController {
             //point.layer.name = "\(points.count)"
             
             println("Anzahl Sprites: \(MySprite.spritesCount)")
-            setupLayoutForPoint(point!)
+            //setupLayoutForPoint(point!)
         }
     }
     
@@ -159,6 +159,7 @@ class PlayWithPointsViewController: UIViewController {
         let index = sender.index
         collectCounts[index]--
         collectViews[index].setTitle("\(collectCounts[index])", forState: .Normal)
+        sender.removeFromSuperview()
     }
     
     func buttonPressed (sender: MySprite) {
@@ -201,25 +202,6 @@ class PlayWithPointsViewController: UIViewController {
         return (red, green, blue, alpha)
     }
     
-    func setupLayoutForPoint(point: UIView) {
-        var constraintsArray = Array<NSObject>()
-        
-        point.setTranslatesAutoresizingMaskIntoConstraints(false)
-        let xPosMultiplier = CGFloat(GV.random(20, max: 190)) / 100
-        let yPosMultiplier = CGFloat(GV.random(20, max: 190)) / 100
-        let sizeMultiplier = CGFloat(GV.random(70, max: 100)) / 1000
-        
-        constraintsArray.append(NSLayoutConstraint(item: point, attribute: .CenterX, relatedBy: .Equal, toItem: gameBoardView, attribute: .CenterX, multiplier: xPosMultiplier, constant: 0.0))
-        
-        constraintsArray.append(NSLayoutConstraint(item: point, attribute: .CenterY, relatedBy: .Equal, toItem: gameBoardView, attribute: .CenterY, multiplier: yPosMultiplier, constant: 0.0))
-        
-        constraintsArray.append(NSLayoutConstraint(item: point, attribute: .Width, relatedBy: .Equal, toItem: gameBoardView, attribute: .Width, multiplier: sizeMultiplier, constant: 0))
-        
-        constraintsArray.append(NSLayoutConstraint(item: point, attribute: .Height, relatedBy: .Equal, toItem: point, attribute: .Width, multiplier: 1.0, constant: 0))
-
-        self.view.addConstraints(constraintsArray)
-    }
-
     func setupLayout() {
         var constraintsArray = Array<NSObject>()
         gameBoardView.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -264,7 +246,7 @@ class PlayWithPointsViewController: UIViewController {
 
             constraintsArray.append(NSLayoutConstraint(item: collectViews[index], attribute: .CenterY, relatedBy: .Equal, toItem: gameBoardView, attribute: .CenterY, multiplier: multiplierYTab[index], constant: 0.0))
             
-            constraintsArray.append(NSLayoutConstraint(item: collectViews[index], attribute: .Width, relatedBy: .Equal, toItem: gameBoardView, attribute: .Width, multiplier: 0.1, constant: 0.0))
+            constraintsArray.append(NSLayoutConstraint(item: collectViews[index], attribute: .Width, relatedBy: .Equal, toItem: gameBoardView, attribute: .Width, multiplier: 0.15, constant: 0.0))
             
             constraintsArray.append(NSLayoutConstraint(item: collectViews[index], attribute: .Height, relatedBy: .Equal, toItem: collectViews[index], attribute: .Width, multiplier: 1.0, constant: 0.0))
             

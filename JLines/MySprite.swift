@@ -15,18 +15,21 @@ class MySprite: UIButton {
     var timer = NSTimer()
     var callBackWhenExit: (MySprite)->()
     var index: Int
+    var first = true
     let type = "MySprite"
+    var widthConstraint: NSLayoutConstraint?
+    var heightConstraint: NSLayoutConstraint?
     
     static var spritesCount = 0
     
     init(callBack:(MySprite)->(), index: Int) {
         startTime = NSDate()
-        lebensDauer = Double(GV.random(10, max:15))
+        lebensDauer = Double(GV.random(1000, max:2000)) // msec
         self.callBackWhenExit = callBack
         self.index = index
         super.init(frame:CGRect(x: 0, y: 0, width: 0, height: 0))
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("countDown"), userInfo: nil, repeats: true)
-        self.setTitle("\(lebensDauer)", forState: .Normal)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("countDown"), userInfo: nil, repeats: true)
+        //self.setTitle("\(lebensDauer)", forState: .Normal)
         doInit()
     }
     
@@ -49,10 +52,15 @@ class MySprite: UIButton {
     
     func countDown() {
         lebensDauer--
-        self.setTitle("\(lebensDauer)", forState: .Normal)
+        if first {
+            setupLayoutForSpritePosition()
+            first = false
+        }
+        setupLayoutForSpriteSize()
+        //self.setTitle("\(lebensDauer)", forState: .Normal)
         if lebensDauer == 0 {
+            timer.invalidate()
             callBackWhenExit(self)
-            self.removeFromSuperview()
         }
     }
     
@@ -62,7 +70,7 @@ class MySprite: UIButton {
     }
     
     func stopObject() {
-        self.removeFromSuperview()
+
     }
     
     deinit {
@@ -70,6 +78,34 @@ class MySprite: UIButton {
         println("deinit. Count:\(MySprite.spritesCount)")
     }
     
+    func setupLayoutForSpritePosition() {
+        
+        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        let xPosMultiplier = CGFloat(GV.random(20, max: 180)) / 100
+        let yPosMultiplier = CGFloat(GV.random(20, max: 180)) / 100
+        
+        superview!.addConstraint(NSLayoutConstraint(item: self, attribute: .CenterX, relatedBy: .Equal, toItem: superview!, attribute: .CenterX, multiplier: xPosMultiplier, constant: 0.0))
+        
+        superview!.addConstraint(NSLayoutConstraint(item: self, attribute: .CenterY, relatedBy: .Equal, toItem: superview!, attribute: .CenterY, multiplier: yPosMultiplier, constant: 0.0))
+    }
+    
+    func setupLayoutForSpriteSize() {
+        let sizeMultiplier = CGFloat(lebensDauer / 10000)
+
+        if widthConstraint != nil {
+            superview!.removeConstraint(widthConstraint!)
+        }
+        widthConstraint = NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: superview!, attribute: .Width, multiplier: sizeMultiplier, constant: 0)
+        superview!.addConstraint(widthConstraint!)
+        
+        if heightConstraint != nil {
+            superview!.removeConstraint(heightConstraint!)
+        }
+        heightConstraint = NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1.0, constant: 0)
+        superview!.addConstraint(heightConstraint!)
+        
+    }
+
     
 }
 
