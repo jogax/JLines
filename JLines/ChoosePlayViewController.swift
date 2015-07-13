@@ -12,7 +12,7 @@ class ChoosePlayViewController: UIViewController {
     var goWhenEnd: ()->()
     let buttonsViewParamTab = [
         ["firstPackButton","bonusPackButton","greenPackButton","return"],
-        ["playWithColors","playWithPoints","return"]
+        ["playWithColors","playWithPoints","playWithSprites","return"]
     ]
     let arrayIndex: Int
     
@@ -38,6 +38,7 @@ class ChoosePlayViewController: UIViewController {
         case (0, 3): returnToCaller()
         case (1, 0): callPlayWithColors()
         case (1, 1): callPlayWithPoints()
+        case (1, 2): callPlayWithSprites()
         default: returnToCaller()
         }
     }
@@ -65,6 +66,11 @@ class ChoosePlayViewController: UIViewController {
         self.presentViewController(playWithPointsViewController, animated: true, completion: {})
     }
 
+    func callPlayWithSprites(){
+        let playWithSpritesViewController = PlayWithSpritesViewController(callBack: continueAfterViewController)
+        self.presentViewController(playWithSpritesViewController, animated: true, completion: {})
+    }
+    
     func continueAfterViewController() {
         
     }

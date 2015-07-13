@@ -55,6 +55,10 @@
 		202CC6111B4450890074D44A /* PlayWithPointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */; };
 		206BDB861B49861C00F909CB /* MySprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206BDB851B49861C00F909CB /* MySprite.swift */; };
 		20DED7731B382D7C00B4F098 /* MyColorChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */; };
+		20F813451B53D3CB0046463A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813441B53D3CB0046463A /* GameScene.swift */; };
+		20F813471B53D3DA0046463A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813461B53D3DA0046463A /* SKButton.swift */; };
+		20F813491B53D3E50046463A /* PlayWithSpritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */; };
+		20F8134B1B53F1F90046463A /* MySKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F8134A1B53F1F90046463A /* MySKNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +125,10 @@
 		202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithPointsViewController.swift; sourceTree = "<group>"; };
 		206BDB851B49861C00F909CB /* MySprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySprite.swift; sourceTree = "<group>"; };
 		20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyColorChooseView.swift; sourceTree = "<group>"; };
+		20F813441B53D3CB0046463A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
+		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
+		20F8134A1B53F1F90046463A /* MySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySKNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +184,10 @@
 				200A759B1B3070D000FA596A /* SettingsViewController.swift */,
 				200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */,
 				202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */,
+				20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */,
+				20F813441B53D3CB0046463A /* GameScene.swift */,
+				20F8134A1B53F1F90046463A /* MySKNode.swift */,
+				20F813461B53D3DA0046463A /* SKButton.swift */,
 				206BDB851B49861C00F909CB /* MySprite.swift */,
 				200A759F1B3074F300FA596A /* ChooseColorViewController.swift */,
 				20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */,
@@ -372,8 +384,11 @@
 				200A75AA1B3075AB00FA596A /* DataStore.swift in Sources */,
 				200A75A21B30751C00FA596A /* Accelerometer.swift in Sources */,
 				2001B7D51B359CAA0029E2A6 /* MyLayer.swift in Sources */,
+				20F813451B53D3CB0046463A /* GameScene.swift in Sources */,
 				2001B7CF1B359C610029E2A6 /* MyGameView.swift in Sources */,
+				20F813471B53D3DA0046463A /* SKButton.swift in Sources */,
 				2001B7CD1B359C420029E2A6 /* Game.swift in Sources */,
+				20F8134B1B53F1F90046463A /* MySKNode.swift in Sources */,
 				20002E371B40404B00F390A2 /* AppVariables.swift in Sources */,
 				202CC6111B4450890074D44A /* PlayWithPointsViewController.swift in Sources */,
 				200A75B61B3076EA00FA596A /* Array2D.swift in Sources */,
@@ -398,6 +413,7 @@
 				200A75B41B3076CB00FA596A /* Point.swift in Sources */,
 				2001B7C91B359BD90029E2A6 /* PagedViewController.swift in Sources */,
 				2001B7D11B359C850029E2A6 /* GameBoard.swift in Sources */,
+				20F813491B53D3E50046463A /* PlayWithSpritesViewController.swift in Sources */,
 				200A75B21B30768A00FA596A /* SwiftyJSON.swift in Sources */,
 				200A75A61B30754200FA596A /* Package.swift in Sources */,
 				200A75A41B30752E00FA596A /* Line.swift in Sources */,

@@ -34,7 +34,7 @@ struct GV {
     static var gameSize = 5
     static var gameNr = 0
     static var gameSizeMultiplier: CGFloat = 1.0
-    static var onIpad = true
+    static let onIpad = UIDevice.currentDevice().model.substring(0, length: 4) == "iPad"
     static var ipadKorrektur: CGFloat = 0
     static var maxGameNr = 0
     static var volumeNr = 0 {
@@ -188,6 +188,117 @@ struct GV {
     static func random(min: Int, max: Int) -> Int {
         let randomInt = min + Int(arc4random_uniform(UInt32(max + 1 - min)))
         return randomInt
+    }
+
+    static     func drawCircle(size: CGSize, imageColor: CGColor) -> UIImage {
+        let opaque = false
+        let scale: CGFloat = 1
+        let size = size
+        let endAngle = CGFloat(2*M_PI)
+        
+        UIGraphicsBeginImageContextWithOptions(size, opaque, scale)
+        let ctx = UIGraphicsGetCurrentContext()
+        CGContextBeginPath(ctx)
+        
+        CGContextSetLineWidth(ctx, 1.0)
+        let rect = CGRectMake(0, 0, size.width, size.height);
+        let center = CGPoint(x: 0 + size.width / 2, y: 0 + size.height / 2)
+        let r0 = size.width / 2.1
+        
+        CGContextSetFillColorWithColor(ctx, imageColor)
+        
+        CGContextAddArc(ctx, center.x, center.y, r0, 0, endAngle, 1)
+        
+        CGContextDrawPath(ctx, kCGPathFill);
+        CGContextFillPath(ctx)
+        
+        //CGContextFillRect(ctx, rect);
+        //CGContextSetFillColorWithColor(ctx, imageColor)
+        
+        CGContextStrokePath(ctx)
+        
+        
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        return image
+    }
+
+    static func drawButton(size: CGSize, imageColor: CGColor) -> UIImage {
+        let opaque = false
+        let scale: CGFloat = 1
+        let oneGrad = CGFloat(M_PI / 180)
+        let size = CGSizeMake(size.width * 0.95, size.height * 0.95)
+        let startAngle = CGFloat(0 * oneGrad)
+        let endAngle = CGFloat(180 * oneGrad)
+        
+        UIGraphicsBeginImageContextWithOptions(size, opaque, scale)
+        let ctx = UIGraphicsGetCurrentContext()
+        CGContextBeginPath(ctx)
+        
+        CGContextSetLineWidth(ctx, 1.0)
+        let center1 = CGPoint(x: 0 + size.height / 4,              y:  size.height / 4)
+        let center2 = CGPoint(x: size.width - size.height / 4, y: size.height / 4)
+        let center3 = CGPoint(x: size.width - size.height / 4,  y: size.height - size.height / 4)
+        let center4 = CGPoint(x: size.height / 4,           y: size.height - size.height / 4)
+        
+        let p1 = CGPoint(x: 0 ,                             y: 0 + size.height / 4)
+        let p2 = CGPoint(x: 0 + size.height / 4,            y: 0.5)
+        let p3 = CGPoint(x: size.width - size.height / 4,   y: 0.5)
+        let p4 = CGPoint(x: size.width,                     y: 0 + size.height / 4)
+        let p5 = CGPoint(x: size.width,                     y: size.height - size.height / 4)
+        let p6 = CGPoint(x: size.width - size.height / 4,   y: 0 + size.height)
+        let p7 = CGPoint(x: 0  + size.height / 4,           y: 0 + size.height)
+        let p8 = CGPoint(x: 0,                              y: size.height - size.height / 4)
+        
+        
+        let r = size.height / 4
+        
+        CGContextSetFillColorWithColor(ctx, imageColor)
+        
+        CGContextAddArc(ctx, center1.x, center1.y, r, 270 * oneGrad, 180 * oneGrad, 1)
+        CGContextStrokePath(ctx)
+        
+        CGContextMoveToPoint(ctx, p2.x, p2.y)
+        CGContextAddLineToPoint(ctx, p3.x, p3.y)
+        CGContextStrokePath(ctx)
+        
+        CGContextAddArc(ctx, center2.x, center2.y, r, 360 * oneGrad, 270 * oneGrad, 1)
+        CGContextStrokePath(ctx)
+        
+        CGContextMoveToPoint(ctx, p4.x, p4.y)
+        CGContextAddLineToPoint(ctx, p5.x, p5.y)
+        CGContextStrokePath(ctx)
+        
+        CGContextAddArc(ctx, center3.x, center3.y, r, 90 * oneGrad, 0 * oneGrad, 1)
+        CGContextStrokePath(ctx)
+        
+        CGContextMoveToPoint(ctx, p6.x, p6.y)
+        CGContextAddLineToPoint(ctx, p7.x, p7.y)
+        CGContextStrokePath(ctx)
+        
+        CGContextAddArc(ctx, center4.x, center4.y, r, 180 * oneGrad, 90 * oneGrad, 1)
+        CGContextStrokePath(ctx)
+        
+        CGContextMoveToPoint(ctx, p8.x, p8.y)
+        CGContextAddLineToPoint(ctx, p1.x, p1.y)
+        CGContextStrokePath(ctx)
+        
+        CGContextDrawPath(ctx, kCGPathFill);
+        CGContextFillPath(ctx)
+        
+        //CGContextFillRect(ctx, rect);
+        //CGContextSetFillColorWithColor(ctx, imageColor)
+        
+        CGContextStrokePath(ctx)
+        
+        
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        return image
     }
 
     

@@ -54,7 +54,12 @@ extension String {
     subscript (r: Range<Int>) -> String {
         return substringWithRange(Range(start: advance(startIndex, r.startIndex), end: advance(startIndex, r.endIndex)))
     }
-    
+
+    func substring(from: Int, length: Int) -> String {
+        let end = from + length
+        return self[from..<end]
+    }
+
 
 }
 
