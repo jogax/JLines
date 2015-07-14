@@ -41,10 +41,11 @@ extension CGPoint {
 }
 
 struct PhysicsCategory {
-    static let None      : UInt32 = 0
-    static let All       : UInt32 = UInt32.max
-    static let Container : UInt32 = 0b1       // 1
-    static let Sprite    : UInt32 = 0b10      // 2
+    static let None         : UInt32 = 0
+    static let All          : UInt32 = UInt32.max
+    static let Sprite       : UInt32 = 0b1      // 2
+    static let Container    : UInt32 = 0b10       // 1
+    static let MovingSprite : UInt32 = 0b100     // 4
 }
 
 struct Container {
@@ -61,15 +62,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var countColorsProContainer = [Int]()
     var movedFromNode: SKNode!
     var backButton: SKButton?
-    
-    
+    let tableColumns = 10
+    let tableRows = 10
+    var gameArray = [[Bool]]()
+    var tableCellSize: CGFloat = 0
+
+    /*
+    override init(size: CGSize) {
+        tableCellSize = size.width / CGFloat(tableColumns)
+        super.init()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    */
     override func didMoveToView(view: SKView) {
+        for column in 0..<tableRows {
+            gameArray.append(Array(count: tableRows, repeatedValue:true))
+         }
         let xDelta = size.width / CGFloat(countContainers)
+        tableCellSize = size.width / CGFloat(tableRows)
         for index in 0..<countContainers {
             let aktColor = GV.colorSets[GV.colorSetIndex][index + 1].CGColor
             let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(50,50), imageColor: aktColor))
             let centerX = (size.width / CGFloat(countContainers)) * CGFloat(index) + xDelta / 2
-            let centerY = size.height * 0.90
+            let centerY = size.height * 0.88
             let cont: Container = Container(mySKNode: MySKNode(texture: containerTexture, type: .ContainerType), label: SKLabelNode(), countHits: 0)
             containers.append(cont)
             containers[index].mySKNode.position = CGPoint(x: centerX, y: centerY)
@@ -78,7 +96,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             containers[index].label.fontSize = 20;
             containers[index].label.fontName = "ArielBold"
             //myLabel.color = SKColor.blackColor()
-            containers[index].label.position = CGPointMake(CGRectGetMidX(containers[index].mySKNode.frame), CGRectGetMidY(containers[index].mySKNode.frame) * 0.98)
+            containers[index].label.position = CGPointMake(CGRectGetMidX(containers[index].mySKNode.frame), CGRectGetMidY(containers[index].mySKNode.frame) * 1.05)
             containers[index].label.name = "label"
             containers[index].label.fontColor = SKColor.blackColor()
             //myLabel.colorBlendFactor = 1
@@ -87,16 +105,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             containers[index].mySKNode.name = "\(index)"
             containers[index].mySKNode.physicsBody = SKPhysicsBody(circleOfRadius: containers[index].mySKNode.size.width / 3) // 1
             containers[index].mySKNode.physicsBody?.dynamic = true // 2
-            containers[index].mySKNode.physicsBody?.categoryBitMask = PhysicsCategory.Sprite // 3
-            containers[index].mySKNode.physicsBody?.contactTestBitMask = PhysicsCategory.Container // 4
-            containers[index].mySKNode.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
+            containers[index].mySKNode.physicsBody?.categoryBitMask = PhysicsCategory.MovingSprite
+            containers[index].mySKNode.physicsBody?.contactTestBitMask = PhysicsCategory.Container
+            containers[index].mySKNode.physicsBody?.collisionBitMask = PhysicsCategory.None
             countColorsProContainer.append(maxGeneratedColorCount)
             addChild(containers[index].mySKNode)
         }
         let buttonTextureNormal = SKTexture(image: GV.drawButton(CGSizeMake(100,40), imageColor: UIColor.blueColor().CGColor))
         let buttonTextureSelected = SKTexture(image: GV.drawButton(CGSizeMake(95,38), imageColor: UIColor.blueColor().CGColor))
         backButton = SKButton(normalTexture: buttonTextureNormal, selectedTexture: buttonTextureSelected, disabledTexture: buttonTextureNormal)
-        backButton!.position = CGPointMake(view.frame.width / 2, view.frame.height * 0.15)
+        backButton!.position = CGPointMake(view.frame.width / 2, view.frame.height * 0.10)
         backButton!.size = CGSizeMake(view.frame.width / 5, view.frame.height / 15)
         backButton!.setButtonLabel(title: "Restart", font: "HelveticaBold", fontSize: 15)
         backButton!.setButtonAction(self, triggerEvent: .TouchUpInside, action:"backButtonPressed")
@@ -116,13 +134,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func generateSprite() {
-        let nextTime = Double(GV.random(10, max: 50)) / 15
+        let nextTime = Double(GV.random(1, max: 2)) / 25
         var colorTab = [Int]()
         for index in 0..<countColorsProContainer.count {
             if countColorsProContainer[index] > 0 {
                 colorTab.append(index)
             }
         }
+        var positionsTab = [(CGFloat, CGFloat, Int, Int)]()
+        for column in 0..<tableColumns {
+            for row in 0..<tableRows {
+                if gameArray[column][row] {
+                    let appendValue = (CGFloat(column) * tableCellSize + tableCellSize / 2, CGFloat(row) * tableCellSize * 0.75 + tableCellSize * 2.7, column, row)
+                    positionsTab.append(appendValue)
+                }
+            }
+        }
+        
+        
         if colorTab.count > 0 {
             let colorIndex = colorTab[GV.random(0, max: colorTab.count - 1)]
             countColorsProContainer[colorIndex]--
@@ -130,11 +159,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.timer = NSTimer.scheduledTimerWithTimeInterval(nextTime, target: self, selector: Selector("generateSprite"), userInfo: nil, repeats: false)
             let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(30,30), imageColor: aktColor))
             let sprite = SKSpriteNode(texture: containerTexture)
-            let xPosition = size.width * CGFloat(GV.random(20, max: 80)) / 100
-            let yPosition = size.height * CGFloat(GV.random(20, max: 80)) / 100
+            let index = GV.random(0, max: positionsTab.count - 1)
+            //let xPosition = size.width * CGFloat(GV.random(20, max: 80)) / 100
+            //let yPosition = size.height * CGFloat(GV.random(20, max: 80)) / 100
+            let (xPosition, yPosition, aktColumn, aktRow) = positionsTab[index]
             sprite.position = CGPoint(x: xPosition, y: yPosition)
+            gameArray[aktColumn][aktRow] = false
             sprite.name = "\(100 + colorIndex)"
             let generatedName = sprite.name
+            sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
+            sprite.physicsBody?.dynamic = true
+            sprite.physicsBody?.categoryBitMask = PhysicsCategory.MovingSprite
+            sprite.physicsBody?.contactTestBitMask = PhysicsCategory.Sprite
+            sprite.physicsBody?.collisionBitMask = PhysicsCategory.None
+            sprite.physicsBody?.usesPreciseCollisionDetection = true
             addChild(sprite)
         } else {
         }
@@ -198,8 +236,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width/2)
             //println("nodeSize:\(node.size.width)")
             node.physicsBody?.dynamic = true
-            node.physicsBody?.categoryBitMask = PhysicsCategory.Container
-            node.physicsBody?.contactTestBitMask = PhysicsCategory.Sprite
+            node.physicsBody?.categoryBitMask = PhysicsCategory.Container | PhysicsCategory.Sprite
+            node.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
             node.physicsBody?.collisionBitMask = PhysicsCategory.None
             node.physicsBody?.usesPreciseCollisionDetection = true
             let offset = touchLocation - movedFromNode.position
@@ -225,7 +263,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let containerColorIndex = container.name!.toInt()!
         let spriteColorIndex = sprite.name!.toInt()!
         var OK = containerColorIndex == spriteColorIndex - 100
-        println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
+        //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
             containers[containerColorIndex].countHits++
             containers[containerColorIndex].label.text = "\(containers[containerColorIndex].countHits)"
@@ -236,25 +274,57 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sprite.removeFromParent()
     }
     
+    func spriteDidCollideWithMovingSprite(node1:SKSpriteNode, node2:SKSpriteNode) {
+        let movingSprite = node1.physicsBody?.contactTestBitMask == PhysicsCategory.MovingSprite ? node1 : node2
+        let sprite = node2.physicsBody?.contactTestBitMask == PhysicsCategory.Sprite  ? node2 : node1
+        let movingSpriteColorIndex = movingSprite.name!.toInt()!
+        let spriteColorIndex = sprite.name!.toInt()!
+        var OK = movingSpriteColorIndex == spriteColorIndex
+        //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
+        if OK {
+           let aOK = true
+        } else {
+            let aOK = false
+        }
+        sprite.removeFromParent()
+    }
+    
     func didBeginContact(contact: SKPhysicsContact) {
         
         // 1
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
+        var movingSprite: SKPhysicsBody
+        var partner: SKPhysicsBody
+        
+        
+        if contact.bodyA.contactTestBitMask < contact.bodyB.contactTestBitMask {
+            movingSprite = contact.bodyB
+            partner = contact.bodyA
         } else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
+            movingSprite = contact.bodyA
+            partner = contact.bodyB
         }
         //println("firstBody:\(firstBody.categoryBitMask), secondBody:\(secondBody.categoryBitMask), PhysicsCategory.Sprite: \(PhysicsCategory.Sprite), PhysicsCategory.Container:\(PhysicsCategory.Container)")
         // 2
-        if ((firstBody.categoryBitMask & PhysicsCategory.Container != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Sprite != 0)) {
-                spriteDidCollideWithContainer(firstBody.node as! SKSpriteNode, node2: secondBody.node as! SKSpriteNode)
-        }
         
+        if partner.contactTestBitMask == PhysicsCategory.Container {
+            spriteDidCollideWithContainer(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
+        }  else {
+            spriteDidCollideWithMovingSprite(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
+        }
+/*
+        if ((movingSprite.categoryBitMask & PhysicsCategory.MovingSprite != 0) &&
+            (partner.categoryBitMask & PhysicsCategory.Container != 0)) {
+                spriteDidCollideWithContainer(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
+        } else {
+            if ((movingSprite.categoryBitMask & PhysicsCategory.MovingSprite != 0) &&
+                (partner.categoryBitMask & PhysicsCategory.Sprite != 0)) {
+                    spriteDidCollideWithMovingSprite(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
+            }
+        }
+*/
     }
-
 }
+
+

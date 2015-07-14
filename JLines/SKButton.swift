@@ -83,6 +83,7 @@ class SKButton: SKSpriteNode {
         self.label.text = title as String;
         self.label.fontSize = fontSize;
         self.label.fontName = font;
+        self.label.fontColor = SKColor.blackColor()
         
     }
     

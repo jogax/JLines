@@ -12,7 +12,6 @@ import SpriteKit
 
 class PlayWithSpritesViewController: UIViewController {
 
-    var gameBoard = UIView()
     var goWhenEnd: ()->()
 
     init(callBack: ()->()) {
@@ -29,12 +28,14 @@ class PlayWithSpritesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //gameBoard.frame = CGRectMake(self.view.frame.width / 3, self.view.frame.origin.y, self.view.frame.width * 2 / 3, self.view.frame.height)
-        //gameBoard.layer.borderColor = UIColor.blackColor().CGColor
-        //gameBoard.layer.borderWidth = 2
+        let gameWidth = view.frame.size.width * CGFloat(GV.onIpad ? 0.8 : 0.95)
+        let gameHeight = view.frame.size.height * CGFloat(GV.onIpad ? 0.6 : 0.7)
+        let gameX = (view.frame.size.width - gameWidth) / 2
+        let gameY = (view.frame.size.height - gameHeight) / 2
+        let frame = CGRectMake(gameX, gameY, gameWidth, gameHeight)
         //println("frame:\(gameBoard.frame)")
-        let scene:SKScene = GameScene(size: view.bounds.size)
-        let skView = SKView(frame: self.view.frame)
+        let scene:SKScene = GameScene(size: CGSizeMake(gameWidth, gameHeight))
+        let skView = SKView(frame: frame)
         self.view.addSubview(skView)
         //let skView = view as! SKView
         skView.showsFPS = true
