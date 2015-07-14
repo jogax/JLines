@@ -158,7 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let aktColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1].CGColor
             self.timer = NSTimer.scheduledTimerWithTimeInterval(nextTime, target: self, selector: Selector("generateSprite"), userInfo: nil, repeats: false)
             let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(30,30), imageColor: aktColor))
-            let sprite = SKSpriteNode(texture: containerTexture)
+            let sprite = MySKNode(texture: containerTexture, type: .MovingSpriteType)
             let index = GV.random(0, max: positionsTab.count - 1)
             //let xPosition = size.width * CGFloat(GV.random(20, max: 80)) / 100
             //let yPosition = size.height * CGFloat(GV.random(20, max: 80)) / 100
@@ -275,7 +275,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         movingSprite.removeFromParent()
     }
     
-    func spriteDidCollideWithMovingSprite(node1:SKSpriteNode, node2:SKSpriteNode) {
+    func spriteDidCollideWithMovingSprite(node1:MySKNode, node2:MySKNode) {
         let movingSprite = node1
         let sprite = node2
         let movingSpriteColorIndex = movingSprite.name!.toInt()!
@@ -283,9 +283,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var OK = movingSpriteColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
-           let aOK = true
+           println("OK")
         } else {
-            let aOK = false
+            println("NOK")
         }
         movingSprite.removeFromParent()
     }
@@ -312,7 +312,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if partner.categoryBitMask == PhysicsCategory.Container {
             spriteDidCollideWithContainer(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
         }  else {
-            spriteDidCollideWithMovingSprite(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
+            spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
         }
 /*
         if ((movingSprite.categoryBitMask & PhysicsCategory.MovingSprite != 0) &&

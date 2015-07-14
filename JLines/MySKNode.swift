@@ -7,7 +7,7 @@
 //
 
 enum MySKNodeType: Int {
-    case SpriteType = 0, ContainerType
+    case SpriteType = 0, MovingSpriteType, ContainerType
 }
 import SpriteKit
 
