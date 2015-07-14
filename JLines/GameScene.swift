@@ -105,8 +105,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             containers[index].mySKNode.name = "\(index)"
             containers[index].mySKNode.physicsBody = SKPhysicsBody(circleOfRadius: containers[index].mySKNode.size.width / 3) // 1
             containers[index].mySKNode.physicsBody?.dynamic = true // 2
-            containers[index].mySKNode.physicsBody?.categoryBitMask = PhysicsCategory.MovingSprite
-            containers[index].mySKNode.physicsBody?.contactTestBitMask = PhysicsCategory.Container
+            containers[index].mySKNode.physicsBody?.categoryBitMask = PhysicsCategory.Container
+            containers[index].mySKNode.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
             containers[index].mySKNode.physicsBody?.collisionBitMask = PhysicsCategory.None
             countColorsProContainer.append(maxGeneratedColorCount)
             addChild(containers[index].mySKNode)
@@ -169,8 +169,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let generatedName = sprite.name
             sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
             sprite.physicsBody?.dynamic = true
-            sprite.physicsBody?.categoryBitMask = PhysicsCategory.MovingSprite
-            sprite.physicsBody?.contactTestBitMask = PhysicsCategory.Sprite
+            sprite.physicsBody?.categoryBitMask = PhysicsCategory.Sprite
+            sprite.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
             sprite.physicsBody?.collisionBitMask = PhysicsCategory.None
             sprite.physicsBody?.usesPreciseCollisionDetection = true
             addChild(sprite)
@@ -236,8 +236,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width/2)
             //println("nodeSize:\(node.size.width)")
             node.physicsBody?.dynamic = true
-            node.physicsBody?.categoryBitMask = PhysicsCategory.Container | PhysicsCategory.Sprite
-            node.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
+            node.physicsBody?.categoryBitMask = PhysicsCategory.MovingSprite
+            node.physicsBody?.contactTestBitMask = PhysicsCategory.Sprite | PhysicsCategory.Container 
             node.physicsBody?.collisionBitMask = PhysicsCategory.None
             node.physicsBody?.usesPreciseCollisionDetection = true
             let offset = touchLocation - movedFromNode.position
@@ -258,10 +258,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func spriteDidCollideWithContainer(node1:SKSpriteNode, node2:SKSpriteNode) {
-        let container = node1.name!.toInt()! < 100 ? node1 : node2
-        let sprite = node1.name!.toInt()! < 100 ? node2 : node1
+        let movingSprite = node1
+        let container = node2
+        
         let containerColorIndex = container.name!.toInt()!
-        let spriteColorIndex = sprite.name!.toInt()!
+        let spriteColorIndex = movingSprite.name!.toInt()!
         var OK = containerColorIndex == spriteColorIndex - 100
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
@@ -271,12 +272,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             containers[containerColorIndex].countHits--
             containers[containerColorIndex].label.text = "\(containers[containerColorIndex].countHits)"
         }
-        sprite.removeFromParent()
+        movingSprite.removeFromParent()
     }
     
     func spriteDidCollideWithMovingSprite(node1:SKSpriteNode, node2:SKSpriteNode) {
-        let movingSprite = node1.physicsBody?.contactTestBitMask == PhysicsCategory.MovingSprite ? node1 : node2
-        let sprite = node2.physicsBody?.contactTestBitMask == PhysicsCategory.Sprite  ? node2 : node1
+        let movingSprite = node1
+        let sprite = node2
         let movingSpriteColorIndex = movingSprite.name!.toInt()!
         let spriteColorIndex = sprite.name!.toInt()!
         var OK = movingSpriteColorIndex == spriteColorIndex
@@ -286,7 +287,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             let aOK = false
         }
-        sprite.removeFromParent()
+        movingSprite.removeFromParent()
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -298,7 +299,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var partner: SKPhysicsBody
         
         
-        if contact.bodyA.contactTestBitMask < contact.bodyB.contactTestBitMask {
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
             movingSprite = contact.bodyB
             partner = contact.bodyA
         } else {
@@ -308,7 +309,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //println("firstBody:\(firstBody.categoryBitMask), secondBody:\(secondBody.categoryBitMask), PhysicsCategory.Sprite: \(PhysicsCategory.Sprite), PhysicsCategory.Container:\(PhysicsCategory.Container)")
         // 2
         
-        if partner.contactTestBitMask == PhysicsCategory.Container {
+        if partner.categoryBitMask == PhysicsCategory.Container {
             spriteDidCollideWithContainer(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
         }  else {
             spriteDidCollideWithMovingSprite(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
@@ -326,5 +327,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 */
     }
 }
-
 
