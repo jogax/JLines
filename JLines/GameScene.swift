@@ -60,7 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timer: NSTimer?
     var containers = [Container]()
     var countColorsProContainer = [Int]()
-    var movedFromNode: SKNode!
+    var movedFromNode: MySKNode!
     var backButton: SKButton?
     let tableColumns = 10
     let tableRows = 10
@@ -91,15 +91,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let cont: Container = Container(mySKNode: MySKNode(texture: containerTexture, type: .ContainerType), label: SKLabelNode(), countHits: 0)
             containers.append(cont)
             containers[index].mySKNode.position = CGPoint(x: centerX, y: centerY)
-            let myLabel = SKLabelNode()
             containers[index].label.text = "0"
             containers[index].label.fontSize = 20;
             containers[index].label.fontName = "ArielBold"
-            //myLabel.color = SKColor.blackColor()
             containers[index].label.position = CGPointMake(CGRectGetMidX(containers[index].mySKNode.frame), CGRectGetMidY(containers[index].mySKNode.frame) * 1.05)
             containers[index].label.name = "label"
             containers[index].label.fontColor = SKColor.blackColor()
-            //myLabel.colorBlendFactor = 1
             self.addChild(containers[index].label)
             
             containers[index].mySKNode.name = "\(index)"
@@ -134,7 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func generateSprite() {
-        let nextTime = Double(GV.random(1, max: 2)) / 25
+        let nextTime = 0.01 //Double(GV.random(1, max: 1)) / 25
         var colorTab = [Int]()
         for index in 0..<countColorsProContainer.count {
             if countColorsProContainer[index] > 0 {
@@ -145,7 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for column in 0..<tableColumns {
             for row in 0..<tableRows {
                 if gameArray[column][row] {
-                    let appendValue = (CGFloat(column) * tableCellSize + tableCellSize / 2, CGFloat(row) * tableCellSize * 0.75 + tableCellSize * 2.7, column, row)
+                    let appendValue = (CGFloat(column) * tableCellSize + tableCellSize / 2, CGFloat(row) * tableCellSize * 0.9 + tableCellSize * 2.7, column, row)
                     positionsTab.append(appendValue)
                 }
             }
@@ -165,8 +162,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let (xPosition, yPosition, aktColumn, aktRow) = positionsTab[index]
             sprite.position = CGPoint(x: xPosition, y: yPosition)
             gameArray[aktColumn][aktRow] = false
-            sprite.name = "\(100 + colorIndex)"
-            let generatedName = sprite.name
+            //sprite.name = "\(100 + colorIndex)"
+            //let generatedName = sprite.name
+            sprite.column = aktColumn
+            sprite.row = aktRow
+            sprite.colorIndex = colorIndex
             sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
             sprite.physicsBody?.dynamic = true
             sprite.physicsBody?.categoryBitMask = PhysicsCategory.Sprite
@@ -181,13 +181,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let countTouches = touches.count
         let firstTouch = touches.first as! UITouch
         let touchLocation = firstTouch.locationInNode(self)
-        let node = self.nodeAtPoint(touchLocation)
-        if node.name != nil {
-            if node.name!.toInt()! < 100 {
-                movedFromNode = nil
-            } else {
-                movedFromNode = self.nodeAtPoint(touchLocation)
-            }
+        let testNode = self.nodeAtPoint(touchLocation)
+        switch testNode {
+            case is SKLabelNode: movedFromNode = self.nodeAtPoint(touchLocation).parent as! MySKNode
+            case is MySKNode: movedFromNode = self.nodeAtPoint(touchLocation) as! MySKNode
+            default: movedFromNode = nil
+        }
+        if movedFromNode.type == .ContainerType {
+            movedFromNode = nil
         }
     }
     
@@ -199,7 +200,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let countTouches = touches.count
             let firstTouch = touches.first as! UITouch
             let touchLocation = firstTouch.locationInNode(self)
-            let node = movedFromNode as! SKSpriteNode
+            let node = movedFromNode// as SKSpriteNode
             let offset = touchLocation - movedFromNode.position
             let direction = offset.normalized()
             let shootAmount = direction * 1000
@@ -213,8 +214,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             CGPathAddLineToPoint(pathToDraw, nil, realDest.x, realDest.y)
             
             myLine.path = pathToDraw
-            let name = movedFromNode.name!
-            let colorIndex = name.toInt()! - 100
+            //let name = movedFromNode.name!
+            //let colorIndex = name.toInt()! - 100
+            let colorIndex = movedFromNode.colorIndex
             
             myLine.strokeColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1]
             
@@ -232,7 +234,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let firstTouch = touches.first as! UITouch
             let touchLocation = firstTouch.locationInNode(self)
 
-            let node = movedFromNode as! SKSpriteNode
+            let node = movedFromNode// as! SKSpriteNode
             node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width/2)
             //println("nodeSize:\(node.size.width)")
             node.physicsBody?.dynamic = true
@@ -253,17 +255,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // 9 - Create the actions
             let actionMove = SKAction.moveTo(realDest, duration: 2.0)
             let actionMoveDone = SKAction.removeFromParent()
-            movedFromNode.runAction(SKAction.sequence([actionMove, actionMoveDone]))
+            movedFromNode.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
         }
     }
     
-    func spriteDidCollideWithContainer(node1:SKSpriteNode, node2:SKSpriteNode) {
+    func spriteDidCollideWithContainer(node1:MySKNode, node2:MySKNode) {
         let movingSprite = node1
         let container = node2
         
-        let containerColorIndex = container.name!.toInt()!
-        let spriteColorIndex = movingSprite.name!.toInt()!
-        var OK = containerColorIndex == spriteColorIndex - 100
+        let containerColorIndex = container.colorIndex
+        let spriteColorIndex = movingSprite.colorIndex
+        var OK = containerColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
             containers[containerColorIndex].countHits++
@@ -278,12 +280,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func spriteDidCollideWithMovingSprite(node1:MySKNode, node2:MySKNode) {
         let movingSprite = node1
         let sprite = node2
-        let movingSpriteColorIndex = movingSprite.name!.toInt()!
-        let spriteColorIndex = sprite.name!.toInt()!
+        let movingSpriteColorIndex = movingSprite.colorIndex
+        let spriteColorIndex = sprite.colorIndex
         var OK = movingSpriteColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
-           println("OK")
+           sprite.hitCounter = 2 * (movingSprite.hitCounter + sprite.hitCounter)
         } else {
             println("NOK")
         }
@@ -293,8 +295,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         
         // 1
-        var firstBody: SKPhysicsBody
-        var secondBody: SKPhysicsBody
         var movingSprite: SKPhysicsBody
         var partner: SKPhysicsBody
         
@@ -306,25 +306,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             movingSprite = contact.bodyA
             partner = contact.bodyB
         }
-        //println("firstBody:\(firstBody.categoryBitMask), secondBody:\(secondBody.categoryBitMask), PhysicsCategory.Sprite: \(PhysicsCategory.Sprite), PhysicsCategory.Container:\(PhysicsCategory.Container)")
-        // 2
         
         if partner.categoryBitMask == PhysicsCategory.Container {
-            spriteDidCollideWithContainer(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
+            spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
         }  else {
             spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
         }
-/*
-        if ((movingSprite.categoryBitMask & PhysicsCategory.MovingSprite != 0) &&
-            (partner.categoryBitMask & PhysicsCategory.Container != 0)) {
-                spriteDidCollideWithContainer(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
-        } else {
-            if ((movingSprite.categoryBitMask & PhysicsCategory.MovingSprite != 0) &&
-                (partner.categoryBitMask & PhysicsCategory.Sprite != 0)) {
-                    spriteDidCollideWithMovingSprite(movingSprite.node as! SKSpriteNode, node2: partner.node as! SKSpriteNode)
-            }
-        }
-*/
     }
 }
 
