@@ -97,9 +97,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             containers[index].label.position = CGPointMake(CGRectGetMidX(containers[index].mySKNode.frame), CGRectGetMidY(containers[index].mySKNode.frame) * 1.05)
             containers[index].label.name = "label"
             containers[index].label.fontColor = SKColor.blackColor()
-            self.addChild(containers[index].label)
+            //self.addChild(containers[index].label)
             
-            containers[index].mySKNode.name = "\(index)"
+            containers[index].mySKNode.colorIndex = index
             containers[index].mySKNode.physicsBody = SKPhysicsBody(circleOfRadius: containers[index].mySKNode.size.width / 3) // 1
             containers[index].mySKNode.physicsBody?.dynamic = true // 2
             containers[index].mySKNode.physicsBody?.categoryBitMask = PhysicsCategory.Container
@@ -268,11 +268,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var OK = containerColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
-            containers[containerColorIndex].countHits++
+            containers[containerColorIndex].countHits += movingSprite.hitCounter
             containers[containerColorIndex].label.text = "\(containers[containerColorIndex].countHits)"
+            container.hitCounter += movingSprite.hitCounter
         } else {
-            containers[containerColorIndex].countHits--
+            containers[containerColorIndex].countHits -= movingSprite.hitCounter
             containers[containerColorIndex].label.text = "\(containers[containerColorIndex].countHits)"
+            container.hitCounter -= movingSprite.hitCounter
         }
         movingSprite.removeFromParent()
     }
@@ -285,7 +287,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var OK = movingSpriteColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
-           sprite.hitCounter = 2 * (movingSprite.hitCounter + sprite.hitCounter)
+            sprite.hitCounter = 2 * (movingSprite.hitCounter + sprite.hitCounter)
+            println("sprite.column:\(sprite.column), sprite.row:\(sprite.row),sprite.hitCounter:\(sprite.hitCounter)")
+            sprite.hitLabel.zPosition = 0
+            
         } else {
             println("NOK")
         }

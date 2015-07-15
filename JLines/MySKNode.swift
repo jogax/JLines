@@ -14,7 +14,7 @@ import SpriteKit
 class MySKNode: SKSpriteNode {
     var hitCounter: Int {
         didSet {
-            hitLabel.text = "\(hitCounter)" 
+            hitLabel.text = "\(hitCounter)"
         }
     }
     var column = 0
@@ -31,7 +31,7 @@ class MySKNode: SKSpriteNode {
         super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
         hitLabel.position = self.position
         //hitLabel.size = self.size
-        hitLabel.fontSize = 10;
+        hitLabel.fontSize = 15;
         hitLabel.fontName = "ArielBold"
         hitLabel.fontColor = SKColor.blackColor()
         hitLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
