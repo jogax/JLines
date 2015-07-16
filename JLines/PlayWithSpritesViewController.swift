@@ -35,7 +35,7 @@ class PlayWithSpritesViewController: UIViewController {
         let gameY = (view.frame.size.height - gameHeight) / 2
         let frame = CGRectMake(gameX, gameY, gameWidth, gameHeight)
         //println("frame:\(gameBoard.frame)")
-        let scene:SKScene = GameScene(size: CGSizeMake(gameWidth, gameHeight))
+        let scene:GameScene = GameScene(size: CGSizeMake(gameWidth, gameHeight))
         let skView = SKView(frame: frame)
         self.view.addSubview(skView)
         //let skView = view as! SKView
@@ -43,6 +43,7 @@ class PlayWithSpritesViewController: UIViewController {
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .ResizeFill
+        scene.parentViewController = self
         skView.presentScene(scene)
     }
 }

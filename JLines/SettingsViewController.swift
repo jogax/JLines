@@ -56,53 +56,14 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.view.backgroundColor = GV.backgroundColor //GV.lightSalmonColor
         self.view.addSubview(buttonsView!)
         self.view.addSubview(backButton)
-        /*
-        buttonsView.addSubview(languageButton)
-        buttonsView.addSubview(clearButton)
-        buttonsView.addSubview(gameModusButton)
-        buttonsView.addSubview(chooseColorButton)
-        buttonsView.addSubview(returnButton)
-        */
         
         //let myWert = self.view.frame.width / 10
         NSLayoutConstraint.deactivateConstraints(self.view.constraints())
         
         buttonsView!.setTranslatesAutoresizingMaskIntoConstraints(false)
-        /*
-        languageButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        clearButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        returnButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        gameModusButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        chooseColorButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        */
         chooseView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         setupLayout()
-        /*
-        buttonsView.backgroundColor = GV.darkTurquoiseColor
-        buttonsView.layer.cornerRadius = 10
-        buttonsView.layer.shadowOpacity = 1.0
-        buttonsView.layer.shadowOffset = CGSizeMake(3, 3)
-        buttonsView.layer.shadowColor = UIColor.blackColor().CGColor
-
-        //languageButton.setTitle(GV.language.getText("language"), forState: .Normal)
-        languageButton.addTarget(self, action: "chooseLanguage:", forControlEvents: .TouchUpInside)
-
-        //gameModusButton.setTitle(GV.language.getText("gameModus"), forState: .Normal)
-        gameModusButton.addTarget(self, action: "chooseGameControll:", forControlEvents: .TouchUpInside)
-        
-        //clearButton.setTitle(GV.language.getText("cleangame"), forState: .Normal)
-        clearButton.addTarget(self, action: "clearGame:", forControlEvents: .TouchUpInside)
-        
-        //chooseColorButton.setTitle(GV.language.getText("ChooseColor"), forState: .Normal)
-        chooseColorButton.addTarget(self, action: "chooseColor:", forControlEvents: .TouchUpInside)
-        
-        //returnButton.setTitle(GV.language.getText("return"), forState: .Normal)
-        returnButton.addTarget(self, action: "endSettings:", forControlEvents: .TouchUpInside)
-
-        backButton.setImage(GV.images.getBack(), forState: .Normal)
-        backButton.addTarget(self, action: "endSettings:", forControlEvents: .TouchUpInside)
-        */
         chooseView.delegate = self
         chooseView.dataSource = self
         

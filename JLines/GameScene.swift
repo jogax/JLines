@@ -43,8 +43,8 @@ extension CGPoint {
 struct PhysicsCategory {
     static let None         : UInt32 = 0
     static let All          : UInt32 = UInt32.max
-    static let Sprite       : UInt32 = 0b1      // 2
-    static let Container    : UInt32 = 0b10       // 1
+    static let Sprite       : UInt32 = 0b1      // 1
+    static let Container    : UInt32 = 0b10       // 2
     static let MovingSprite : UInt32 = 0b100     // 4
 }
 
@@ -55,33 +55,61 @@ struct Container {
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    let maxGeneratedColorCount = 10
-    let countContainers = GV.onIpad ? 8 : 6
+    var maxGeneratedColorCount = 0
+    var countContainers = 0
     var timer: NSTimer?
+    var countDown: NSTimer?
     var containers = [Container]()
     var countColorsProContainer = [Int]()
     var movedFromNode: MySKNode!
     var backButton: SKButton?
-    let tableColumns = 10
-    let tableRows = 10
-    var gameArray = [[Bool]]()
+    var tableColumns = 0
+    var tableRows = 0
+    var gameArray = [[Bool]]() // true if Cell used
     var tableCellSize: CGFloat = 0
     var collisionActive = false
+    var levelIndex = 0
+    let deviceIndex = GV.onIpad ? 0 : 1
+    var timeLimit = 0 // seconds
+    var parentViewController: UIViewController?
+    var levelLabel = SKLabelNode()
 
-    /*
+    var packageOfLevels: Dictionary<String, AnyObject>?
+    var json: JSON?
+    var myView = SKView()
+    //var packageName: AnyObject
+/*
     override init(size: CGSize) {
-        tableCellSize = size.width / CGFloat(tableColumns)
+        
         super.init()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    */
+*/
     override func didMoveToView(view: SKView) {
+        myView = view
+        startGame()
+        
+       
+    }
+
+    func startGame() {
+    
+        let (package, data) = Dictionary<String, AnyObject>.loadJSONFromBundle("LevelsForPlayWithSprites")
+        json = JSON(data: data!)
+        
+        maxGeneratedColorCount = json!["levels"][levelIndex]["maxGeneratedColorCount"][deviceIndex].int!
+        tableColumns = json!["levels"][levelIndex]["tableColumns"][deviceIndex].int!
+        tableRows = json!["levels"][levelIndex]["tableRows"][deviceIndex].int!
+        countContainers = json!["levels"][levelIndex]["countContainers"][deviceIndex].int!
+        tableCellSize = CGFloat(countContainers) / CGFloat(tableColumns)
+        timeLimit = json!["levels"][levelIndex]["timeLimit"][deviceIndex].int!
+        
         for column in 0..<tableRows {
-            gameArray.append(Array(count: tableRows, repeatedValue:true))
-         }
+            gameArray.append(Array(count: tableRows, repeatedValue:false))
+        }
         let xDelta = size.width / CGFloat(countContainers)
         tableCellSize = size.width / CGFloat(tableRows)
         for index in 0..<countContainers {
@@ -109,20 +137,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             countColorsProContainer.append(maxGeneratedColorCount)
             addChild(containers[index].mySKNode)
         }
+        levelLabel.text = GV.language.getText("level") + ": \(levelIndex + 1)"
+        levelLabel.position = CGPointMake(self.position.x + self.size.width * 0.5, self.position.y + self.size.height * 0.95)
+        levelLabel.fontColor = SKColor.blackColor()
+        levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        levelLabel.fontSize = 15;
+        levelLabel.fontName = "ArielBold"
+        self.addChild(levelLabel)
         let buttonTextureNormal = SKTexture(image: GV.drawButton(CGSizeMake(100,40), imageColor: UIColor.blueColor().CGColor))
         let buttonTextureSelected = SKTexture(image: GV.drawButton(CGSizeMake(95,38), imageColor: UIColor.blueColor().CGColor))
         backButton = SKButton(normalTexture: buttonTextureNormal, selectedTexture: buttonTextureSelected, disabledTexture: buttonTextureNormal)
-        backButton!.position = CGPointMake(view.frame.width / 2, view.frame.height * 0.10)
-        backButton!.size = CGSizeMake(view.frame.width / 5, view.frame.height / 15)
+        backButton!.position = CGPointMake(myView.frame.width / 2, myView.frame.height * 0.10)
+        backButton!.size = CGSizeMake(myView.frame.width / 5, myView.frame.height / 15)
         backButton!.setButtonLabel(title: "Restart", font: "HelveticaBold", fontSize: 15)
         backButton!.setButtonAction(self, triggerEvent: .TouchUpInside, action:"backButtonPressed")
         addChild(backButton!)
         backgroundColor = UIColor.whiteColor() //SKColor.whiteColor()
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
+        self.countDown = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("doCountDown"), userInfo: nil, repeats: true)
         generateSprite()
     }
-
+    
     func backButtonPressed() {
         countColorsProContainer.removeAll(keepCapacity: false)
         for index in 0..<countContainers {
@@ -130,7 +167,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         generateSprite()
     }
-    
+
     func generateSprite() {
         let nextTime = 0.01 //Double(GV.random(1, max: 1)) / 25
         var colorTab = [Int]()
@@ -142,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var positionsTab = [(CGFloat, CGFloat, Int, Int)]()
         for column in 0..<tableColumns {
             for row in 0..<tableRows {
-                if gameArray[column][row] {
+                if !gameArray[column][row] {
                     let appendValue = (CGFloat(column) * tableCellSize + tableCellSize / 2, CGFloat(row) * tableCellSize * 0.9 + tableCellSize * 2.7, column, row)
                     positionsTab.append(appendValue)
                 }
@@ -162,7 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //let yPosition = size.height * CGFloat(GV.random(20, max: 80)) / 100
             let (xPosition, yPosition, aktColumn, aktRow) = positionsTab[index]
             sprite.position = CGPoint(x: xPosition, y: yPosition)
-            gameArray[aktColumn][aktRow] = false
+            gameArray[aktColumn][aktRow] = true
             //sprite.name = "\(100 + colorIndex)"
             //let generatedName = sprite.name
             sprite.column = aktColumn
@@ -258,6 +295,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //let actionMoveDone = SKAction.removeFromParent()
             collisionActive = true
             movedFromNode.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
+            
         }
     }
     
@@ -280,6 +318,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         collisionActive = false
         movingSprite.removeFromParent()
+        gameArray[movingSprite.column][movingSprite.row] = false
+        checkGameArray()
     }
     
     func spriteDidCollideWithMovingSprite(node1:MySKNode, node2:MySKNode) {
@@ -294,6 +334,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             sprite.hitCounter = 2 * (movingSprite.hitCounter + sprite.hitCounter)
             //println("sprite.column:\(sprite.column), sprite.row:\(sprite.row),sprite.hitCounter:\(sprite.hitCounter)")
             sprite.hitLabel.zPosition = 0
+            gameArray[movingSprite.column][movingSprite.row] = false
             movingSprite.removeFromParent()
         } else {
             containers[movingSprite.colorIndex].mySKNode.hitCounter -= movingSprite.hitCounter
@@ -307,7 +348,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var spriteDest = CGPointMake(sprite.position.x * 1.5, 0)
             let actionMove2 = SKAction.moveTo(spriteDest, duration: 1.5)
             sprite.runAction(SKAction.sequence([actionMove2, actionMoveDone]))
+            gameArray[movingSprite.column][movingSprite.row] = false
+            gameArray[sprite.column][sprite.row] = false
         }
+        checkGameArray()
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -334,5 +378,65 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
     }
+    
+    func newGame(next: Bool) {
+        if next {
+            levelIndex++
+        }
+        /*
+        for index in 0..<self.children.count {
+            let testNode = children[index]
+            if testNode is MySKNode && testNode.type != .ContainerType {
+                testNode.removeFromParent()
+            }
+        }
+*/
+        gameArray.removeAll(keepCapacity: false)
+    }
+    
+    func checkGameArray() {
+        var usedCellCount = 0
+        for column in 0..<tableColumns {
+            for row in 0..<tableRows {
+                if gameArray[column][row] {
+                    usedCellCount++
+                }
+            }
+        }
+        if usedCellCount == 0 { // Level completed, start a new game
+            let alert = UIAlertController(title: GV.language.getText("levelComplete"),
+                message: GV.language.getText("no Message"),
+                preferredStyle: .Alert)
+            let cancelAction = UIAlertAction(title: GV.language.getText("return"), style: .Cancel, handler: nil)
+            let againAction = UIAlertAction(title: GV.language.getText("next level"), style: .Default,
+                handler: {(paramAction:UIAlertAction!) in
+                    self.newGame(true)
+            })
+            alert.addAction(cancelAction)
+            alert.addAction(againAction)
+            parentViewController!.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func doCountDown() {
+        timeLimit--
+        if timeLimit == 0 {
+            let alert = UIAlertController(title: GV.language.getText("timeout"),
+                message: GV.language.getText("gameOver"),
+                preferredStyle: .Alert)
+            let cancelAction = UIAlertAction(title: GV.language.getText("return"), style: .Cancel, handler: nil)
+            let againAction = UIAlertAction(title: GV.language.getText("gameAgain"), style: .Default,
+                handler: {(paramAction:UIAlertAction!) in
+                    self.newGame(false)
+                })
+            alert.addAction(cancelAction)
+            alert.addAction(againAction)
+            parentViewController!.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+    
+    
+    
+
 }
 

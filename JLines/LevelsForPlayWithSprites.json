@@ -1,7 +1,17 @@
 {
     "levels": [
-    {"maxGeneratedColorCount": 10,
-     "countContainers": {"IPAD": 8
-               
+        {"timeLimit": [80, 40],
+         "maxGeneratedColorCount": [5, 4],
+         "countContainers": [6, 4],
+         "tableColumns": [8, 6],
+         "tableRows":    [8, 6]
+        },
+        {"timeLimit": [60, 80],
+        "maxGeneratedColorCount": [5, 4],
+        "countContainers": [7, 5],
+        "tableColumns": [8, 6],
+        "tableRows":    [8, 6]
+        }
+
     ]
 }
