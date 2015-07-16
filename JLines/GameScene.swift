@@ -66,6 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let tableRows = 10
     var gameArray = [[Bool]]()
     var tableCellSize: CGFloat = 0
+    var collisionActive = false
 
     /*
     override init(size: CGSize) {
@@ -187,7 +188,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             case is MySKNode: movedFromNode = self.nodeAtPoint(touchLocation) as! MySKNode
             default: movedFromNode = nil
         }
-        if movedFromNode.type == .ContainerType {
+        if movedFromNode != nil && movedFromNode.type == .ContainerType {
             movedFromNode = nil
         }
     }
@@ -254,7 +255,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // 9 - Create the actions
             let actionMove = SKAction.moveTo(realDest, duration: 2.0)
-            let actionMoveDone = SKAction.removeFromParent()
+            //let actionMoveDone = SKAction.removeFromParent()
+            collisionActive = true
             movedFromNode.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
         }
     }
@@ -268,14 +270,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var OK = containerColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
-            containers[containerColorIndex].countHits += movingSprite.hitCounter
-            containers[containerColorIndex].label.text = "\(containers[containerColorIndex].countHits)"
+            //containers[containerColorIndex].countHits += movingSprite.hitCounter
+            //containers[containerColorIndex].label.text = "\(containers[containerColorIndex].countHits)"
             container.hitCounter += movingSprite.hitCounter
         } else {
-            containers[containerColorIndex].countHits -= movingSprite.hitCounter
-            containers[containerColorIndex].label.text = "\(containers[containerColorIndex].countHits)"
+            //containers[containerColorIndex].countHits -= movingSprite.hitCounter
+            //containers[containerColorIndex].label.text = "\(containers[containerColorIndex].countHits)"
             container.hitCounter -= movingSprite.hitCounter
         }
+        collisionActive = false
         movingSprite.removeFromParent()
     }
     
@@ -284,17 +287,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let sprite = node2
         let movingSpriteColorIndex = movingSprite.colorIndex
         let spriteColorIndex = sprite.colorIndex
+        collisionActive = false
         var OK = movingSpriteColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
             sprite.hitCounter = 2 * (movingSprite.hitCounter + sprite.hitCounter)
-            println("sprite.column:\(sprite.column), sprite.row:\(sprite.row),sprite.hitCounter:\(sprite.hitCounter)")
+            //println("sprite.column:\(sprite.column), sprite.row:\(sprite.row),sprite.hitCounter:\(sprite.hitCounter)")
             sprite.hitLabel.zPosition = 0
-            
+            movingSprite.removeFromParent()
         } else {
-            println("NOK")
+            containers[movingSprite.colorIndex].mySKNode.hitCounter -= movingSprite.hitCounter
+            containers[sprite.colorIndex].mySKNode.hitCounter -= sprite.hitCounter
+            //containers[sprite.colorIndex].setText()
+            //println("container.countHits: \(containers[sprite.colorIndex].countHits)")
+            var movingSpriteDest = CGPointMake(movingSprite.position.x * 0.5, 0)
+            let movingSpriteAction = SKAction.moveTo(movingSpriteDest, duration: 1.0)
+            let actionMoveDone = SKAction.removeFromParent()
+            movingSprite.runAction(SKAction.sequence([movingSpriteAction, actionMoveDone]))
+            var spriteDest = CGPointMake(sprite.position.x * 1.5, 0)
+            let actionMove2 = SKAction.moveTo(spriteDest, duration: 1.5)
+            sprite.runAction(SKAction.sequence([actionMove2, actionMoveDone]))
         }
-        movingSprite.removeFromParent()
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -303,19 +316,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var movingSprite: SKPhysicsBody
         var partner: SKPhysicsBody
         
+        if collisionActive {
         
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            movingSprite = contact.bodyB
-            partner = contact.bodyA
-        } else {
-            movingSprite = contact.bodyA
-            partner = contact.bodyB
-        }
-        
-        if partner.categoryBitMask == PhysicsCategory.Container {
-            spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
-        }  else {
-            spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+            if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+                movingSprite = contact.bodyB
+                partner = contact.bodyA
+            } else {
+                movingSprite = contact.bodyA
+                partner = contact.bodyB
+            }
+            
+            if partner.categoryBitMask == PhysicsCategory.Container {
+                spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+            }  else {
+                spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+            }
+            
         }
     }
 }

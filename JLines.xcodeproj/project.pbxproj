@@ -129,6 +129,7 @@
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
 		20F8134A1B53F1F90046463A /* MySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySKNode.swift; sourceTree = "<group>"; };
+		20FB88751B57B139007843A2 /* LevelsForPlayWithSprites.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LevelsForPlayWithSprites.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +187,7 @@
 				202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */,
 				20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */,
 				20F813441B53D3CB0046463A /* GameScene.swift */,
+				20FB88751B57B139007843A2 /* LevelsForPlayWithSprites.json */,
 				20F8134A1B53F1F90046463A /* MySKNode.swift */,
 				20F813461B53D3DA0046463A /* SKButton.swift */,
 				206BDB851B49861C00F909CB /* MySprite.swift */,
