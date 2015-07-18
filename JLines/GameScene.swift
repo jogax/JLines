@@ -48,6 +48,14 @@ struct PhysicsCategory {
     static let MovingSprite : UInt32 = 0b100     // 4
 }
 
+struct MyNodeTypes {
+    static let none:            UInt32 = 0
+    static let GameScene:       UInt32 = 0b1
+    static let LabelNode:       UInt32 = 0b10
+    static let SpriteNode:      UInt32 = 0b100
+    static let ContainerNode:   UInt32 = 0b1000
+}
+
 struct Container {
     let mySKNode: MySKNode
     var label: SKLabelNode
@@ -55,22 +63,27 @@ struct Container {
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    // Values from json File
     var maxGeneratedColorCount = 0
+    var tableColumns = 0
+    var tableRows = 0
     var countContainers = 0
+    var tableCellSize: CGFloat = 0
+    var timeLimit = 0 // seconds
+    var containerSize:CGFloat = 0
+    var spriteSize:CGFloat = 0
+    
     var timer: NSTimer?
     var countDown: NSTimer?
     var containers = [Container]()
     var countColorsProContainer = [Int]()
     var movedFromNode: MySKNode!
     var backButton: SKButton?
-    var tableColumns = 0
-    var tableRows = 0
     var gameArray = [[Bool]]() // true if Cell used
-    var tableCellSize: CGFloat = 0
     var collisionActive = false
     var levelIndex = 0
     let deviceIndex = GV.onIpad ? 0 : 1
-    var timeLimit = 0 // seconds
     var parentViewController: UIViewController?
     var levelLabel = SKLabelNode()
 
@@ -99,13 +112,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
         let (package, data) = Dictionary<String, AnyObject>.loadJSONFromBundle("LevelsForPlayWithSprites")
         json = JSON(data: data!)
-        
+
+        prepareNextGame()
+        /*
         maxGeneratedColorCount = json!["levels"][levelIndex]["maxGeneratedColorCount"][deviceIndex].int!
         tableColumns = json!["levels"][levelIndex]["tableColumns"][deviceIndex].int!
         tableRows = json!["levels"][levelIndex]["tableRows"][deviceIndex].int!
         countContainers = json!["levels"][levelIndex]["countContainers"][deviceIndex].int!
         tableCellSize = CGFloat(countContainers) / CGFloat(tableColumns)
         timeLimit = json!["levels"][levelIndex]["timeLimit"][deviceIndex].int!
+        containerSize = CGFloat(json!["levels"][levelIndex]["containerSize"][deviceIndex].int!)
+        spriteSize = CGFloat(json!["levels"][levelIndex]["spriteSize"][deviceIndex].int!)
         
         for column in 0..<tableRows {
             gameArray.append(Array(count: tableRows, repeatedValue:false))
@@ -114,7 +131,75 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tableCellSize = size.width / CGFloat(tableRows)
         for index in 0..<countContainers {
             let aktColor = GV.colorSets[GV.colorSetIndex][index + 1].CGColor
-            let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(50,50), imageColor: aktColor))
+            let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(containerSize, containerSize), imageColor: aktColor))
+            let centerX = (size.width / CGFloat(countContainers)) * CGFloat(index) + xDelta / 2
+            let centerY = size.height * 0.88
+            let cont: Container = Container(mySKNode: MySKNode(texture: containerTexture, type: .ContainerType), label: SKLabelNode(), countHits: 0)
+            containers.append(cont)
+            containers[index].mySKNode.position = CGPoint(x: centerX, y: centerY)
+            containers[index].label.text = "0"
+            containers[index].label.fontSize = 20;
+            containers[index].label.fontName = "ArielBold"
+            containers[index].label.position = CGPointMake(CGRectGetMidX(containers[index].mySKNode.frame), CGRectGetMidY(containers[index].mySKNode.frame) * 1.05)
+            containers[index].label.name = "label"
+            containers[index].label.fontColor = SKColor.blackColor()
+            //self.addChild(containers[index].label)
+            
+            containers[index].mySKNode.colorIndex = index
+            containers[index].mySKNode.physicsBody = SKPhysicsBody(circleOfRadius: containers[index].mySKNode.size.width / 3) // 1
+            containers[index].mySKNode.physicsBody?.dynamic = true // 2
+            containers[index].mySKNode.physicsBody?.categoryBitMask = PhysicsCategory.Container
+            containers[index].mySKNode.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
+            containers[index].mySKNode.physicsBody?.collisionBitMask = PhysicsCategory.None
+            countColorsProContainer.append(maxGeneratedColorCount)
+            addChild(containers[index].mySKNode)
+        }
+
+        levelLabel.text = GV.language.getText("level") + ": \(levelIndex + 1)"
+        levelLabel.position = CGPointMake(self.position.x + self.size.width * 0.5, self.position.y + self.size.height * 0.95)
+        levelLabel.fontColor = SKColor.blackColor()
+        levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        levelLabel.fontSize = 15;
+        levelLabel.fontName = "ArielBold"
+        self.addChild(levelLabel)
+        let buttonTextureNormal = SKTexture(image: GV.drawButton(CGSizeMake(100,40), imageColor: UIColor.blueColor().CGColor))
+        let buttonTextureSelected = SKTexture(image: GV.drawButton(CGSizeMake(95,38), imageColor: UIColor.blueColor().CGColor))
+        backButton = SKButton(normalTexture: buttonTextureNormal, selectedTexture: buttonTextureSelected, disabledTexture: buttonTextureNormal)
+        backButton!.position = CGPointMake(myView.frame.width / 2, myView.frame.height * 0.10)
+        backButton!.size = CGSizeMake(myView.frame.width / 5, myView.frame.height / 15)
+        backButton!.setButtonLabel(title: "Restart", font: "HelveticaBold", fontSize: 15)
+        backButton!.setButtonAction(self, triggerEvent: .TouchUpInside, action:"backButtonPressed")
+        addChild(backButton!)
+        backgroundColor = UIColor.whiteColor() //SKColor.whiteColor()
+        physicsWorld.gravity = CGVectorMake(0, 0)
+        physicsWorld.contactDelegate = self
+        self.countDown = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("doCountDown"), userInfo: nil, repeats: true)
+        */
+        generateSprite()
+    }
+    
+    func backButtonPressed() {
+    }
+
+    func prepareNextGame() {
+        maxGeneratedColorCount = json!["levels"][levelIndex]["maxGeneratedColorCount"][deviceIndex].int!
+        tableColumns = json!["levels"][levelIndex]["tableColumns"][deviceIndex].int!
+        tableRows = json!["levels"][levelIndex]["tableRows"][deviceIndex].int!
+        countContainers = json!["levels"][levelIndex]["countContainers"][deviceIndex].int!
+        tableCellSize = CGFloat(countContainers) / CGFloat(tableColumns)
+        timeLimit = json!["levels"][levelIndex]["timeLimit"][deviceIndex].int!
+        containerSize = CGFloat(json!["levels"][levelIndex]["containerSize"][deviceIndex].int!)
+        spriteSize = CGFloat(json!["levels"][levelIndex]["spriteSize"][deviceIndex].int!)
+        
+        for column in 0..<tableRows {
+            gameArray.append(Array(count: tableRows, repeatedValue:false))
+        }
+        let xDelta = size.width / CGFloat(countContainers)
+        tableCellSize = size.width / CGFloat(tableRows)
+        for index in 0..<countContainers {
+            let aktColor = GV.colorSets[GV.colorSetIndex][index + 1].CGColor
+            let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(containerSize, containerSize), imageColor: aktColor))
             let centerX = (size.width / CGFloat(countContainers)) * CGFloat(index) + xDelta / 2
             let centerY = size.height * 0.88
             let cont: Container = Container(mySKNode: MySKNode(texture: containerTexture, type: .ContainerType), label: SKLabelNode(), countHits: 0)
@@ -157,17 +242,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         self.countDown = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("doCountDown"), userInfo: nil, repeats: true)
-        generateSprite()
     }
     
-    func backButtonPressed() {
+    func analyzeNode (node: AnyObject) -> UInt32 {
+        let testNode = node as! SKNode
+        switch node  {
+        case is GameScene: return MyNodeTypes.GameScene
+        case is SKLabelNode: return MyNodeTypes.LabelNode
+        case is MySKNode:
+            if (testNode as! MySKNode).type == .ContainerType {
+                return MyNodeTypes.ContainerNode
+            } else {
+                return MyNodeTypes.SpriteNode
+            }
+        default: return MyNodeTypes.none
+        }
+    }
+    
+    func newGame(next: Bool) {
+        if next {
+            levelIndex++
+        }
+        //self.children.removeAll(keepCapacity: false)
+        for index in 0..<self.children.count {
+            let testNode = children[self.children.count - 1] as! SKNode
+            testNode.removeFromParent()
+        }
+        gameArray.removeAll(keepCapacity: false)
         countColorsProContainer.removeAll(keepCapacity: false)
+        containers.removeAll(keepCapacity: false)
+        /*
         for index in 0..<countContainers {
             countColorsProContainer.append(maxGeneratedColorCount)
         }
+*/
+        prepareNextGame()
         generateSprite()
     }
-
+    
     func generateSprite() {
         let nextTime = 0.01 //Double(GV.random(1, max: 1)) / 25
         var colorTab = [Int]()
@@ -192,7 +304,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             countColorsProContainer[colorIndex]--
             let aktColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1].CGColor
             self.timer = NSTimer.scheduledTimerWithTimeInterval(nextTime, target: self, selector: Selector("generateSprite"), userInfo: nil, repeats: false)
-            let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(30,30), imageColor: aktColor))
+            let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(spriteSize,spriteSize), imageColor: aktColor))
             let sprite = MySKNode(texture: containerTexture, type: .MovingSpriteType)
             let index = GV.random(0, max: positionsTab.count - 1)
             //let xPosition = size.width * CGFloat(GV.random(20, max: 80)) / 100
@@ -215,11 +327,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
         }
     }
+    
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         let countTouches = touches.count
         let firstTouch = touches.first as! UITouch
         let touchLocation = firstTouch.locationInNode(self)
         let testNode = self.nodeAtPoint(touchLocation)
+        let aktNodeType = analyzeNode(testNode)
+        switch aktNodeType {
+            case MyNodeTypes.LabelNode: movedFromNode = self.nodeAtPoint(touchLocation).parent as! MySKNode
+            case MyNodeTypes.SpriteNode: movedFromNode = self.nodeAtPoint(touchLocation) as! MySKNode
+            case MyNodeTypes.ContainerNode: movedFromNode = nil
+            default: movedFromNode = nil
+        }
+        /*
         switch testNode {
             case is SKLabelNode: movedFromNode = self.nodeAtPoint(touchLocation).parent as! MySKNode
             case is MySKNode: movedFromNode = self.nodeAtPoint(touchLocation) as! MySKNode
@@ -228,6 +349,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if movedFromNode != nil && movedFromNode.type == .ContainerType {
             movedFromNode = nil
         }
+        */
     }
     
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -238,27 +360,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let countTouches = touches.count
             let firstTouch = touches.first as! UITouch
             let touchLocation = firstTouch.locationInNode(self)
-            let node = movedFromNode// as SKSpriteNode
-            let offset = touchLocation - movedFromNode.position
-            let direction = offset.normalized()
-            let shootAmount = direction * 1000
-            let realDest = shootAmount + movedFromNode.position
-            
-            
-            let pathToDraw:CGMutablePathRef = CGPathCreateMutable()
-            let myLine:SKShapeNode = SKShapeNode(path:pathToDraw)
-            myLine.name = "myLine"
-            CGPathMoveToPoint(pathToDraw, nil, movedFromNode.position.x, movedFromNode.position.y)
-            CGPathAddLineToPoint(pathToDraw, nil, realDest.x, realDest.y)
-            
-            myLine.path = pathToDraw
-            //let name = movedFromNode.name!
-            //let colorIndex = name.toInt()! - 100
-            let colorIndex = movedFromNode.colorIndex
-            
-            myLine.strokeColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1]
-            
-            self.addChild(myLine)
+            let testNode = self.nodeAtPoint(touchLocation)
+            let aktNodeType = analyzeNode(testNode)
+            var aktNode: SKNode? = movedFromNode
+            switch aktNodeType {
+                case MyNodeTypes.LabelNode: aktNode = self.nodeAtPoint(touchLocation).parent as! MySKNode
+                case MyNodeTypes.SpriteNode: aktNode = self.nodeAtPoint(touchLocation) as! MySKNode
+                default: aktNode = nil
+            }
+            if movedFromNode != aktNode {
+                let offset = touchLocation - movedFromNode.position
+                let direction = offset.normalized()
+                let shootAmount = direction * 1000
+                let realDest = shootAmount + movedFromNode.position
+                
+                
+                let pathToDraw:CGMutablePathRef = CGPathCreateMutable()
+                let myLine:SKShapeNode = SKShapeNode(path:pathToDraw)
+                myLine.name = "myLine"
+                CGPathMoveToPoint(pathToDraw, nil, movedFromNode.position.x, movedFromNode.position.y)
+                CGPathAddLineToPoint(pathToDraw, nil, realDest.x, realDest.y)
+                
+                myLine.path = pathToDraw
+                //let name = movedFromNode.name!
+                //let colorIndex = name.toInt()! - 100
+                let colorIndex = movedFromNode.colorIndex
+                
+                myLine.strokeColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1]
+                self.addChild(myLine)
+            }
             
         }
     }
@@ -271,33 +401,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let countTouches = touches.count
             let firstTouch = touches.first as! UITouch
             let touchLocation = firstTouch.locationInNode(self)
+            let testNode = self.nodeAtPoint(touchLocation)
+            
+            let aktNodeType = analyzeNode(testNode)
+            var aktNode: SKNode? = movedFromNode
+            switch aktNodeType {
+                case MyNodeTypes.LabelNode: aktNode = self.nodeAtPoint(touchLocation).parent as! MySKNode
+                case MyNodeTypes.SpriteNode: aktNode = self.nodeAtPoint(touchLocation) as! MySKNode
+                default: aktNode = nil
+            }
 
-            let node = movedFromNode// as! SKSpriteNode
-            node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width/2)
-            //println("nodeSize:\(node.size.width)")
-            node.physicsBody?.dynamic = true
-            node.physicsBody?.categoryBitMask = PhysicsCategory.MovingSprite
-            node.physicsBody?.contactTestBitMask = PhysicsCategory.Sprite | PhysicsCategory.Container 
-            node.physicsBody?.collisionBitMask = PhysicsCategory.None
-            node.physicsBody?.usesPreciseCollisionDetection = true
-            let offset = touchLocation - movedFromNode.position
+            if aktNode == nil || (aktNode as! MySKNode) != movedFromNode {
+                let node = movedFromNode// as! SKSpriteNode
+                node!.physicsBody = SKPhysicsBody(circleOfRadius: node!.size.width/2)
+                //println("nodeSize:\(node.size.width)")
+                node.physicsBody?.dynamic = true
+                node.physicsBody?.categoryBitMask = PhysicsCategory.MovingSprite
+                node.physicsBody?.contactTestBitMask = PhysicsCategory.Sprite | PhysicsCategory.Container 
+                node.physicsBody?.collisionBitMask = PhysicsCategory.None
+                
+                node.physicsBody?.usesPreciseCollisionDetection = true
+                let offset = touchLocation - movedFromNode.position
 
-            let direction = offset.normalized()
-            
-            // 7 - Make it shoot far enough to be guaranteed off screen
-            let shootAmount = direction * 1000
-            
-            // 8 - Add the shoot amount to the current position
-            let realDest = shootAmount + movedFromNode.position
-            
-            // 9 - Create the actions
-            let actionMove = SKAction.moveTo(realDest, duration: 2.0)
-            //let actionMoveDone = SKAction.removeFromParent()
-            collisionActive = true
-            movedFromNode.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
-            
+                let direction = offset.normalized()
+                
+                // 7 - Make it shoot far enough to be guaranteed off screen
+                let shootAmount = direction * 1000
+                
+                // 8 - Add the shoot amount to the current position
+                let realDest = shootAmount + movedFromNode.position
+                
+                // 9 - Create the actions
+                let actionMove = SKAction.moveTo(realDest, duration: 2.0)
+                //let actionMoveDone = SKAction.removeFromParent()
+                collisionActive = true
+                movedFromNode.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
+            }
         }
     }
+        
     
     func spriteDidCollideWithContainer(node1:MySKNode, node2:MySKNode) {
         let movingSprite = node1
@@ -377,21 +519,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
         }
-    }
-    
-    func newGame(next: Bool) {
-        if next {
-            levelIndex++
-        }
-        /*
-        for index in 0..<self.children.count {
-            let testNode = children[index]
-            if testNode is MySKNode && testNode.type != .ContainerType {
-                testNode.removeFromParent()
-            }
-        }
-*/
-        gameArray.removeAll(keepCapacity: false)
     }
     
     func checkGameArray() {
