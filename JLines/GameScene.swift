@@ -81,8 +81,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     var timer: NSTimer?
     var countDown: NSTimer?
+    var colorSet = [Int]()
     var containers = [Container]()
-    var countColorsProContainer = [Int]()
+    //var countColorsProContainer = [Int]()
     var movedFromNode: MySKNode!
     var backButton: SKButton?
     var gameArray = [[Bool]]() // true if Cell used
@@ -150,7 +151,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         containerSize = CGFloat(json!["levels"][levelIndex]["containerSize"][deviceIndex].int!)
         spriteSize = CGFloat(json!["levels"][levelIndex]["spriteSize"][deviceIndex].int!)
-        
+        minProzent = json!["levels"][levelIndex]["minProzent"][deviceIndex].int! * tableColumns * tableRows / 100
+        maxProzent = json!["levels"][levelIndex]["maxProzent"][deviceIndex].int! * tableColumns * tableRows / 100
+       
         timeLimit = countContainers * maxGeneratedColorCount! * timeLimitKorr
         println("timeLimit: \(timeLimit)")
         
@@ -181,7 +184,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             containers[index].mySKNode.physicsBody?.categoryBitMask = PhysicsCategory.Container
             containers[index].mySKNode.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
             containers[index].mySKNode.physicsBody?.collisionBitMask = PhysicsCategory.None
-            countColorsProContainer.append(maxGeneratedColorCount!)
+            //countColorsProContainer.append(maxGeneratedColorCount!)
             addChild(containers[index].mySKNode)
         }
         GV.currentTime = NSDate()
@@ -265,7 +268,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             testNode.removeFromParent()
         }
         gameArray.removeAll(keepCapacity: false)
-        countColorsProContainer.removeAll(keepCapacity: false)
+        //countColorsProContainer.removeAll(keepCapacity: false)
         containers.removeAll(keepCapacity: false)
         if countDown != nil {
             countDown!.invalidate()
@@ -274,26 +277,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         prepareNextGame()
         generateSprites()
     }
-/*
-    func generateSprites() {
-        var colorTab = [Int]()
-        for index in 0..<countColorsProContainer.count {
-            if countColorsProContainer[index] > 0 {
-                colorTab.append(index)
-            }
-        }
-        var positionsTab = [(CGFloat, CGFloat, Int, Int)]()
-        for column in 0..<tableColumns {
-            for row in 0..<tableRows {
-                if !gameArray[column][row] {
-                    let appendValue = (CGFloat(column) * tableCellSize + tableCellSize / 2, CGFloat(row) * tableCellSize * 0.9 + tableCellSize * 2.7, column, row)
-                    positionsTab.append(appendValue)
-                }
-            }
-        }
-    }
-*/
 
+    func generateSprites() {
+        
+       
+        for colorIndex in 0..<countContainers {
+            for index in 0..<maxGeneratedColorCount! {
+                colorSet.append(colorIndex)
+            }
+        }
+        do {
+        
+        } while colorSet.count == 0 || countFilledCells > maxProzent 
+    }
+
+/*
     func generateSprites() {
         let nextTime = 0.01 //Double(GV.random(1, max: 1)) / 25
         var colorTab = [Int]()
@@ -302,6 +300,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 colorTab.append(index)
             }
         }
+        
         var positionsTab = [(CGFloat, CGFloat, Int, Int)]()
         for column in 0..<tableColumns {
             for row in 0..<tableRows {
@@ -313,36 +312,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        if colorTab.count > 0 {
-            let colorIndex = colorTab[GV.random(0, max: colorTab.count - 1)]
-            countColorsProContainer[colorIndex]--
-            let aktColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1].CGColor
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(nextTime, target: self, selector: Selector("generateSprites"), userInfo: nil, repeats: false)
-            let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(spriteSize,spriteSize), imageColor: aktColor))
-            let sprite = MySKNode(texture: containerTexture, type: .MovingSpriteType)
-            let index = GV.random(0, max: positionsTab.count - 1)
-            //let xPosition = size.width * CGFloat(GV.random(20, max: 80)) / 100
-            //let yPosition = size.height * CGFloat(GV.random(20, max: 80)) / 100
-            let (xPosition, yPosition, aktColumn, aktRow) = positionsTab[index]
-            sprite.position = CGPoint(x: xPosition, y: yPosition)
-            gameArray[aktColumn][aktRow] = true
-            //sprite.name = "\(100 + colorIndex)"
-            //let generatedName = sprite.name
-            sprite.column = aktColumn
-            sprite.row = aktRow
-            sprite.colorIndex = colorIndex
-            sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
-            sprite.physicsBody?.dynamic = true
-            sprite.physicsBody?.categoryBitMask = PhysicsCategory.Sprite
-            sprite.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
-            sprite.physicsBody?.collisionBitMask = PhysicsCategory.None
-            sprite.physicsBody?.usesPreciseCollisionDetection = true
-            addChild(sprite)
-        } else {
-        }
+        do {
+            if colorTab.count > 0 {
+                let colorIndex = colorTab[GV.random(0, max: colorTab.count - 1)]
+                countColorsProContainer[colorIndex]--
+                let aktColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1].CGColor
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(nextTime, target: self, selector: Selector("generateSprites"), userInfo: nil, repeats: false)
+                let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(spriteSize,spriteSize), imageColor: aktColor))
+                let sprite = MySKNode(texture: containerTexture, type: .MovingSpriteType)
+                let index = GV.random(0, max: positionsTab.count - 1)
+                //let xPosition = size.width * CGFloat(GV.random(20, max: 80)) / 100
+                //let yPosition = size.height * CGFloat(GV.random(20, max: 80)) / 100
+                let (xPosition, yPosition, aktColumn, aktRow) = positionsTab[index]
+                sprite.position = CGPoint(x: xPosition, y: yPosition)
+                gameArray[aktColumn][aktRow] = true
+                //sprite.name = "\(100 + colorIndex)"
+                //let generatedName = sprite.name
+                sprite.column = aktColumn
+                sprite.row = aktRow
+                sprite.colorIndex = colorIndex
+                sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
+                sprite.physicsBody?.dynamic = true
+                sprite.physicsBody?.categoryBitMask = PhysicsCategory.Sprite
+                sprite.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
+                sprite.physicsBody?.collisionBitMask = PhysicsCategory.None
+                sprite.physicsBody?.usesPreciseCollisionDetection = true
+                addChild(sprite)
+            }
+        } while false
     }
     
-
+*/
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         let countTouches = touches.count
@@ -578,7 +578,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             alert.addAction(againAction)
             parentViewController!.presentViewController(alert, animated: true, completion: nil)
         } else {
-            if usedCellCount < tableColumns * tableRows * minProzent / 100 {
+            if usedCellCount < minProzent {
                 generateSprites()
             }
         }
