@@ -35,6 +35,7 @@ class PlayWithSpritesViewController: UIViewController {
         let gameY = (view.frame.size.height - gameHeight) / 2
         let frame = CGRectMake(gameX, gameY, gameWidth, gameHeight)
         //println("frame:\(gameBoard.frame)")
+        GV.startTime = NSDate()
         let scene:GameScene = GameScene(size: CGSizeMake(gameWidth, gameHeight))
         let skView = SKView(frame: frame)
         self.view.addSubview(skView)

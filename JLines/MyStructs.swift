@@ -71,6 +71,10 @@ struct GV {
     static let TableNumColumns = 5
     static let TableNumRows = 6
     static var aktPage = 0
+    static var startTime = NSDate()
+    static var currentTime = NSDate()
+    static var elapsedTime: Double = 0
+
     
     static let scrollViewName = "ScrollView"
     static let dataStore = DataStore()
