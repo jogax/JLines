@@ -21,7 +21,6 @@
 		2001B7DD1B359D920029E2A6 /* BonusPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 2001B7DC1B359D920029E2A6 /* BonusPack.json */; };
 		2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 2001B7DE1B359D990029E2A6 /* GreenPack.json */; };
 		2001B7E31B35A09B0029E2A6 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2001B7E21B35A09B0029E2A6 /* CoreAudio.framework */; };
-		2001B7E51B35A0A70029E2A6 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2001B7E41B35A0A70029E2A6 /* CloudKit.framework */; };
 		2003035E1B31DE81003D55EA /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003035D1B31DE81003D55EA /* MyLabel.swift */; };
 		2005AE571B34744200D1DA36 /* MyButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AE561B34744200D1DA36 /* MyButtonsView.swift */; };
 		200A75731B306EA700FA596A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75721B306EA700FA596A /* AppDelegate.swift */; };
@@ -88,7 +87,6 @@
 		2001B7DC1B359D920029E2A6 /* BonusPack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BonusPack.json; sourceTree = "<group>"; };
 		2001B7DE1B359D990029E2A6 /* GreenPack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GreenPack.json; sourceTree = "<group>"; };
 		2001B7E21B35A09B0029E2A6 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
-		2001B7E41B35A0A70029E2A6 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		2003035D1B31DE81003D55EA /* MyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		2005AE561B34744200D1DA36 /* MyButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyButtonsView.swift; sourceTree = "<group>"; };
 		200A756D1B306EA700FA596A /* JLines.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JLines.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +124,7 @@
 		202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithPointsViewController.swift; sourceTree = "<group>"; };
 		206BDB851B49861C00F909CB /* MySprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySprite.swift; sourceTree = "<group>"; };
 		20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyColorChooseView.swift; sourceTree = "<group>"; };
+		20EF2A9E1B5CF8BC005FEFEB /* JLines.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = JLines.entitlements; sourceTree = "<group>"; };
 		20F813441B53D3CB0046463A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
@@ -138,7 +137,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2001B7E51B35A0A70029E2A6 /* CloudKit.framework in Frameworks */,
 				2001B7E31B35A09B0029E2A6 /* CoreAudio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -156,7 +154,6 @@
 		200A75641B306EA700FA596A = {
 			isa = PBXGroup;
 			children = (
-				2001B7E41B35A0A70029E2A6 /* CloudKit.framework */,
 				2001B7E21B35A09B0029E2A6 /* CoreAudio.framework */,
 				200A756F1B306EA700FA596A /* JLines */,
 				200A75881B306EA700FA596A /* JLinesTests */,
@@ -176,6 +173,7 @@
 		200A756F1B306EA700FA596A /* JLines */ = {
 			isa = PBXGroup;
 			children = (
+				20EF2A9E1B5CF8BC005FEFEB /* JLines.entitlements */,
 				20002E361B40404B00F390A2 /* AppVariables.swift */,
 				200A75721B306EA700FA596A /* AppDelegate.swift */,
 				200A75741B306EA700FA596A /* JLines.xcdatamodeld */,
@@ -323,6 +321,11 @@
 					200A756C1B306EA700FA596A = {
 						CreatedOnToolsVersion = 6.3.2;
 						DevelopmentTeam = WT499VC842;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					200A75841B306EA700FA596A = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -547,6 +550,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = JLines/JLines.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = JLines/Info.plist;
@@ -561,6 +565,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = JLines/JLines.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = JLines/Info.plist;
