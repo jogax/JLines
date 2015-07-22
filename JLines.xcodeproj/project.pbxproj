@@ -127,6 +127,7 @@
 		206BDB851B49861C00F909CB /* MySprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySprite.swift; sourceTree = "<group>"; };
 		207FC93D1B5FD8EC00A33674 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		207FC93F1B5FD90400A33674 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		207FC9411B600D3E00A33674 /* JLines.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = JLines.entitlements; sourceTree = "<group>"; };
 		20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyColorChooseView.swift; sourceTree = "<group>"; };
 		20F813441B53D3CB0046463A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
@@ -180,6 +181,7 @@
 		200A756F1B306EA700FA596A /* JLines */ = {
 			isa = PBXGroup;
 			children = (
+				207FC9411B600D3E00A33674 /* JLines.entitlements */,
 				20002E361B40404B00F390A2 /* AppVariables.swift */,
 				200A75721B306EA700FA596A /* AppDelegate.swift */,
 				200A75741B306EA700FA596A /* JLines.xcdatamodeld */,
@@ -569,7 +571,7 @@
 				INFOPLIST_FILE = JLines/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d421ee94-f64b-4324-8327-a2543cb33f7e";
+				PROVISIONING_PROFILE = "6e365cb9-2b3c-4a16-92a1-e5a49ce6b369";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -584,7 +586,7 @@
 				INFOPLIST_FILE = JLines/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d421ee94-f64b-4324-8327-a2543cb33f7e";
+				PROVISIONING_PROFILE = "6e365cb9-2b3c-4a16-92a1-e5a49ce6b369";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
