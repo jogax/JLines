@@ -53,6 +53,8 @@
 		202CC60F1B4432310074D44A /* ChoosePlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202CC60E1B4432310074D44A /* ChoosePlayViewController.swift */; };
 		202CC6111B4450890074D44A /* PlayWithPointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */; };
 		206BDB861B49861C00F909CB /* MySprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206BDB851B49861C00F909CB /* MySprite.swift */; };
+		207FC93E1B5FD8EC00A33674 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 207FC93D1B5FD8EC00A33674 /* GameKit.framework */; };
+		207FC9401B5FD90400A33674 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 207FC93F1B5FD90400A33674 /* StoreKit.framework */; };
 		20DED7731B382D7C00B4F098 /* MyColorChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */; };
 		20F813451B53D3CB0046463A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813441B53D3CB0046463A /* GameScene.swift */; };
 		20F813471B53D3DA0046463A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813461B53D3DA0046463A /* SKButton.swift */; };
@@ -123,12 +125,14 @@
 		202CC60E1B4432310074D44A /* ChoosePlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosePlayViewController.swift; sourceTree = "<group>"; };
 		202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithPointsViewController.swift; sourceTree = "<group>"; };
 		206BDB851B49861C00F909CB /* MySprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySprite.swift; sourceTree = "<group>"; };
+		207FC93D1B5FD8EC00A33674 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		207FC93F1B5FD90400A33674 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyColorChooseView.swift; sourceTree = "<group>"; };
-		20EF2A9E1B5CF8BC005FEFEB /* JLines.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = JLines.entitlements; sourceTree = "<group>"; };
 		20F813441B53D3CB0046463A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
 		20F8134A1B53F1F90046463A /* MySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySKNode.swift; sourceTree = "<group>"; };
+		20FA9B061B5FD691003B40F5 /* JLines.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = JLines.entitlements; sourceTree = "<group>"; };
 		20FB88751B57B139007843A2 /* LevelsForPlayWithSprites.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LevelsForPlayWithSprites.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,7 +141,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				207FC9401B5FD90400A33674 /* StoreKit.framework in Frameworks */,
 				2001B7E31B35A09B0029E2A6 /* CoreAudio.framework in Frameworks */,
+				207FC93E1B5FD8EC00A33674 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +160,8 @@
 		200A75641B306EA700FA596A = {
 			isa = PBXGroup;
 			children = (
+				207FC93F1B5FD90400A33674 /* StoreKit.framework */,
+				207FC93D1B5FD8EC00A33674 /* GameKit.framework */,
 				2001B7E21B35A09B0029E2A6 /* CoreAudio.framework */,
 				200A756F1B306EA700FA596A /* JLines */,
 				200A75881B306EA700FA596A /* JLinesTests */,
@@ -173,7 +181,7 @@
 		200A756F1B306EA700FA596A /* JLines */ = {
 			isa = PBXGroup;
 			children = (
-				20EF2A9E1B5CF8BC005FEFEB /* JLines.entitlements */,
+				20FA9B061B5FD691003B40F5 /* JLines.entitlements */,
 				20002E361B40404B00F390A2 /* AppVariables.swift */,
 				200A75721B306EA700FA596A /* AppDelegate.swift */,
 				200A75741B306EA700FA596A /* JLines.xcdatamodeld */,
@@ -322,6 +330,12 @@
 						CreatedOnToolsVersion = 6.3.2;
 						DevelopmentTeam = WT499VC842;
 						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};
@@ -551,12 +565,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = JLines/JLines.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = JLines/JLines.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jozsef Romhanyi (XRT2GPQ2HX)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = JLines/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d421ee94-f64b-4324-8327-a2543cb33f7e";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -566,12 +581,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = JLines/JLines.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jozsef Romhanyi (XRT2GPQ2HX)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = JLines/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d421ee94-f64b-4324-8327-a2543cb33f7e";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
