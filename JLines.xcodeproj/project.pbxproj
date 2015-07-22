@@ -132,7 +132,6 @@
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
 		20F8134A1B53F1F90046463A /* MySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySKNode.swift; sourceTree = "<group>"; };
-		20FA9B061B5FD691003B40F5 /* JLines.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = JLines.entitlements; sourceTree = "<group>"; };
 		20FB88751B57B139007843A2 /* LevelsForPlayWithSprites.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LevelsForPlayWithSprites.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,7 +180,6 @@
 		200A756F1B306EA700FA596A /* JLines */ = {
 			isa = PBXGroup;
 			children = (
-				20FA9B061B5FD691003B40F5 /* JLines.entitlements */,
 				20002E361B40404B00F390A2 /* AppVariables.swift */,
 				200A75721B306EA700FA596A /* AppDelegate.swift */,
 				200A75741B306EA700FA596A /* JLines.xcdatamodeld */,
