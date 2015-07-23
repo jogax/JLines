@@ -50,6 +50,7 @@
 		200A75BE1B30972400FA596A /* de.json in Resources */ = {isa = PBXBuildFile; fileRef = 200A75BA1B30972400FA596A /* de.json */; };
 		200A75BF1B30972400FA596A /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 200A75BB1B30972400FA596A /* en.json */; };
 		200A75C11B309F0600FA596A /* PlayWithColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */; };
+		200C8E941B612BE4008943BF /* JLines.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 200C8E931B612BE4008943BF /* JLines.entitlements */; };
 		202CC60F1B4432310074D44A /* ChoosePlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202CC60E1B4432310074D44A /* ChoosePlayViewController.swift */; };
 		202CC6111B4450890074D44A /* PlayWithPointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */; };
 		206BDB861B49861C00F909CB /* MySprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206BDB851B49861C00F909CB /* MySprite.swift */; };
@@ -122,12 +123,12 @@
 		200A75BA1B30972400FA596A /* de.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = de.json; path = "../../../XCODE Projekte/Code/Swift/JLinesV2/JLinesV2/de.json"; sourceTree = "<group>"; };
 		200A75BB1B30972400FA596A /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = en.json; path = "../../../XCODE Projekte/Code/Swift/JLinesV2/JLinesV2/en.json"; sourceTree = "<group>"; };
 		200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithColorViewController.swift; sourceTree = "<group>"; };
+		200C8E931B612BE4008943BF /* JLines.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = JLines.entitlements; sourceTree = "<group>"; };
 		202CC60E1B4432310074D44A /* ChoosePlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosePlayViewController.swift; sourceTree = "<group>"; };
 		202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithPointsViewController.swift; sourceTree = "<group>"; };
 		206BDB851B49861C00F909CB /* MySprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySprite.swift; sourceTree = "<group>"; };
 		207FC93D1B5FD8EC00A33674 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		207FC93F1B5FD90400A33674 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		207FC9411B600D3E00A33674 /* JLines.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = JLines.entitlements; sourceTree = "<group>"; };
 		20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyColorChooseView.swift; sourceTree = "<group>"; };
 		20F813441B53D3CB0046463A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
@@ -181,7 +182,7 @@
 		200A756F1B306EA700FA596A /* JLines */ = {
 			isa = PBXGroup;
 			children = (
-				207FC9411B600D3E00A33674 /* JLines.entitlements */,
+				200C8E931B612BE4008943BF /* JLines.entitlements */,
 				20002E361B40404B00F390A2 /* AppVariables.swift */,
 				200A75721B306EA700FA596A /* AppDelegate.swift */,
 				200A75741B306EA700FA596A /* JLines.xcdatamodeld */,
@@ -376,6 +377,7 @@
 				200A75BC1B30972400FA596A /* hu.json in Resources */,
 				200A757B1B306EA700FA596A /* Main.storyboard in Resources */,
 				200A75801B306EA700FA596A /* LaunchScreen.xib in Resources */,
+				200C8E941B612BE4008943BF /* JLines.entitlements in Resources */,
 				2001B7DD1B359D920029E2A6 /* BonusPack.json in Resources */,
 				200A757D1B306EA700FA596A /* Images.xcassets in Resources */,
 				2001B7D91B359D820029E2A6 /* FirstPack.json in Resources */,
