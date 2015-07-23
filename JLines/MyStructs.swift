@@ -78,7 +78,7 @@ struct GV {
     
     static let scrollViewName = "ScrollView"
     static let dataStore = DataStore()
-    //static let cloudData = CloudData()
+    static let cloudData = CloudData()
     static var package: Package?
     static let volumeName: [Int:String] = [0:"5 x 5", 1:"6 x 6", 2:"7 x 7", 3:"8 x 8", 4:"9 x 9"]
     static let volumeNumber: [String:Int] = ["5 x 5":0, "6 x 6":1, "7 x 7":2, "8 x 8":3, "9 x 9":4]
@@ -389,4 +389,27 @@ struct AppData {
     }
     
 }
+
+struct Level {
+    var countContainers: Int
+    var countSpritesProContainer: Int
+    var countColumns: Int
+    var countRows: Int
+    var minProzent: Int
+    var maxProzent: Int
+    var containerSize: Int
+    var spriteSize: Int
+    
+    init() {
+        countContainers = 0
+        countSpritesProContainer = 0
+        countColumns = 0
+        countRows = 0
+        minProzent = 0
+        maxProzent = 0
+        containerSize = 0
+        spriteSize = 0
+    }
+}
+
 

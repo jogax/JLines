@@ -51,6 +51,7 @@
 		200A75BF1B30972400FA596A /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 200A75BB1B30972400FA596A /* en.json */; };
 		200A75C11B309F0600FA596A /* PlayWithColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */; };
 		200C8E941B612BE4008943BF /* JLines.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 200C8E931B612BE4008943BF /* JLines.entitlements */; };
+		200C8E961B612E08008943BF /* CloudData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200C8E951B612E08008943BF /* CloudData.swift */; };
 		202CC60F1B4432310074D44A /* ChoosePlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202CC60E1B4432310074D44A /* ChoosePlayViewController.swift */; };
 		202CC6111B4450890074D44A /* PlayWithPointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */; };
 		206BDB861B49861C00F909CB /* MySprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206BDB851B49861C00F909CB /* MySprite.swift */; };
@@ -124,6 +125,7 @@
 		200A75BB1B30972400FA596A /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = en.json; path = "../../../XCODE Projekte/Code/Swift/JLinesV2/JLinesV2/en.json"; sourceTree = "<group>"; };
 		200A75C01B309F0600FA596A /* PlayWithColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithColorViewController.swift; sourceTree = "<group>"; };
 		200C8E931B612BE4008943BF /* JLines.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = JLines.entitlements; sourceTree = "<group>"; };
+		200C8E951B612E08008943BF /* CloudData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudData.swift; sourceTree = "<group>"; };
 		202CC60E1B4432310074D44A /* ChoosePlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosePlayViewController.swift; sourceTree = "<group>"; };
 		202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithPointsViewController.swift; sourceTree = "<group>"; };
 		206BDB851B49861C00F909CB /* MySprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySprite.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				200A75741B306EA700FA596A /* JLines.xcdatamodeld */,
 				200A75AD1B30762000FA596A /* GameStatus.swift */,
 				200A75A91B3075AB00FA596A /* DataStore.swift */,
+				200C8E951B612E08008943BF /* CloudData.swift */,
 				200A75771B306EA700FA596A /* ViewController.swift */,
 				202CC60E1B4432310074D44A /* ChoosePlayViewController.swift */,
 				200A759B1B3070D000FA596A /* SettingsViewController.swift */,
@@ -413,6 +416,7 @@
 				2001B7CD1B359C420029E2A6 /* Game.swift in Sources */,
 				20F8134B1B53F1F90046463A /* MySKNode.swift in Sources */,
 				20002E371B40404B00F390A2 /* AppVariables.swift in Sources */,
+				200C8E961B612E08008943BF /* CloudData.swift in Sources */,
 				202CC6111B4450890074D44A /* PlayWithPointsViewController.swift in Sources */,
 				200A75B61B3076EA00FA596A /* Array2D.swift in Sources */,
 				200A75981B30700900FA596A /* Extensions.swift in Sources */,

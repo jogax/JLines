@@ -66,9 +66,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Values from json File
     var params = ""
-    var maxGeneratedColorCount: Int?
-    var tableColumns = 0
-    var tableRows = 0
+    var countSpritesProContainer: Int?
+    var countColumns = 0
+    var countRows = 0
     var countContainers = 0
     var tableCellSize: CGFloat = 0
     var containerSize:CGFloat = 0
@@ -97,6 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameScoreLabel = SKLabelNode()
     var levelScoreLabel = SKLabelNode()
     var countdownLabel = SKLabelNode()
+    var levelArray = [Level]()
     
 
     
@@ -115,6 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 */
     override func didMoveToView(view: SKView) {
+        levelArray = GV.cloudData.readLevelDataArray()
         GV.currentTime = NSDate()
         GV.elapsedTime = GV.currentTime.timeIntervalSinceDate(GV.startTime) * 1000
         println("GameScene start: \(GV.elapsedTime)")
@@ -138,41 +140,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             countDown!.invalidate()
             countDown = nil
         }
-        if let testWert = json!["levels"][levelIndex]["maxGeneratedColorCount"][deviceIndex].int {
-            maxGeneratedColorCount = testWert
+        
+        /*
+        if let testWert = json!["levels"][levelIndex]["countSpritesProContainer"][deviceIndex].int {
+            countSpritesProContainer = testWert
         } else {
             levelIndex = 0
-            maxGeneratedColorCount = json!["levels"][levelIndex]["maxGeneratedColorCount"][deviceIndex].int!
+            countSpritesProContainer = json!["levels"][levelIndex]["countSpritesProContainer"][deviceIndex].int!
         }
-        tableColumns = json!["levels"][levelIndex]["tableColumns"][deviceIndex].int!
-        tableRows = json!["levels"][levelIndex]["tableRows"][deviceIndex].int!
+        countColumns = json!["levels"][levelIndex]["countColumns"][deviceIndex].int!
+        countRows = json!["levels"][levelIndex]["countRows"][deviceIndex].int!
         countContainers = json!["levels"][levelIndex]["countContainers"][deviceIndex].int!
-        tableCellSize = CGFloat(countContainers) / CGFloat(tableColumns)
+        tableCellSize = CGFloat(countContainers) / CGFloat(countColumns)
         
         containerSize = CGFloat(json!["levels"][levelIndex]["containerSize"][deviceIndex].int!)
         spriteSize = CGFloat(json!["levels"][levelIndex]["spriteSize"][deviceIndex].int!)
-        minUsedCells = json!["levels"][levelIndex]["minProzent"][deviceIndex].int! * tableColumns * tableRows / 100
-        maxUsedCells = Int(json!["levels"][levelIndex]["maxProzent"][deviceIndex].int! * tableColumns * tableRows / 100)
-       
-        timeLimit = countContainers * maxGeneratedColorCount! * timeLimitKorr
+        minUsedCells = json!["levels"][levelIndex]["minProzent"][deviceIndex].int! * countColumns * countRows / 100
+        maxUsedCells = Int(json!["levels"][levelIndex]["maxProzent"][deviceIndex].int! * countColumns * countRows / 100)
+       */
+        
+        if levelIndex >= levelArray.count {
+            levelIndex = levelArray.count - 1
+        }
+        countContainers = levelArray[levelIndex].countContainers
+        countSpritesProContainer = levelArray[levelIndex].countSpritesProContainer
+        countColumns = levelArray[levelIndex].countColumns
+        countRows = levelArray[levelIndex].countRows
+        minUsedCells = levelArray[levelIndex].minProzent * countColumns * countRows / 100
+        maxUsedCells = levelArray[levelIndex].maxProzent * countColumns * countRows / 100
+        containerSize = CGFloat(levelArray[levelIndex].containerSize)
+        spriteSize = CGFloat(levelArray[levelIndex].spriteSize)
+        
+        timeLimit = countContainers * countSpritesProContainer! * timeLimitKorr
         println("timeLimit: \(timeLimit)")
         
         gameArray.removeAll(keepCapacity: false)
         containers.removeAll(keepCapacity: false)
 
-        for column in 0..<tableRows {
-            gameArray.append(Array(count: tableRows, repeatedValue:false))
+        for column in 0..<countRows {
+            gameArray.append(Array(count: countRows, repeatedValue:false))
         }
         
         colorTab.removeAll(keepCapacity: false)
         for containerIndex in 0..<countContainers {
-            for index in 0..<maxGeneratedColorCount! {
+            for index in 0..<countSpritesProContainer! {
                 colorTab.append(containerIndex)
             }
         }
         
         let xDelta = size.width / CGFloat(countContainers)
-        tableCellSize = size.width / CGFloat(tableRows)
+        tableCellSize = size.width / CGFloat(countRows)
         for index in 0..<countContainers {
             let aktColor = GV.colorSets[GV.colorSetIndex][index + 1].CGColor
             let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(containerSize, containerSize), imageColor: aktColor))
@@ -195,7 +212,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             containers[index].mySKNode.physicsBody?.categoryBitMask = PhysicsCategory.Container
             containers[index].mySKNode.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
             containers[index].mySKNode.physicsBody?.collisionBitMask = PhysicsCategory.None
-            countColorsProContainer.append(maxGeneratedColorCount!)
+            countColorsProContainer.append(countSpritesProContainer!)
             addChild(containers[index].mySKNode)
         }
         GV.currentTime = NSDate()
@@ -292,8 +309,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func generateSprites() {
         
         var positionsTab = [(Int, Int)]() // all available Positions
-        for column in 0..<tableColumns {
-            for row in 0..<tableRows {
+        for column in 0..<countColumns {
+            for row in 0..<countRows {
                 if !gameArray[column][row] {
                     let appendValue = (column, row)
                     positionsTab.append(appendValue)
@@ -311,8 +328,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let sprite = MySKNode(texture: containerTexture, type: .SpriteType)
             let index = GV.random(0, max: positionsTab.count - 1)
             let (aktColumn, aktRow) = positionsTab[index]
+            let yKorr1: CGFloat = GV.onIpad ? 0.9 : 0.8
+            let yKorr2: CGFloat = GV.onIpad ? 2.7 : 2.0
             let xPosition = CGFloat(aktColumn) * tableCellSize + tableCellSize / 2
-            let yPosition = CGFloat(aktRow) * tableCellSize * 0.9 + tableCellSize * 2.7
+            let yPosition = CGFloat(aktRow) * tableCellSize * yKorr1 + tableCellSize * yKorr2
             sprite.position = CGPoint(x: xPosition, y: yPosition)
             gameArray[aktColumn][aktRow] = true
             positionsTab.removeAtIndex(index)
@@ -538,8 +557,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func checkGameArray() -> Int {
         var usedCellCount = 0
-        for column in 0..<tableColumns {
-            for row in 0..<tableRows {
+        for column in 0..<countColumns {
+            for row in 0..<countRows {
                 if gameArray[column][row] {
                     usedCellCount++
                 }
