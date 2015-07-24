@@ -195,9 +195,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(containerSize, containerSize), imageColor: aktColor))
             let centerX = (size.width / CGFloat(countContainers)) * CGFloat(index) + xDelta / 2
             let centerY = size.height * 0.88
-            let cont: Container = Container(mySKNode: MySKNode(texture: containerTexture, type: .ContainerType), label: SKLabelNode(), countHits: 0)
+            let cont: Container
+            //if index == 0 {
+                cont = Container(mySKNode: MySKNode(texture: SKTexture(imageNamed:"sprite\(index)"), type: .ContainerType), label: SKLabelNode(), countHits: 0)
+/*
+        } else {
+                cont = Container(mySKNode: MySKNode(texture: containerTexture, type: .ContainerType), label: SKLabelNode(), countHits: 0)
+            }
+*/
             containers.append(cont)
             containers[index].mySKNode.position = CGPoint(x: centerX, y: centerY)
+            containers[index].mySKNode.size.width = containerSize
+            containers[index].mySKNode.size.height = containerSize
             containers[index].label.text = "0"
             containers[index].label.fontSize = 20;
             //containers[index].label.fontName = "ArielBold"
@@ -324,8 +333,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             colorTab.removeAtIndex(colorTabIndex)
             
             let aktColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1].CGColor
-            let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(spriteSize,spriteSize), imageColor: aktColor))
+            var containerTexture = SKTexture()
+//            if colorIndex == 0 {
+                containerTexture = SKTexture(imageNamed: "sprite\(colorIndex)")
+//            } else {
+//                containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(spriteSize,spriteSize), imageColor: aktColor))
+//            }
             let sprite = MySKNode(texture: containerTexture, type: .SpriteType)
+            sprite.size.width = spriteSize
+            sprite.size.height = spriteSize
             let index = GV.random(0, max: positionsTab.count - 1)
             let (aktColumn, aktRow) = positionsTab[index]
             let yKorr1: CGFloat = GV.onIpad ? 0.9 : 0.8
@@ -503,12 +519,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let sprite = node2
         let movingSpriteColorIndex = movingSprite.colorIndex
         let spriteColorIndex = sprite.colorIndex
+        let aktColor = GV.colorSets[GV.colorSetIndex][sprite.colorIndex + 1].CGColor
         collisionActive = false
         var OK = movingSpriteColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
             sprite.hitCounter = movingSprite.hitCounter + sprite.hitCounter
-            //println("sprite.column:\(sprite.column), sprite.row:\(sprite.row),sprite.hitCounter:\(sprite.hitCounter)")
+            let aktSize = spriteSize + 2 * CGFloat(sprite.hitCounter)
+            //let spriteTexture = SKTexture(image: GV.drawCircle(CGSizeMake(aktSize,aktSize), imageColor: aktColor))
+            //sprite.texture = spriteTexture
+            sprite.size.width = aktSize
+            sprite.size.height = aktSize
+            
+            //let sprite = MySKNode(texture: spriteTexture, type: .SpriteType)
+            println("sprite.column:\(sprite.column), sprite.row:\(sprite.row),sprite.hitCounter:\(sprite.hitCounter), size: \(sprite.size)")
             //sprite.hitLabel.zPosition = 0
             gameArray[movingSprite.column][movingSprite.row] = false
             movingSprite.removeFromParent()
