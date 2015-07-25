@@ -56,6 +56,7 @@
 		207FC93E1B5FD8EC00A33674 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 207FC93D1B5FD8EC00A33674 /* GameKit.framework */; };
 		207FC9401B5FD90400A33674 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 207FC93F1B5FD90400A33674 /* StoreKit.framework */; };
 		20DED7731B382D7C00B4F098 /* MyColorChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */; };
+		20F602231B63D064002F66C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 200A75791B306EA700FA596A /* Main.storyboard */; };
 		20F813451B53D3CB0046463A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813441B53D3CB0046463A /* GameScene.swift */; };
 		20F813471B53D3DA0046463A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813461B53D3DA0046463A /* SKButton.swift */; };
 		20F813491B53D3E50046463A /* PlayWithSpritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */; };
@@ -423,6 +424,7 @@
 				2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */,
 				200A75BD1B30972400FA596A /* ru.json in Resources */,
 				20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */,
+				20F602231B63D064002F66C7 /* Main.storyboard in Resources */,
 				200A75BF1B30972400FA596A /* en.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
