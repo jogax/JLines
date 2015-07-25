@@ -52,6 +52,7 @@
 		207FC93E1B5FD8EC00A33674 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 207FC93D1B5FD8EC00A33674 /* GameKit.framework */; };
 		207FC9401B5FD90400A33674 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 207FC93F1B5FD90400A33674 /* StoreKit.framework */; };
 		20DED7731B382D7C00B4F098 /* MyColorChooseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */; };
+		20F03FC71B63D52800F2F1EC /* sprite6.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F03FC61B63D52800F2F1EC /* sprite6.png */; };
 		20F602231B63D064002F66C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 200A75791B306EA700FA596A /* Main.storyboard */; };
 		20F602301B63D320002F66C7 /* hu.json in Resources */ = {isa = PBXBuildFile; fileRef = 20F6022C1B63D320002F66C7 /* hu.json */; };
 		20F602311B63D320002F66C7 /* de.json in Resources */ = {isa = PBXBuildFile; fileRef = 20F6022D1B63D320002F66C7 /* de.json */; };
@@ -135,6 +136,7 @@
 		207FC93D1B5FD8EC00A33674 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		207FC93F1B5FD90400A33674 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		20DED7721B382D7C00B4F098 /* MyColorChooseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyColorChooseView.swift; sourceTree = "<group>"; };
+		20F03FC61B63D52800F2F1EC /* sprite6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite6.png; sourceTree = "<group>"; };
 		20F6022C1B63D320002F66C7 /* hu.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = hu.json; sourceTree = "<group>"; };
 		20F6022D1B63D320002F66C7 /* de.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = de.json; sourceTree = "<group>"; };
 		20F6022E1B63D320002F66C7 /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = en.json; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				20FCA1F71B62714300FBE816 /* sprite3.png */,
 				20FCA1FB1B62811A00FBE816 /* sprite4.png */,
 				20FCA1FD1B62836C00FBE816 /* sprite5.png */,
+				20F03FC61B63D52800F2F1EC /* sprite6.png */,
 			);
 			name = Pictures;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				200C8E941B612BE4008943BF /* JLines.entitlements in Resources */,
 				2001B7DD1B359D920029E2A6 /* BonusPack.json in Resources */,
 				20F602331B63D320002F66C7 /* ru.json in Resources */,
+				20F03FC71B63D52800F2F1EC /* sprite6.png in Resources */,
 				200A757D1B306EA700FA596A /* Images.xcassets in Resources */,
 				20FCA1FA1B627B4A00FBE816 /* Holz.png in Resources */,
 				2001B7D91B359D820029E2A6 /* FirstPack.json in Resources */,

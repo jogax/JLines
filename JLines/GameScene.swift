@@ -189,7 +189,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         let xDelta = size.width / CGFloat(countContainers)
-        tableCellSize = size.width / CGFloat(countRows)
+        tableCellSize = size.width / CGFloat(countColumns)
         for index in 0..<countContainers {
             let aktColor = GV.colorSets[GV.colorSetIndex][index + 1].CGColor
             let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(containerSize, containerSize), imageColor: aktColor))
