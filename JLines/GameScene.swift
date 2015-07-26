@@ -93,11 +93,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var levelScore = 0
     let deviceIndex = GV.onIpad ? 0 : 1
     var parentViewController: UIViewController?
-    var levelLabel = SKLabelNode()
-    var gameScoreLabel = SKLabelNode()
-    var levelScoreLabel = SKLabelNode()
-    var countdownLabel = SKLabelNode()
+    var levelLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+    var gameScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+    var levelScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+    var countdownLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var levelArray = [Level]()
+    
+    let levelPosKorr = CGPointMake(GV.onIpad ? 0.5 : 0.5, GV.onIpad ? 0.97 : 0.97)
+    let gameScorePosKorr = CGPointMake(GV.onIpad ? 0.1 : 0.1, GV.onIpad ? 0.95 : 0.94)
+    let levelScorePosKorr = CGPointMake(GV.onIpad ? 0.1 : 0.1, GV.onIpad ? 0.93 : 0.90)
+    let countdownPosKorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.95 : 0.94)
+    let containersPosCorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.88 : 0.80)
+    
+    let scoreAddCorrected = [1:0, 2:1, 3:2, 4:4, 5:5, 6:7, 7:8, 8:10, 9:11, 10:13, 11:14, 12:16, 13:17, 14:19, 15:20, 16:22, 17:23]
     
 
     
@@ -194,7 +202,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let aktColor = GV.colorSets[GV.colorSetIndex][index + 1].CGColor
             let containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(containerSize, containerSize), imageColor: aktColor))
             let centerX = (size.width / CGFloat(countContainers)) * CGFloat(index) + xDelta / 2
-            let centerY = size.height * 0.88
+            let centerY = size.height * containersPosCorr.y
             let cont: Container
             //if index == 0 {
                 cont = Container(mySKNode: MySKNode(texture: SKTexture(imageNamed:"sprite\(index)"), type: .ContainerType), label: SKLabelNode(), countHits: 0)
@@ -229,7 +237,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         println("befüllung Containers: \(GV.elapsedTime)")
         GV.startTime = GV.currentTime
         levelLabel.text = GV.language.getText("level") + ": \(levelIndex + 1)"
-        levelLabel.position = CGPointMake(self.position.x + self.size.width * 0.5, self.position.y + self.size.height * 0.99)
+        levelLabel.position = CGPointMake(self.position.x + self.size.width * levelPosKorr.x, self.position.y + self.size.height * levelPosKorr.y)
         levelLabel.fontColor = SKColor.blackColor()
         levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -237,26 +245,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //levelLabel.fontName = "ArielBold"
         self.addChild(levelLabel)
         
-        gameScoreLabel.position = CGPointMake(self.position.x + self.size.width * 0.1, self.position.y + self.size.height * 0.99)
+        let gameScoreText: String = GV.language.getText("gameScore")
+        gameScoreLabel.text = "\(gameScoreText) \(gameScore)"
+        gameScoreLabel.position = CGPointMake(self.position.x + self.size.width * gameScorePosKorr.x, self.position.y + self.size.height * gameScorePosKorr.y)
         gameScoreLabel.fontColor = SKColor.blackColor()
-        gameScoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        gameScoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         gameScoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         gameScoreLabel.fontSize = 15;
         //gameScoreLabel.fontName = "ArielBold"
         self.addChild(gameScoreLabel)
         
-        levelScoreLabel.position = CGPointMake(self.position.x + self.size.width * 0.1, self.position.y + self.size.height * 0.94)
+        levelScoreLabel.position = CGPointMake(self.position.x + self.size.width * levelScorePosKorr.x, self.position.y + self.size.height * levelScorePosKorr.y)
         levelScoreLabel.fontColor = SKColor.blackColor()
-        levelScoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        levelScoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         levelScoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         levelScoreLabel.fontSize = 15;
         //levelScoreLabel.fontName = "ArielBold"
         self.addChild(levelScoreLabel)
+        showTimeLeft()
         showScore()
         
-        countdownLabel.position = CGPointMake(self.position.x + self.size.width * 0.9, self.position.y + self.size.height * 0.99)
+        countdownLabel.position = CGPointMake(self.position.x + self.size.width * countdownPosKorr.x, self.position.y + self.size.height * countdownPosKorr.y)
         countdownLabel.fontColor = SKColor.blackColor()
-        countdownLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        countdownLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
         countdownLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         countdownLabel.fontSize = 15;
         countdownLabel.fontName = "countdownLabel"
@@ -501,7 +512,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var OK = containerColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
-            container.hitCounter += movingSprite.hitCounter
+            container.hitCounter += movingSprite.hitCounter - 1 // when only 1 sprite, then add 0
             showScore()
         } else {
             container.hitCounter -= movingSprite.hitCounter
@@ -619,11 +630,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //println("doCountdown: \(GV.elapsedTime) sec")
 
         timeLimit--
-        let countdownText = GV.language.getText("timeLeft")
-        let minutes = Int(timeLimit / 60)
-        var seconds = "\(Int(timeLimit % 60))"
-        seconds = count(seconds) == 1 ? "0\(seconds)" : seconds
-        countdownLabel.text = "\(countdownText) \(minutes):\(seconds)"
+        showTimeLeft()
         if timeLimit == 0 {
             countDown!.invalidate()
             countDown = nil
@@ -641,7 +648,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
+    func showTimeLeft() {
+        let countdownText = GV.language.getText("timeLeft")
+        let minutes = Int(timeLimit / 60)
+        var seconds = "\(Int(timeLimit % 60))"
+        seconds = count(seconds) == 1 ? "0\(seconds)" : seconds
+        countdownLabel.text = "\(countdownText) \(minutes):\(seconds)"
+    }
     
 
 }

@@ -31,7 +31,7 @@ class PlayWithSpritesViewController: UIViewController {
         view.backgroundColor = UIColor(patternImage: UIImage(named: "Holz.png")!) //UIColor.whiteColor()
         
         let gameWidth = view.frame.size.width * CGFloat(GV.onIpad ? 0.7 : 0.9)
-        let gameHeight = view.frame.size.height * CGFloat(GV.onIpad ? 0.95 : 0.8)
+        let gameHeight = view.frame.size.height * CGFloat(GV.onIpad ? 0.95 : 0.9)
         let gameX = (view.frame.size.width - gameWidth) / 2
         let gameY = (view.frame.size.height - gameHeight) / 2
         let frame = CGRectMake(gameX, gameY, gameWidth, gameHeight)

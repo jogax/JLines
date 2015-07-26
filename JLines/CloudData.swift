@@ -94,7 +94,7 @@ class CloudData {
         let LevelRecord = CKRecord(recordType: "Levels")
         //let predicate = NSPredicate(value: true)
         let deviceType = GV.onIpad ? "IPAD" : "IPhone"
-        let sort = NSSortDescriptor(key: "F002_Level", ascending: false)
+        //let sort = NSSortDescriptor(key: "F002_Level", ascending: false)
         
         let predicate = NSPredicate(format: "F001_DeviceType = %@", deviceType)
         let query = CKQuery(recordType: "Levels", predicate: predicate)
