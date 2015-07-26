@@ -70,6 +70,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var countColumns = 0
     var countRows = 0
     var countContainers = 0
+    var targetScoreKorr: Double = 0
     var tableCellSize: CGFloat = 0
     var containerSize:CGFloat = 0
     var spriteSize:CGFloat = 0
@@ -84,6 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var colorTab = [Int]()
     var containers = [Container]()
     var countColorsProContainer = [Int]()
+    
     var movedFromNode: MySKNode!
     var backButton: SKButton?
     var gameArray = [[Bool]]() // true if Cell used
@@ -97,12 +99,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var levelScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var countdownLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+    var targetScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var levelArray = [Level]()
     
     let levelPosKorr = CGPointMake(GV.onIpad ? 0.5 : 0.5, GV.onIpad ? 0.97 : 0.97)
     let gameScorePosKorr = CGPointMake(GV.onIpad ? 0.1 : 0.1, GV.onIpad ? 0.95 : 0.94)
     let levelScorePosKorr = CGPointMake(GV.onIpad ? 0.1 : 0.1, GV.onIpad ? 0.93 : 0.90)
     let countdownPosKorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.95 : 0.94)
+    let targetPosKorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.93 : 0.90)
     let containersPosCorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.88 : 0.80)
     
     let scoreAddCorrected = [1:0, 2:1, 3:2, 4:4, 5:5, 6:7, 7:8, 8:10, 9:11, 10:13, 11:14, 12:16, 13:17, 14:19, 15:20, 16:22, 17:23]
@@ -172,6 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         countContainers = levelArray[levelIndex].countContainers
         countSpritesProContainer = levelArray[levelIndex].countSpritesProContainer
+        targetScoreKorr = levelArray[levelIndex].targetScoreKorr
         countColumns = levelArray[levelIndex].countColumns
         countRows = levelArray[levelIndex].countRows
         minUsedCells = levelArray[levelIndex].minProzent * countColumns * countRows / 100
@@ -262,7 +267,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         levelScoreLabel.fontSize = 15;
         //levelScoreLabel.fontName = "ArielBold"
         self.addChild(levelScoreLabel)
-        showTimeLeft()
         showScore()
         
         countdownLabel.position = CGPointMake(self.position.x + self.size.width * countdownPosKorr.x, self.position.y + self.size.height * countdownPosKorr.y)
@@ -270,8 +274,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         countdownLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
         countdownLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         countdownLabel.fontSize = 15;
-        countdownLabel.fontName = "countdownLabel"
         self.addChild(countdownLabel)
+        showTimeLeft()
+
+        
+        targetScoreLabel.position = CGPointMake(self.position.x + self.size.width * targetPosKorr.x, self.position.y + self.size.height * targetPosKorr.y)
+        targetScoreLabel.fontColor = SKColor.blackColor()
+        targetScoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
+        targetScoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        targetScoreLabel.fontSize = 15;
+        let targetScoreText: String = GV.language.getText("targetScore")
+        let targetScore = Int(CGFloat(countContainers * countSpritesProContainer!) * CGFloat(targetScoreKorr))
+        targetScoreLabel.text = "\(targetScoreText) \(targetScore)"
+        self.addChild(targetScoreLabel)
+        
         
         let buttonTextureNormal = SKTexture(image: GV.drawButton(CGSizeMake(100,40), imageColor: UIColor.blueColor().CGColor))
         let buttonTextureSelected = SKTexture(image: GV.drawButton(CGSizeMake(95,38), imageColor: UIColor.blueColor().CGColor))
@@ -512,7 +528,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var OK = containerColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
-            container.hitCounter += movingSprite.hitCounter - 1 // when only 1 sprite, then add 0
+            container.hitCounter += scoreAddCorrected[movingSprite.hitCounter]! // when only 1 sprite, then add 0
             showScore()
         } else {
             container.hitCounter -= movingSprite.hitCounter
@@ -606,6 +622,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let usedCellCount = checkGameArray()
         if usedCellCount == 0 { // Level completed, start a new game
+            
+            // hier checken, ob target Score erreicht!!!
+            
             let alert = UIAlertController(title: GV.language.getText("levelComplete"),
                 message: GV.language.getText("no Message"),
                 preferredStyle: .Alert)

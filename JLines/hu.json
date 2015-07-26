@@ -50,6 +50,7 @@
     "level":            "Szint",
     "levelScore":       "Pontszám:",
     "gameScore":        "Játék pontszám:",
+    "targetScore":      "elérendö pontszám",
     "timeLeft":         "Maradék idő:",
 
     "settings":         "beállitások",

@@ -122,6 +122,7 @@ class CloudData {
                     level.maxProzent = match.valueForKey("F008_MaxProzent")! as! NSInteger
                     level.containerSize = match.valueForKey("F009_ContainerSize")! as! NSInteger
                     level.spriteSize = match.valueForKey("F010_SpriteSize")! as! NSInteger
+                    level.targetScoreKorr = match.valueForKey("F011_TargetScoreKorr")! as! Double
                     levels[levelNr] = level
                 }
                 self.wait = false

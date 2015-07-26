@@ -393,6 +393,7 @@ struct AppData {
 struct Level {
     var countContainers: Int
     var countSpritesProContainer: Int
+    var targetScoreKorr: Double
     var countColumns: Int
     var countRows: Int
     var minProzent: Int
@@ -403,6 +404,7 @@ struct Level {
     init() {
         countContainers = 0
         countSpritesProContainer = 0
+        targetScoreKorr = 0
         countColumns = 0
         countRows = 0
         minProzent = 0

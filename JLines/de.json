@@ -50,6 +50,7 @@
     "level":            "Level",
     "levelScore":       "Summe:",
     "gameScore":        "Gesamtsumme:",
+    "targetScore":      "Ziel Gesamtsumme:",
     "timeLeft":         "Restzeit:",
     
     "gameNumber":       "Spielnummer: %1!",

@@ -50,6 +50,7 @@
     "level":            "Level",
     "levelScore":       "score:",
     "gameScore":        "Game score:",
+    "targetScore":      "target Score",
     "timeLeft":         "time left:",
     
     "cleangame":        "Reset Game",
