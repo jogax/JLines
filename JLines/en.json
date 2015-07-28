@@ -52,6 +52,8 @@
     "gameScore":        "Game score:",
     "targetScore":      "target Score",
     "timeLeft":         "time left:",
+    "gameLost":         "you lost!",
+    "targetNotReached": "Target not reached",
     
     "cleangame":        "Reset Game",
     "areYouSure":       "Are you sure?",

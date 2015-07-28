@@ -52,6 +52,8 @@
     "gameScore":        "Játék pontszám:",
     "targetScore":      "elérendö pontszám",
     "timeLeft":         "Maradék idő:",
+    "gameLost":         "Vesztettél!",
+    "targetNotReached": "A cél nem teljesült",
 
     "settings":         "beállitások",
     "cleangame":        "Alaphelyzetbe állítás",

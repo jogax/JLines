@@ -71,6 +71,8 @@
 		20FCA1FA1B627B4A00FBE816 /* Holz.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1F91B627B4A00FBE816 /* Holz.png */; };
 		20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FB1B62811A00FBE816 /* sprite4.png */; };
 		20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FD1B62836C00FBE816 /* sprite5.png */; };
+		20FD48861B67C38C004FCBC8 /* sprite7.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FD48851B67C38C004FCBC8 /* sprite7.png */; };
+		20FD48881B67C58A004FCBC8 /* sprite8.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FD48871B67C58A004FCBC8 /* sprite8.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +156,8 @@
 		20FCA1F91B627B4A00FBE816 /* Holz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Holz.png; sourceTree = "<group>"; };
 		20FCA1FB1B62811A00FBE816 /* sprite4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite4.png; sourceTree = "<group>"; };
 		20FCA1FD1B62836C00FBE816 /* sprite5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite5.png; sourceTree = "<group>"; };
+		20FD48851B67C38C004FCBC8 /* sprite7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite7.png; sourceTree = "<group>"; };
+		20FD48871B67C58A004FCBC8 /* sprite8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite8.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +318,8 @@
 				20FCA1FB1B62811A00FBE816 /* sprite4.png */,
 				20FCA1FD1B62836C00FBE816 /* sprite5.png */,
 				20F03FC61B63D52800F2F1EC /* sprite6.png */,
+				20FD48851B67C38C004FCBC8 /* sprite7.png */,
+				20FD48871B67C58A004FCBC8 /* sprite8.png */,
 			);
 			name = Pictures;
 			sourceTree = "<group>";
@@ -418,6 +424,7 @@
 				2001B7DD1B359D920029E2A6 /* BonusPack.json in Resources */,
 				20F602331B63D320002F66C7 /* ru.json in Resources */,
 				20F03FC71B63D52800F2F1EC /* sprite6.png in Resources */,
+				20FD48861B67C38C004FCBC8 /* sprite7.png in Resources */,
 				200A757D1B306EA700FA596A /* Images.xcassets in Resources */,
 				20FCA1FA1B627B4A00FBE816 /* Holz.png in Resources */,
 				2001B7D91B359D820029E2A6 /* FirstPack.json in Resources */,
@@ -426,6 +433,7 @@
 				2001B7DB1B359D8C0029E2A6 /* RegularPack.json in Resources */,
 				20F602311B63D320002F66C7 /* de.json in Resources */,
 				20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */,
+				20FD48881B67C58A004FCBC8 /* sprite8.png in Resources */,
 				20F602301B63D320002F66C7 /* hu.json in Resources */,
 				2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */,
 				20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */,

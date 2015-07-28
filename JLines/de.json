@@ -52,6 +52,8 @@
     "gameScore":        "Gesamtsumme:",
     "targetScore":      "Ziel Gesamtsumme:",
     "timeLeft":         "Restzeit:",
+    "gameLost":         "Sie haben verloren!",
+    "targetNotReached": "Das Ziel ist nicht erreicht.",
     
     "gameNumber":       "Spielnummer: %1!",
     "areYouSure":       "Sind Sie sicher?",

@@ -46,6 +46,7 @@ struct PhysicsCategory {
     static let Sprite       : UInt32 = 0b1      // 1
     static let Container    : UInt32 = 0b10       // 2
     static let MovingSprite : UInt32 = 0b100     // 4
+    static let WallAround   : UInt32 = 0b1000     // 8
 }
 
 struct MyNodeTypes {
@@ -60,6 +61,25 @@ struct Container {
     let mySKNode: MySKNode
     var label: SKLabelNode
     var countHits: Int
+}
+
+
+enum LinePosition: Int, Printable {
+    case upperHorizontal = 0, rightVertical, bottomHorizontal, leftVertical
+    var linePositionName: String {
+        let linePositionNames = [
+            "UH",
+            "RV",
+            "BH",
+            "LV"
+        ]
+        return linePositionNames[rawValue]
+    }
+    
+    var description: String {
+        return linePositionName
+    }
+        
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -108,7 +128,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let countdownPosKorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.95 : 0.94)
     let targetPosKorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.93 : 0.90)
     let containersPosCorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.88 : 0.80)
-    
+    var targetScore = 0
+
+    let yKorr1: CGFloat = GV.onIpad ? 0.9 : 0.8
+    let yKorr2: CGFloat = GV.onIpad ? 2.7 : 2.0
+
     let scoreAddCorrected = [1:0, 2:1, 3:2, 4:4, 5:5, 6:7, 7:8, 8:10, 9:11, 10:13, 11:14, 12:16, 13:17, 14:19, 15:20, 16:22, 17:23]
     
 
@@ -283,8 +307,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         targetScoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
         targetScoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         targetScoreLabel.fontSize = 15;
+        targetScore = Int(CGFloat(countContainers * countSpritesProContainer!) * CGFloat(targetScoreKorr))
         let targetScoreText: String = GV.language.getText("targetScore")
-        let targetScore = Int(CGFloat(countContainers * countSpritesProContainer!) * CGFloat(targetScoreKorr))
         targetScoreLabel.text = "\(targetScoreText) \(targetScore)"
         self.addChild(targetScoreLabel)
         
@@ -304,6 +328,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         GV.currentTime = NSDate()
         GV.elapsedTime = GV.currentTime.timeIntervalSinceDate(GV.startTime) //* 1000
         println("prepareNextGame Laufzeit: \(GV.elapsedTime)")
+        makeLineAroundGameboard(.upperHorizontal)
+        makeLineAroundGameboard(.rightVertical)
+        makeLineAroundGameboard(.bottomHorizontal)
+        makeLineAroundGameboard(.leftVertical)
     }
     
     func analyzeNode (node: AnyObject) -> UInt32 {
@@ -371,8 +399,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             sprite.size.height = spriteSize
             let index = GV.random(0, max: positionsTab.count - 1)
             let (aktColumn, aktRow) = positionsTab[index]
-            let yKorr1: CGFloat = GV.onIpad ? 0.9 : 0.8
-            let yKorr2: CGFloat = GV.onIpad ? 2.7 : 2.0
             let xPosition = CGFloat(aktColumn) * tableCellSize + tableCellSize / 2
             let yPosition = CGFloat(aktRow) * tableCellSize * yKorr1 + tableCellSize * yKorr2
             sprite.position = CGPoint(x: xPosition, y: yPosition)
@@ -392,6 +418,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
+    func makeLineAroundGameboard(linePosition: LinePosition) {
+        var point1: CGPoint
+        var point2: CGPoint
+        var myWallRect: CGRect
+
+        var width: CGFloat = 4
+        var length: CGFloat = 0
+        switch linePosition {
+        case .upperHorizontal:  myWallRect = CGRectMake(position.x, position.y, size.width, 1)
+        case .rightVertical:    myWallRect = CGRectMake(position.x + size.width, position.y,  1, size.height)
+        case .bottomHorizontal: myWallRect = CGRectMake(position.x, position.y + size.height,  size.width, 1)
+        case .leftVertical:     myWallRect = CGRectMake(position.x, position.y,  1, size.height)
+        default:                myWallRect = CGRectZero
+        }
+        
+        let myWall = SKNode()
+        myWall.name = linePosition.linePositionName
+        myWall.physicsBody = SKPhysicsBody(edgeLoopFromRect: myWallRect)
+        myWall.physicsBody?.dynamic = true
+        myWall.physicsBody?.categoryBitMask = PhysicsCategory.WallAround
+        myWall.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
+        myWall.physicsBody?.collisionBitMask = PhysicsCategory.None
+        myWall.physicsBody?.usesPreciseCollisionDetection = true
+        self.addChild(myWall)
+    }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         let countTouches = touches.count
@@ -405,16 +456,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             case MyNodeTypes.ContainerNode: movedFromNode = nil
             default: movedFromNode = nil
         }
-        /*
-        switch testNode {
-            case is SKLabelNode: movedFromNode = self.nodeAtPoint(touchLocation).parent as! MySKNode
-            case is MySKNode: movedFromNode = self.nodeAtPoint(touchLocation) as! MySKNode
-            default: movedFromNode = nil
-        }
-        if movedFromNode != nil && movedFromNode.type == .ContainerType {
-            movedFromNode = nil
-        }
-        */
     }
     
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -482,7 +523,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //println("nodeSize:\(node.size.width)")
                 node.physicsBody?.dynamic = true
                 node.physicsBody?.categoryBitMask = PhysicsCategory.MovingSprite
-                node.physicsBody?.contactTestBitMask = PhysicsCategory.Sprite | PhysicsCategory.Container 
+                node.physicsBody?.contactTestBitMask = PhysicsCategory.Sprite | PhysicsCategory.Container | PhysicsCategory.WallAround
                 node.physicsBody?.collisionBitMask = PhysicsCategory.None
                 
                 node.physicsBody?.usesPreciseCollisionDetection = true
@@ -549,25 +590,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let aktColor = GV.colorSets[GV.colorSetIndex][sprite.colorIndex + 1].CGColor
         collisionActive = false
         var OK = movingSpriteColorIndex == spriteColorIndex
-        //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
             sprite.hitCounter = movingSprite.hitCounter + sprite.hitCounter
             let aktSize = spriteSize + 2 * CGFloat(sprite.hitCounter)
-            //let spriteTexture = SKTexture(image: GV.drawCircle(CGSizeMake(aktSize,aktSize), imageColor: aktColor))
-            //sprite.texture = spriteTexture
             sprite.size.width = aktSize
             sprite.size.height = aktSize
             
-            //let sprite = MySKNode(texture: spriteTexture, type: .SpriteType)
             println("sprite.column:\(sprite.column), sprite.row:\(sprite.row),sprite.hitCounter:\(sprite.hitCounter), size: \(sprite.size)")
-            //sprite.hitLabel.zPosition = 0
             gameArray[movingSprite.column][movingSprite.row] = false
             movingSprite.removeFromParent()
         } else {
             containers[movingSprite.colorIndex].mySKNode.hitCounter -= movingSprite.hitCounter
             containers[sprite.colorIndex].mySKNode.hitCounter -= sprite.hitCounter
-            //containers[sprite.colorIndex].setText()
-            //println("container.countHits: \(containers[sprite.colorIndex].countHits)")
             var movingSpriteDest = CGPointMake(movingSprite.position.x * 0.5, 0)
             let movingSpriteAction = SKAction.moveTo(movingSpriteDest, duration: 1.0)
             let actionMoveDone = SKAction.removeFromParent()
@@ -581,29 +615,76 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         checkGameArrayEmpty()
     }
     
+    func wallAroundDidCollideWithMovingSprite(node1: MySKNode, node2: SKNode) {
+        let movingSprite = node1
+        let lineAround = node2
+
+        let xPosition = CGFloat(movingSprite.column) * tableCellSize + tableCellSize / 2
+        let yPosition = CGFloat(movingSprite.row) * tableCellSize * yKorr1 + tableCellSize * yKorr2
+        let originalPosition = CGPoint(x: xPosition, y: yPosition)
+        let offsetOrig = movingSprite.position - originalPosition
+
+        var zielPosition = CGPointZero
+        switch lineAround.name! {
+            case "BH": zielPosition = CGPointMake(movingSprite.position.x + offsetOrig.x, originalPosition.y)
+            case "LV": zielPosition = CGPointMake(originalPosition.x, movingSprite.position.y + offsetOrig.y)
+            case "UH": zielPosition = CGPointMake(movingSprite.position.x + offsetOrig.x, originalPosition.y)
+            case "RV": zielPosition = CGPointMake(originalPosition.x, movingSprite.position.y + offsetOrig.y)
+            default: break
+        }
+
+        let offsetNew = zielPosition - movingSprite.position
+        let direction = offsetNew.normalized()
+        
+        let shootAmount = direction * 1000
+        
+        let realDest = shootAmount + movingSprite.position
+        
+        let actionMove = SKAction.moveTo(realDest, duration: 2.0)
+        collisionActive = true
+        movingSprite.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
+        checkGameArrayEmpty()
+    }
+    
     func didBeginContact(contact: SKPhysicsContact) {
         
         // 1
         var movingSprite: SKPhysicsBody
         var partner: SKPhysicsBody
         
-        if collisionActive {
-        
-            if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-                movingSprite = contact.bodyB
-                partner = contact.bodyA
-            } else {
-                movingSprite = contact.bodyA
-                partner = contact.bodyB
-            }
+        switch (contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask) {
+        case (PhysicsCategory.Sprite, PhysicsCategory.MovingSprite):
+            movingSprite = contact.bodyB
+            partner = contact.bodyA
+            spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
             
-            if partner.categoryBitMask == PhysicsCategory.Container {
-                spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
-            }  else {
-                spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
-            }
+        case (PhysicsCategory.MovingSprite, PhysicsCategory.Sprite):
+            movingSprite = contact.bodyA
+            partner = contact.bodyB
+            spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
             
-        }
+        case (PhysicsCategory.Container, PhysicsCategory.MovingSprite):
+            movingSprite = contact.bodyB
+            partner = contact.bodyA
+            spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+
+        case (PhysicsCategory.MovingSprite, PhysicsCategory.Container):
+            movingSprite = contact.bodyA
+            partner = contact.bodyB
+            spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+
+        case (PhysicsCategory.WallAround, PhysicsCategory.MovingSprite):
+            movingSprite = contact.bodyB
+            partner = contact.bodyA
+            wallAroundDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node!)
+            
+        case (PhysicsCategory.MovingSprite, PhysicsCategory.WallAround):
+            movingSprite = contact.bodyA
+            partner = contact.bodyB
+            wallAroundDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node!)
+        default: let a = 0
+            
+       }
     }
     
     func checkGameArray() -> Int {
@@ -624,6 +705,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if usedCellCount == 0 { // Level completed, start a new game
             
             // hier checken, ob target Score erreicht!!!
+            
+            if levelScore < targetScore {
+                let alert = UIAlertController(title: GV.language.getText("gameLost"),
+                    message: GV.language.getText("targetNotReached"),
+                    preferredStyle: .Alert)
+                let cancelAction = UIAlertAction(title: GV.language.getText("return"), style: .Cancel, handler: nil)
+                let againAction = UIAlertAction(title: GV.language.getText("OK"), style: .Default,
+                    handler: {(paramAction:UIAlertAction!) in
+                        self.newGame(false)
+                })
+                alert.addAction(cancelAction)
+                alert.addAction(againAction)
+                parentViewController!.presentViewController(alert, animated: true, completion: nil)
+            }
             
             let alert = UIAlertController(title: GV.language.getText("levelComplete"),
                 message: GV.language.getText("no Message"),
@@ -673,6 +768,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var seconds = "\(Int(timeLimit % 60))"
         seconds = count(seconds) == 1 ? "0\(seconds)" : seconds
         countdownLabel.text = "\(countdownText) \(minutes):\(seconds)"
+    }
+    
+    func printGameArray() {
+        for column in 0..<countColumns {
+            for row in 0..<countRows {
+                print(gameArray[row][countColumns - 1 - column] ? "T " : "F ")
+            }
+            println()
+        }
     }
     
 
