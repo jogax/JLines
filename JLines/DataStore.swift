@@ -24,10 +24,12 @@ class DataStore {
     var error: NSError?
     var gameEntity: GameStatus?
     var appVariablesEntity: AppVariables?
-    var appVariables: AppVariables?
+    var spriteGameEntity: SpriteGame?
+    //var appVariables: AppVariables?
     var exists: Bool = true
     var gameStatusDescription:NSEntityDescription?
     var appVariablesDescription:NSEntityDescription?
+    var spriteGameDescription:NSEntityDescription?
     
     init() {
         
@@ -35,6 +37,7 @@ class DataStore {
         let managedContext = appDelegate.managedObjectContext!
         gameStatusDescription = NSEntityDescription.entityForName("GameStatus", inManagedObjectContext:managedObjectContext!)
         appVariablesDescription = NSEntityDescription.entityForName("AppVariables", inManagedObjectContext:managedObjectContext!)
+        spriteGameDescription = NSEntityDescription.entityForName("SpriteGame", inManagedObjectContext:managedObjectContext!)
  
     }
     
@@ -198,10 +201,55 @@ class DataStore {
         return appData
     }
     
+    func createSpriteGameRecord(spriteData: SpriteGameData) {
+        deleteGlobalVariablesRecords()
+        //GV.cloudData.saveRecord(gameData)
+        spriteGameEntity = SpriteGame(entity:spriteGameDescription!, insertIntoManagedObjectContext: managedObjectContext)
+        spriteGameEntity!.spriteLevelIndex = NSNumber(longLong: spriteData.spriteLevelIndex)
+        spriteGameEntity!.spriteGameScore = NSNumber(longLong: spriteData.spriteGameScore)
+        managedObjectContext?.save(&error)
+        if let err = error {
+            let errorMessage = GV.language.getText("errorBySaveData",par:String(_cocoaString: err))
+            //println("\(errorMessage)")
+        }
+    }
+    
+    func getSpriteData()->SpriteGameData {
+        var spriteData = SpriteGameData()
+        
+        let request = NSFetchRequest()
+        
+        request.entity = self.spriteGameDescription
+        
+        var results = managedObjectContext!.executeFetchRequest(request, error: &error)
+        if let match = results!.first as? NSManagedObject {
+            spriteData.spriteLevelIndex = Int64(match.valueForKey("spriteLevelIndex") as! NSInteger)
+            spriteData.spriteGameScore = Int64(match.valueForKey("spriteGameScore") as! NSInteger)
+        } else {
+            spriteData.spriteLevelIndex  = 0
+            spriteData.spriteGameScore = 0
+        }
+        return spriteData
+    }
+
+    
+    func deleteSpriteGameRecords() {
+        let request = NSFetchRequest()
+        
+        request.entity = spriteGameDescription
+        
+        var results = managedObjectContext!.executeFetchRequest(request, error: &error)
+        for (ind,result) in enumerate(results!) {
+            managedObjectContext!.deleteObject(result as! NSManagedObject)
+        }
+        results = managedObjectContext!.executeFetchRequest(request, error: &error)
+    }
+
+
     func deleteGlobalVariablesRecords() {
         let request = NSFetchRequest()
         
-        request.entity = appVariablesDescription
+        request.entity = spriteGameDescription
         
         var results = managedObjectContext!.executeFetchRequest(request, error: &error)
         for (ind,result) in enumerate(results!) {

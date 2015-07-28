@@ -84,6 +84,7 @@ struct GV {
     static let volumeNumber: [String:Int] = ["5 x 5":0, "6 x 6":1, "7 x 7":2, "8 x 8":3, "9 x 9":4]
     static var gameData = MyGames()
     static var appData = AppData()
+    static var spriteGameData = SpriteGameData()
     static var sublayer = CALayer()
     static let images = DrawImages()
     
@@ -386,6 +387,17 @@ struct AppData {
         gameControll = Int64(GameControll.Finger.rawValue)
         farbSchemaIndex = Int64(GV.colorSetIndex)
         farbSchemas = ""
+    }
+    
+}
+
+struct SpriteGameData {
+    var spriteLevelIndex: Int64
+    var spriteGameScore: Int64
+    
+    init() {
+        spriteLevelIndex = 0
+        spriteGameScore = 0
     }
     
 }

@@ -110,8 +110,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var backButton: SKButton?
     var gameArray = [[Bool]]() // true if Cell used
     var collisionActive = false
-    var levelIndex = 0
-    var gameScore = 0
+    var levelIndex = Int(GV.spriteGameData.spriteLevelIndex)
+    var gameScore = Int(GV.spriteGameData.spriteGameScore)
     var levelScore = 0
     let deviceIndex = GV.onIpad ? 0 : 1
     var parentViewController: UIViewController?
@@ -353,6 +353,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if next {
             levelIndex++
             gameScore += levelScore
+            var spriteData = SpriteGameData()
+            spriteData.spriteLevelIndex = Int64(levelIndex)
+            spriteData.spriteGameScore = Int64(gameScore)
+            GV.dataStore.createSpriteGameRecord(spriteData)
             let gameScoreText: String = GV.language.getText("gameScore")
             gameScoreLabel.text = "\(gameScoreText) \(gameScore)"
         }
@@ -596,7 +600,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             sprite.size.width = aktSize
             sprite.size.height = aktSize
             
-            println("sprite.column:\(sprite.column), sprite.row:\(sprite.row),sprite.hitCounter:\(sprite.hitCounter), size: \(sprite.size)")
             gameArray[movingSprite.column][movingSprite.row] = false
             movingSprite.removeFromParent()
         } else {

@@ -73,6 +73,7 @@
 		20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FD1B62836C00FBE816 /* sprite5.png */; };
 		20FD48861B67C38C004FCBC8 /* sprite7.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FD48851B67C38C004FCBC8 /* sprite7.png */; };
 		20FD48881B67C58A004FCBC8 /* sprite8.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FD48871B67C58A004FCBC8 /* sprite8.png */; };
+		20FD488C1B67F87D004FCBC8 /* SpriteGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FD488B1B67F87D004FCBC8 /* SpriteGame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,6 +159,7 @@
 		20FCA1FD1B62836C00FBE816 /* sprite5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite5.png; sourceTree = "<group>"; };
 		20FD48851B67C38C004FCBC8 /* sprite7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite7.png; sourceTree = "<group>"; };
 		20FD48871B67C58A004FCBC8 /* sprite8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite8.png; sourceTree = "<group>"; };
+		20FD488B1B67F87D004FCBC8 /* SpriteGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 				200A75721B306EA700FA596A /* AppDelegate.swift */,
 				200A75741B306EA700FA596A /* JLines.xcdatamodeld */,
 				200A75AD1B30762000FA596A /* GameStatus.swift */,
+				20FD488B1B67F87D004FCBC8 /* SpriteGame.swift */,
 				200A75A91B3075AB00FA596A /* DataStore.swift */,
 				200C8E951B612E08008943BF /* CloudData.swift */,
 				200A75771B306EA700FA596A /* ViewController.swift */,
@@ -491,6 +494,7 @@
 				2001B7C91B359BD90029E2A6 /* PagedViewController.swift in Sources */,
 				2001B7D11B359C850029E2A6 /* GameBoard.swift in Sources */,
 				20F813491B53D3E50046463A /* PlayWithSpritesViewController.swift in Sources */,
+				20FD488C1B67F87D004FCBC8 /* SpriteGame.swift in Sources */,
 				200A75B21B30768A00FA596A /* SwiftyJSON.swift in Sources */,
 				200A75A61B30754200FA596A /* Package.swift in Sources */,
 				200A75A41B30752E00FA596A /* Line.swift in Sources */,
