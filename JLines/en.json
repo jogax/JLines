@@ -53,6 +53,7 @@
     "targetScore":      "target Score",
     "timeLeft":         "time left:",
     "gameLost":         "you lost!",
+    "gameLost3":        "You lose 3 times. Previous level starts.",
     "targetNotReached": "Target not reached",
     
     "cleangame":        "Reset Game",

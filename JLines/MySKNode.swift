@@ -20,6 +20,7 @@ class MySKNode: SKSpriteNode {
     var column = 0
     var row = 0
     var colorIndex = 0
+    var startPosition = CGPointZero
     
     let type: MySKNodeType
     //var hitLabel = SKLabelNode()

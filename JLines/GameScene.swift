@@ -121,6 +121,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var countdownLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var targetScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var levelArray = [Level]()
+    var countLostGames = 0
+    
+    var spriteGameLastPosition = CGPointZero
     
     let levelPosKorr = CGPointMake(GV.onIpad ? 0.5 : 0.5, GV.onIpad ? 0.97 : 0.97)
     let gameScorePosKorr = CGPointMake(GV.onIpad ? 0.1 : 0.1, GV.onIpad ? 0.95 : 0.94)
@@ -133,7 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let yKorr1: CGFloat = GV.onIpad ? 0.9 : 0.8
     let yKorr2: CGFloat = GV.onIpad ? 2.7 : 2.0
 
-    let scoreAddCorrected = [1:0, 2:1, 3:2, 4:4, 5:5, 6:7, 7:8, 8:10, 9:11, 10:13, 11:14, 12:16, 13:17, 14:19, 15:20, 16:22, 17:23]
+    let scoreAddCorrected = [1:0, 2:1, 3:2, 4:4, 5:5, 6:7, 7:8, 8:10, 9:11, 10:13, 11:14, 12:16,13:17,14:19, 15:20, 16:22, 17:23, 18:24, 19:25, 20:27, 21:28, 22:30, 23:31, 24:33, 25:34, 26:36, 27:37, 28:39, 29:40, 30:42, 31:43, 32:45, 33:46, 34:47, 35:48, 36:50, 37:51, 38:53, 39:54, 40:54, 41:53, 42:53, 43:52, 44:52, 45:51, 46:51, 47:51, 48:50, 49:50, 50:50, 51:51, 52:52, 53:53, 54:54, 55:55, 56:56, 57:57, 58:58, 59:59, 60:60, 61:61, 62:62, 63:63, 64:64, 65:65, 66:66, 67:67, 68:68, 69:69, 70:70, 71:71, 72:72, 73:73, 74:74, 75:75, 76:76, 77:77, 78:78, 79:79, 80:80, 81:81, 82:82, 83:83, 84:84, 85:85, 86:86, 87:87, 88:88, 89:89, 90:90, 91:91, 92:92, 93:93, 94:94, 95:95, 96:96, 97:97, 98:98, 99:99, 1000:100]
     
 
     
@@ -263,7 +266,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         GV.currentTime = NSDate()
         GV.elapsedTime = GV.currentTime.timeIntervalSinceDate(GV.startTime) //* 1000
-        println("befüllung Containers: \(GV.elapsedTime)")
+        //println("befüllung Containers: \(GV.elapsedTime)")
         GV.startTime = GV.currentTime
         levelLabel.text = GV.language.getText("level") + ": \(levelIndex + 1)"
         levelLabel.position = CGPointMake(self.position.x + self.size.width * levelPosKorr.x, self.position.y + self.size.height * levelPosKorr.y)
@@ -327,7 +330,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.countDown = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("doCountDown"), userInfo: nil, repeats: true)
         GV.currentTime = NSDate()
         GV.elapsedTime = GV.currentTime.timeIntervalSinceDate(GV.startTime) //* 1000
-        println("prepareNextGame Laufzeit: \(GV.elapsedTime)")
+        //println("prepareNextGame Laufzeit: \(GV.elapsedTime)")
         makeLineAroundGameboard(.upperHorizontal)
         makeLineAroundGameboard(.rightVertical)
         makeLineAroundGameboard(.bottomHorizontal)
@@ -406,6 +409,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let xPosition = CGFloat(aktColumn) * tableCellSize + tableCellSize / 2
             let yPosition = CGFloat(aktRow) * tableCellSize * yKorr1 + tableCellSize * yKorr2
             sprite.position = CGPoint(x: xPosition, y: yPosition)
+            sprite.startPosition = sprite.position
             gameArray[aktColumn][aktRow] = true
             positionsTab.removeAtIndex(index)
             
@@ -573,7 +577,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var OK = containerColorIndex == spriteColorIndex
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
-            container.hitCounter += scoreAddCorrected[movingSprite.hitCounter]! // when only 1 sprite, then add 0
+            if movingSprite.hitCounter < 100 {
+                container.hitCounter += scoreAddCorrected[movingSprite.hitCounter]! // when only 1 sprite, then add 0
+            }
             showScore()
         } else {
             container.hitCounter -= movingSprite.hitCounter
@@ -596,7 +602,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var OK = movingSpriteColorIndex == spriteColorIndex
         if OK {
             sprite.hitCounter = movingSprite.hitCounter + sprite.hitCounter
-            let aktSize = spriteSize + 2 * CGFloat(sprite.hitCounter)
+            let aktSize = spriteSize + 1.1 * CGFloat(sprite.hitCounter)
             sprite.size.width = aktSize
             sprite.size.height = aktSize
             
@@ -614,39 +620,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             sprite.runAction(SKAction.sequence([actionMove2, actionMoveDone]))
             gameArray[movingSprite.column][movingSprite.row] = false
             gameArray[sprite.column][sprite.row] = false
+            showScore()
         }
         checkGameArrayEmpty()
     }
     
     func wallAroundDidCollideWithMovingSprite(node1: MySKNode, node2: SKNode) {
         let movingSprite = node1
-        let lineAround = node2
+        if spriteGameLastPosition != movingSprite.position {
+            spriteGameLastPosition = movingSprite.position
+            let lineAround = node2
+            //println("pos:\(movingSprite.position)")
+    /*
+            let xPosition = CGFloat(movingSprite.column) * tableCellSize + tableCellSize / 2
+            let yPosition = CGFloat(movingSprite.row) * tableCellSize * yKorr1 + tableCellSize * yKorr2
+            let originalPosition = CGPoint(x: xPosition, y: yPosition)
+    */
+            let originalPosition = movingSprite.startPosition
+            let offsetOrig = movingSprite.position - originalPosition
 
-        let xPosition = CGFloat(movingSprite.column) * tableCellSize + tableCellSize / 2
-        let yPosition = CGFloat(movingSprite.row) * tableCellSize * yKorr1 + tableCellSize * yKorr2
-        let originalPosition = CGPoint(x: xPosition, y: yPosition)
-        let offsetOrig = movingSprite.position - originalPosition
+            var zielPosition = CGPointZero
+            switch lineAround.name! {
+                case "BH": zielPosition = CGPointMake(movingSprite.position.x + offsetOrig.x, originalPosition.y)
+                case "LV": zielPosition = CGPointMake(originalPosition.x, movingSprite.position.y + offsetOrig.y)
+                case "UH": zielPosition = CGPointMake(movingSprite.position.x + offsetOrig.x, originalPosition.y)
+                case "RV": zielPosition = CGPointMake(originalPosition.x, movingSprite.position.y + offsetOrig.y)
+                default: break
+            }
 
-        var zielPosition = CGPointZero
-        switch lineAround.name! {
-            case "BH": zielPosition = CGPointMake(movingSprite.position.x + offsetOrig.x, originalPosition.y)
-            case "LV": zielPosition = CGPointMake(originalPosition.x, movingSprite.position.y + offsetOrig.y)
-            case "UH": zielPosition = CGPointMake(movingSprite.position.x + offsetOrig.x, originalPosition.y)
-            case "RV": zielPosition = CGPointMake(originalPosition.x, movingSprite.position.y + offsetOrig.y)
-            default: break
+            let offsetNew = zielPosition - movingSprite.position
+            let direction = offsetNew.normalized()
+            
+            let shootAmount = direction * 1000
+            
+            let realDest = shootAmount + movingSprite.position
+            
+            movingSprite.startPosition = movingSprite.position
+            movingSprite.hitCounter *= 2
+            let actionMove = SKAction.moveTo(realDest, duration: 2.0)
+            collisionActive = true
+            movingSprite.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
+            checkGameArrayEmpty()
         }
-
-        let offsetNew = zielPosition - movingSprite.position
-        let direction = offsetNew.normalized()
-        
-        let shootAmount = direction * 1000
-        
-        let realDest = shootAmount + movingSprite.position
-        
-        let actionMove = SKAction.moveTo(realDest, duration: 2.0)
-        collisionActive = true
-        movingSprite.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
-        checkGameArrayEmpty()
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -710,13 +725,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // hier checken, ob target Score erreicht!!!
             
             if levelScore < targetScore {
-                let alert = UIAlertController(title: GV.language.getText("gameLost"),
+                countLostGames++
+                let lost3Times = countLostGames > 2 && levelIndex > 1
+                var alert = UIAlertController(title: GV.language.getText(lost3Times ? "gameLost3": "gameLost"),
                     message: GV.language.getText("targetNotReached"),
                     preferredStyle: .Alert)
+                if lost3Times {
+                    countLostGames = 0
+                    levelIndex -= 2
+                }
                 let cancelAction = UIAlertAction(title: GV.language.getText("return"), style: .Cancel, handler: nil)
                 let againAction = UIAlertAction(title: GV.language.getText("OK"), style: .Default,
                     handler: {(paramAction:UIAlertAction!) in
-                        self.newGame(false)
+                        self.newGame(lost3Times)
                 })
                 alert.addAction(cancelAction)
                 alert.addAction(againAction)

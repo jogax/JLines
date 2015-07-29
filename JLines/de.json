@@ -53,6 +53,7 @@
     "targetScore":      "Ziel Gesamtsumme:",
     "timeLeft":         "Restzeit:",
     "gameLost":         "Sie haben verloren!",
+    "gameLost3":        "Sie haben 3 mal verloren. Startet vorherige Level.",
     "targetNotReached": "Das Ziel ist nicht erreicht.",
     
     "gameNumber":       "Spielnummer: %1!",

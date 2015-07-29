@@ -53,6 +53,7 @@
     "targetScore":      "elérendö pontszám",
     "timeLeft":         "Maradék idő:",
     "gameLost":         "Vesztettél!",
+    "gameLost3":        "3-szor vesztettél. Elözö szintre vissza!!!"
     "targetNotReached": "A cél nem teljesült",
 
     "settings":         "beállitások",
