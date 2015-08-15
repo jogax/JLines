@@ -64,7 +64,7 @@
 		20F8134B1B53F1F90046463A /* MySKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F8134A1B53F1F90046463A /* MySKNode.swift */; };
 		20FB88761B57CB30007843A2 /* LevelsForPlayWithSprites.json in Resources */ = {isa = PBXBuildFile; fileRef = 20FB88751B57B139007843A2 /* LevelsForPlayWithSprites.json */; };
 		20FCA1EE1B626D4100FBE816 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20FCA1ED1B626D4100FBE816 /* CloudKit.framework */; };
-		20FCA1F41B62706000FBE816 /* sprite2.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1F11B62706000FBE816 /* sprite2.png */; };
+		20FCA1F41B62706000FBE816 /* sprite8.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1F11B62706000FBE816 /* sprite8.png */; };
 		20FCA1F51B62706000FBE816 /* sprite1.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1F21B62706000FBE816 /* sprite1.png */; };
 		20FCA1F61B62706000FBE816 /* sprite0.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1F31B62706000FBE816 /* sprite0.png */; };
 		20FCA1F81B62714300FBE816 /* sprite3.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1F71B62714300FBE816 /* sprite3.png */; };
@@ -72,7 +72,7 @@
 		20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FB1B62811A00FBE816 /* sprite4.png */; };
 		20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FD1B62836C00FBE816 /* sprite5.png */; };
 		20FD48861B67C38C004FCBC8 /* sprite7.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FD48851B67C38C004FCBC8 /* sprite7.png */; };
-		20FD48881B67C58A004FCBC8 /* sprite8.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FD48871B67C58A004FCBC8 /* sprite8.png */; };
+		20FD48881B67C58A004FCBC8 /* sprite2.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FD48871B67C58A004FCBC8 /* sprite2.png */; };
 		20FD488C1B67F87D004FCBC8 /* SpriteGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FD488B1B67F87D004FCBC8 /* SpriteGame.swift */; };
 /* End PBXBuildFile section */
 
@@ -150,7 +150,7 @@
 		20F8134A1B53F1F90046463A /* MySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySKNode.swift; sourceTree = "<group>"; };
 		20FB88751B57B139007843A2 /* LevelsForPlayWithSprites.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LevelsForPlayWithSprites.json; sourceTree = "<group>"; };
 		20FCA1ED1B626D4100FBE816 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		20FCA1F11B62706000FBE816 /* sprite2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite2.png; sourceTree = "<group>"; };
+		20FCA1F11B62706000FBE816 /* sprite8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite8.png; sourceTree = "<group>"; };
 		20FCA1F21B62706000FBE816 /* sprite1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite1.png; sourceTree = "<group>"; };
 		20FCA1F31B62706000FBE816 /* sprite0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite0.png; sourceTree = "<group>"; };
 		20FCA1F71B62714300FBE816 /* sprite3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprite3.png; path = ../sprite3.png; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 		20FCA1FB1B62811A00FBE816 /* sprite4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite4.png; sourceTree = "<group>"; };
 		20FCA1FD1B62836C00FBE816 /* sprite5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite5.png; sourceTree = "<group>"; };
 		20FD48851B67C38C004FCBC8 /* sprite7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite7.png; sourceTree = "<group>"; };
-		20FD48871B67C58A004FCBC8 /* sprite8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite8.png; sourceTree = "<group>"; };
+		20FD48871B67C58A004FCBC8 /* sprite2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite2.png; sourceTree = "<group>"; };
 		20FD488B1B67F87D004FCBC8 /* SpriteGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -316,13 +316,13 @@
 				20FCA1F91B627B4A00FBE816 /* Holz.png */,
 				20FCA1F31B62706000FBE816 /* sprite0.png */,
 				20FCA1F21B62706000FBE816 /* sprite1.png */,
-				20FCA1F11B62706000FBE816 /* sprite2.png */,
+				20FD48871B67C58A004FCBC8 /* sprite2.png */,
 				20FCA1F71B62714300FBE816 /* sprite3.png */,
 				20FCA1FB1B62811A00FBE816 /* sprite4.png */,
 				20FCA1FD1B62836C00FBE816 /* sprite5.png */,
 				20F03FC61B63D52800F2F1EC /* sprite6.png */,
 				20FD48851B67C38C004FCBC8 /* sprite7.png */,
-				20FD48871B67C58A004FCBC8 /* sprite8.png */,
+				20FCA1F11B62706000FBE816 /* sprite8.png */,
 			);
 			name = Pictures;
 			sourceTree = "<group>";
@@ -431,12 +431,12 @@
 				200A757D1B306EA700FA596A /* Images.xcassets in Resources */,
 				20FCA1FA1B627B4A00FBE816 /* Holz.png in Resources */,
 				2001B7D91B359D820029E2A6 /* FirstPack.json in Resources */,
-				20FCA1F41B62706000FBE816 /* sprite2.png in Resources */,
+				20FCA1F41B62706000FBE816 /* sprite8.png in Resources */,
 				20FCA1F81B62714300FBE816 /* sprite3.png in Resources */,
 				2001B7DB1B359D8C0029E2A6 /* RegularPack.json in Resources */,
 				20F602311B63D320002F66C7 /* de.json in Resources */,
 				20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */,
-				20FD48881B67C58A004FCBC8 /* sprite8.png in Resources */,
+				20FD48881B67C58A004FCBC8 /* sprite2.png in Resources */,
 				20F602301B63D320002F66C7 /* hu.json in Resources */,
 				2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */,
 				20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */,

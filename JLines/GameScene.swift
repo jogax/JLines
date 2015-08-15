@@ -115,6 +115,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var levelScore = 0
     let deviceIndex = GV.onIpad ? 0 : 1
     var parentViewController: UIViewController?
+    var spriteCountLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var levelLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var gameScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var levelScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
@@ -126,12 +127,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var spriteGameLastPosition = CGPointZero
     
     let levelPosKorr = CGPointMake(GV.onIpad ? 0.5 : 0.5, GV.onIpad ? 0.97 : 0.97)
-    let gameScorePosKorr = CGPointMake(GV.onIpad ? 0.1 : 0.1, GV.onIpad ? 0.95 : 0.94)
-    let levelScorePosKorr = CGPointMake(GV.onIpad ? 0.1 : 0.1, GV.onIpad ? 0.93 : 0.90)
+    let gameScorePosKorr = CGPointMake(GV.onIpad ? 0.1 : 0.05, GV.onIpad ? 0.95 : 0.94)
+    let levelScorePosKorr = CGPointMake(GV.onIpad ? 0.1 : 0.05, GV.onIpad ? 0.93 : 0.92)
+    let spriteCountPosKorr = CGPointMake(GV.onIpad ? 0.1 : 0.05, GV.onIpad ? 0.91 : 0.90)
     let countdownPosKorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.95 : 0.94)
-    let targetPosKorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.93 : 0.90)
-    let containersPosCorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.88 : 0.80)
+    let targetPosKorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.93 : 0.92)
+    let containersPosCorr = CGPointMake(GV.onIpad ? 0.98 : 0.98, GV.onIpad ? 0.85 : 0.80)
     var targetScore = 0
+    var spriteCount = 0
 
     let yKorr1: CGFloat = GV.onIpad ? 0.9 : 0.8
     let yKorr2: CGFloat = GV.onIpad ? 2.7 : 2.0
@@ -303,6 +306,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         countdownLabel.fontSize = 15;
         self.addChild(countdownLabel)
         showTimeLeft()
+
+        spriteCountLabel.position = CGPointMake(self.position.x + self.size.width * spriteCountPosKorr.x, self.position.y + self.size.height * spriteCountPosKorr.y)
+        spriteCountLabel.fontColor = SKColor.blackColor()
+        spriteCountLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        spriteCountLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        spriteCountLabel.fontSize = 15;
+        spriteCount = Int(CGFloat(countContainers * countSpritesProContainer!))
+        let spriteCountText: String = GV.language.getText("spriteCount")
+        spriteCountLabel.text = "\(spriteCountText) \(spriteCount)"
+        self.addChild(spriteCountLabel)
 
         
         targetScoreLabel.position = CGPointMake(self.position.x + self.size.width * targetPosKorr.x, self.position.y + self.size.height * targetPosKorr.y)
@@ -585,6 +598,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             container.hitCounter -= movingSprite.hitCounter
             showScore()
         }
+        spriteCount--
+        let spriteCountText: String = GV.language.getText("spriteCount")
+        spriteCountLabel.text = "\(spriteCountText) \(spriteCount)"
+
         collisionActive = false
         movingSprite.removeFromParent()
         gameArray[movingSprite.column][movingSprite.row] = false
@@ -622,6 +639,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameArray[sprite.column][sprite.row] = false
             showScore()
         }
+        spriteCount--
+        let spriteCountText: String = GV.language.getText("spriteCount")
+        spriteCountLabel.text = "\(spriteCountText) \(spriteCount)"
         checkGameArrayEmpty()
     }
     

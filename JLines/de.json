@@ -55,6 +55,8 @@
     "gameLost":         "Sie haben verloren!",
     "gameLost3":        "Sie haben 3 mal verloren. Startet vorherige Level.",
     "targetNotReached": "Das Ziel ist nicht erreicht.",
+    "spriteCount":      "Anzahl von Elfen:",
+
     
     "gameNumber":       "Spielnummer: %1!",
     "areYouSure":       "Sind Sie sicher?",

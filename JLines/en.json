@@ -55,6 +55,7 @@
     "gameLost":         "you lost!",
     "gameLost3":        "You lose 3 times. Previous level starts.",
     "targetNotReached": "Target not reached",
+    "spriteCount":      "count of sprites:",
     
     "cleangame":        "Reset Game",
     "areYouSure":       "Are you sure?",

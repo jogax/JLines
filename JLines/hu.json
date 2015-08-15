@@ -55,6 +55,7 @@
     "gameLost":         "Vesztettél!",
     "gameLost3":        "3-szor vesztettél. Elözö szintre vissza!!!"
     "targetNotReached": "A cél nem teljesült",
+    "spriteCount":      "koboldszám:",
 
     "settings":         "beállitások",
     "cleangame":        "Alaphelyzetbe állítás",
