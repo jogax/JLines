@@ -60,6 +60,7 @@
 		20F602311B63D320002F66C7 /* de.json in Resources */ = {isa = PBXBuildFile; fileRef = 20F6022D1B63D320002F66C7 /* de.json */; };
 		20F602321B63D320002F66C7 /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 20F6022E1B63D320002F66C7 /* en.json */; };
 		20F602331B63D320002F66C7 /* ru.json in Resources */ = {isa = PBXBuildFile; fileRef = 20F6022F1B63D320002F66C7 /* ru.json */; };
+		20F64A701B80ABDA00710E34 /* sprite7.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F64A6F1B80ABDA00710E34 /* sprite7.png */; };
 		20F813451B53D3CB0046463A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813441B53D3CB0046463A /* GameScene.swift */; };
 		20F813471B53D3DA0046463A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813461B53D3DA0046463A /* SKButton.swift */; };
 		20F813491B53D3E50046463A /* PlayWithSpritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */; };
@@ -146,6 +147,7 @@
 		20F6022D1B63D320002F66C7 /* de.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = de.json; sourceTree = "<group>"; };
 		20F6022E1B63D320002F66C7 /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = en.json; sourceTree = "<group>"; };
 		20F6022F1B63D320002F66C7 /* ru.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ru.json; sourceTree = "<group>"; };
+		20F64A6F1B80ABDA00710E34 /* sprite7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite7.png; sourceTree = "<group>"; };
 		20F813441B53D3CB0046463A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 				20FB88761B57CB30007843A2 /* LevelsForPlayWithSprites.json in Resources */,
 				200C8E941B612BE4008943BF /* JLines.entitlements in Resources */,
 				2001B7DD1B359D920029E2A6 /* BonusPack.json in Resources */,
+				20F64A701B80ABDA00710E34 /* sprite7.png in Resources */,
 				20F602331B63D320002F66C7 /* ru.json in Resources */,
 				200A757D1B306EA700FA596A /* Images.xcassets in Resources */,
 				20FCA1FA1B627B4A00FBE816 /* Holz.png in Resources */,
