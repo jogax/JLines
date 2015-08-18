@@ -504,6 +504,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let pathToDraw:CGMutablePathRef = CGPathCreateMutable()
                 let myLine:SKShapeNode = SKShapeNode(path:pathToDraw)
+                myLine.lineWidth = movedFromNode.size.width
+                
                 myLine.name = "myLine"
                 CGPathMoveToPoint(pathToDraw, nil, movedFromNode.position.x, movedFromNode.position.y)
                 CGPathAddLineToPoint(pathToDraw, nil, realDest.x, realDest.y)
@@ -513,7 +515,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //let colorIndex = name.toInt()! - 100
                 let colorIndex = movedFromNode.colorIndex
                 
-                myLine.strokeColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1]
+                myLine.strokeColor = SKColor(red: 0.5, green: 0, blue: 0, alpha: 0.3) // GV.colorSets[GV.colorSetIndex][colorIndex + 1]
                 self.addChild(myLine)
             }
             
@@ -573,11 +575,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var gameScore = 0
         for index in 0..<containers.count {
             levelScore += containers[index].mySKNode.hitCounter
-            //gameScore = self.gameScore + levelScore
         }
         let levelScoreText: String = GV.language.getText("levelScore")
         levelScoreLabel.text = "\(levelScoreText) \(levelScore)"
-        
 
     }
     
@@ -592,6 +592,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if OK {
             if movingSprite.hitCounter < 100 {
                 container.hitCounter += scoreAddCorrected[movingSprite.hitCounter]! // when only 1 sprite, then add 0
+            } else {
+                container.hitCounter += movingSprite.hitCounter
             }
             showScore()
         } else {
@@ -605,7 +607,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         collisionActive = false
         movingSprite.removeFromParent()
         gameArray[movingSprite.column][movingSprite.row] = false
-        checkGameArrayEmpty()
+        checkGameFinished()
     }
     
     
@@ -626,6 +628,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameArray[movingSprite.column][movingSprite.row] = false
             movingSprite.removeFromParent()
         } else {
+            movingSprite.physicsBody?.categoryBitMask = PhysicsCategory.None
             containers[movingSprite.colorIndex].mySKNode.hitCounter -= movingSprite.hitCounter
             containers[sprite.colorIndex].mySKNode.hitCounter -= sprite.hitCounter
             var movingSpriteDest = CGPointMake(movingSprite.position.x * 0.5, 0)
@@ -637,12 +640,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             sprite.runAction(SKAction.sequence([actionMove2, actionMoveDone]))
             gameArray[movingSprite.column][movingSprite.row] = false
             gameArray[sprite.column][sprite.row] = false
+            spriteCount--
             showScore()
         }
         spriteCount--
         let spriteCountText: String = GV.language.getText("spriteCount")
         spriteCountLabel.text = "\(spriteCountText) \(spriteCount)"
-        checkGameArrayEmpty()
+        checkGameFinished()
     }
     
     func wallAroundDidCollideWithMovingSprite(node1: MySKNode, node2: SKNode) {
@@ -650,14 +654,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if spriteGameLastPosition != movingSprite.position {
             spriteGameLastPosition = movingSprite.position
             let lineAround = node2
-            //println("pos:\(movingSprite.position)")
-    /*
-            let xPosition = CGFloat(movingSprite.column) * tableCellSize + tableCellSize / 2
-            let yPosition = CGFloat(movingSprite.row) * tableCellSize * yKorr1 + tableCellSize * yKorr2
-            let originalPosition = CGPoint(x: xPosition, y: yPosition)
-    */
             let originalPosition = movingSprite.startPosition
             let offsetOrig = movingSprite.position - originalPosition
+            
 
             var zielPosition = CGPointZero
             switch lineAround.name! {
@@ -680,7 +679,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let actionMove = SKAction.moveTo(realDest, duration: 2.0)
             collisionActive = true
             movingSprite.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
-            checkGameArrayEmpty()
+            checkGameFinished()
         }
     }
     
@@ -737,12 +736,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return usedCellCount
     }
     
-    func checkGameArrayEmpty() {
+    func checkGameFinished() {
+        
         
         let usedCellCount = checkGameArray()
-        if usedCellCount == 0 { // Level completed, start a new game
-            
-            // hier checken, ob target Score erreicht!!!
+
+        if usedCellCount == 0 || levelScore > targetScore { // Level completed, start a new game
+            countDown!.invalidate()
+            countDown = nil
             
             if levelScore < targetScore {
                 countLostGames++
@@ -762,21 +763,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 alert.addAction(cancelAction)
                 alert.addAction(againAction)
                 parentViewController!.presentViewController(alert, animated: true, completion: nil)
+            } else {
+                
+                let alert = UIAlertController(title: GV.language.getText("levelComplete"),
+                    message: GV.language.getText("no Message"),
+                    preferredStyle: .Alert)
+                let cancelAction = UIAlertAction(title: GV.language.getText("return"), style: .Cancel, handler: nil)
+                let againAction = UIAlertAction(title: GV.language.getText("next level"), style: .Default,
+                    handler: {(paramAction:UIAlertAction!) in
+                        self.newGame(true)
+                })
+                alert.addAction(cancelAction)
+                alert.addAction(againAction)
+                parentViewController!.presentViewController(alert, animated: true, completion: nil)
             }
-            
-            let alert = UIAlertController(title: GV.language.getText("levelComplete"),
-                message: GV.language.getText("no Message"),
-                preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: GV.language.getText("return"), style: .Cancel, handler: nil)
-            let againAction = UIAlertAction(title: GV.language.getText("next level"), style: .Default,
-                handler: {(paramAction:UIAlertAction!) in
-                    self.newGame(true)
-            })
-            alert.addAction(cancelAction)
-            alert.addAction(againAction)
-            parentViewController!.presentViewController(alert, animated: true, completion: nil)
         }
-        
         if usedCellCount < minUsedCells {
             generateSprites()
         }
