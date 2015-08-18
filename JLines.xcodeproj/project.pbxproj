@@ -22,7 +22,6 @@
 		2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 2001B7DE1B359D990029E2A6 /* GreenPack.json */; };
 		2001B7E31B35A09B0029E2A6 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2001B7E21B35A09B0029E2A6 /* CoreAudio.framework */; };
 		2003035E1B31DE81003D55EA /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003035D1B31DE81003D55EA /* MyLabel.swift */; };
-		200315C91B833F3B0059BFE4 /* sprite7.png in Resources */ = {isa = PBXBuildFile; fileRef = 200315C81B833F3B0059BFE4 /* sprite7.png */; };
 		2005AE571B34744200D1DA36 /* MyButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AE561B34744200D1DA36 /* MyButtonsView.swift */; };
 		200A75731B306EA700FA596A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75721B306EA700FA596A /* AppDelegate.swift */; };
 		200A75761B306EA700FA596A /* JLines.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 200A75741B306EA700FA596A /* JLines.xcdatamodeld */; };
@@ -60,7 +59,6 @@
 		20F602311B63D320002F66C7 /* de.json in Resources */ = {isa = PBXBuildFile; fileRef = 20F6022D1B63D320002F66C7 /* de.json */; };
 		20F602321B63D320002F66C7 /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 20F6022E1B63D320002F66C7 /* en.json */; };
 		20F602331B63D320002F66C7 /* ru.json in Resources */ = {isa = PBXBuildFile; fileRef = 20F6022F1B63D320002F66C7 /* ru.json */; };
-		20F64A701B80ABDA00710E34 /* sprite7.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F64A6F1B80ABDA00710E34 /* sprite7.png */; };
 		20F813451B53D3CB0046463A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813441B53D3CB0046463A /* GameScene.swift */; };
 		20F813471B53D3DA0046463A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813461B53D3DA0046463A /* SKButton.swift */; };
 		20F813491B53D3E50046463A /* PlayWithSpritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */; };
@@ -73,6 +71,7 @@
 		20FCA1FA1B627B4A00FBE816 /* Holz.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1F91B627B4A00FBE816 /* Holz.png */; };
 		20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FB1B62811A00FBE816 /* sprite4.png */; };
 		20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FD1B62836C00FBE816 /* sprite5.png */; };
+		20FCDB9D1B83798300C98282 /* sprite7.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCDB9C1B83798300C98282 /* sprite7.png */; };
 		20FD48881B67C58A004FCBC8 /* sprite2.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FD48871B67C58A004FCBC8 /* sprite2.png */; };
 		20FD488C1B67F87D004FCBC8 /* SpriteGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FD488B1B67F87D004FCBC8 /* SpriteGame.swift */; };
 /* End PBXBuildFile section */
@@ -104,7 +103,6 @@
 		2001B7DE1B359D990029E2A6 /* GreenPack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GreenPack.json; sourceTree = "<group>"; };
 		2001B7E21B35A09B0029E2A6 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		2003035D1B31DE81003D55EA /* MyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
-		200315C81B833F3B0059BFE4 /* sprite7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprite7.png; path = ../sprite7.png; sourceTree = "<group>"; };
 		2005AE561B34744200D1DA36 /* MyButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyButtonsView.swift; sourceTree = "<group>"; };
 		200A756D1B306EA700FA596A /* JLines.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JLines.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		200A75711B306EA700FA596A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 		20F6022D1B63D320002F66C7 /* de.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = de.json; sourceTree = "<group>"; };
 		20F6022E1B63D320002F66C7 /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = en.json; sourceTree = "<group>"; };
 		20F6022F1B63D320002F66C7 /* ru.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ru.json; sourceTree = "<group>"; };
-		20F64A6F1B80ABDA00710E34 /* sprite7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite7.png; sourceTree = "<group>"; };
 		20F813441B53D3CB0046463A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +157,7 @@
 		20FCA1F91B627B4A00FBE816 /* Holz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Holz.png; sourceTree = "<group>"; };
 		20FCA1FB1B62811A00FBE816 /* sprite4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite4.png; sourceTree = "<group>"; };
 		20FCA1FD1B62836C00FBE816 /* sprite5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite5.png; sourceTree = "<group>"; };
+		20FCDB9C1B83798300C98282 /* sprite7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprite7.png; path = ../sprite7.png; sourceTree = "<group>"; };
 		20FD48871B67C58A004FCBC8 /* sprite2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite2.png; sourceTree = "<group>"; };
 		20FD488B1B67F87D004FCBC8 /* SpriteGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -323,7 +321,7 @@
 				20FCA1FB1B62811A00FBE816 /* sprite4.png */,
 				20FCA1FD1B62836C00FBE816 /* sprite5.png */,
 				20F03FC61B63D52800F2F1EC /* sprite6.png */,
-				200315C81B833F3B0059BFE4 /* sprite7.png */,
+				20FCDB9C1B83798300C98282 /* sprite7.png */,
 				20FCA1F11B62706000FBE816 /* sprite8.png */,
 			);
 			name = Pictures;
@@ -421,17 +419,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20F602321B63D320002F66C7 /* en.json in Resources */,
 				20FB88761B57CB30007843A2 /* LevelsForPlayWithSprites.json in Resources */,
 				200C8E941B612BE4008943BF /* JLines.entitlements in Resources */,
 				2001B7DD1B359D920029E2A6 /* BonusPack.json in Resources */,
-				20F64A701B80ABDA00710E34 /* sprite7.png in Resources */,
+				20F602301B63D320002F66C7 /* hu.json in Resources */,
 				20F602331B63D320002F66C7 /* ru.json in Resources */,
+				20F602311B63D320002F66C7 /* de.json in Resources */,
+				20F602321B63D320002F66C7 /* en.json in Resources */,
 				200A757D1B306EA700FA596A /* Images.xcassets in Resources */,
 				20FCA1FA1B627B4A00FBE816 /* Holz.png in Resources */,
 				2001B7D91B359D820029E2A6 /* FirstPack.json in Resources */,
 				2001B7DB1B359D8C0029E2A6 /* RegularPack.json in Resources */,
-				20F602311B63D320002F66C7 /* de.json in Resources */,
 				20FCA1F61B62706000FBE816 /* sprite0.png in Resources */,
 				20FCA1F51B62706000FBE816 /* sprite1.png in Resources */,
 				20FD48881B67C58A004FCBC8 /* sprite2.png in Resources */,
@@ -439,9 +437,8 @@
 				20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */,
 				20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */,
 				20F03FC71B63D52800F2F1EC /* sprite6.png in Resources */,
-				200315C91B833F3B0059BFE4 /* sprite7.png in Resources */,
+				20FCDB9D1B83798300C98282 /* sprite7.png in Resources */,
 				20FCA1F41B62706000FBE816 /* sprite8.png in Resources */,
-				20F602301B63D320002F66C7 /* hu.json in Resources */,
 				2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */,
 				20F602231B63D064002F66C7 /* Main.storyboard in Resources */,
 			);
