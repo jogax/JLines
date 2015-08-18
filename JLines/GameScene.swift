@@ -502,6 +502,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let realDest = shootAmount + movedFromNode.position
                 
                 
+                
+                
                 let pathToDraw:CGMutablePathRef = CGPathCreateMutable()
                 let myLine:SKShapeNode = SKShapeNode(path:pathToDraw)
                 myLine.lineWidth = movedFromNode.size.width
@@ -515,8 +517,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //let colorIndex = name.toInt()! - 100
                 let colorIndex = movedFromNode.colorIndex
                 
-                myLine.strokeColor = SKColor(red: 0.5, green: 0, blue: 0, alpha: 0.3) // GV.colorSets[GV.colorSetIndex][colorIndex + 1]
+                myLine.strokeColor = SKColor(red: 1.0, green: 0, blue: 0, alpha: 0.3) // GV.colorSets[GV.colorSetIndex][colorIndex + 1]
                 self.addChild(myLine)
+
+                var endPointOfLine = CGPointZero
+                var multiplier: CGFloat = 0
+                if direction.x > 0 {
+                    endPointOfLine.x = self.size.width
+                }
+                let xLength = abs(endPointOfLine.x - movedFromNode.position.x)
+                multiplier = xLength / direction.x
+                endPointOfLine.y = abs(direction.y * multiplier)
+                
+                let myLine1: SKShapeNode = SKShapeNode(path:pathToDraw)
+                myLine1.lineWidth = movedFromNode.size.width
+                
+                myLine1.name = "myLine"
+                CGPathMoveToPoint(pathToDraw, nil, endPointOfLine.x, endPointOfLine.y)
+                CGPathAddLineToPoint(pathToDraw, nil, realDest.x, realDest.y)
+                
+                let direction1 = endPointOfLine.normalized()
+                let shootAmount1 = direction1 * 1000
+                let realDest1 = shootAmount1 + endPointOfLine
+                
+                myLine1.path = pathToDraw
+                myLine1.strokeColor = SKColor(red: 0, green: 0, blue: 1, alpha: 0.1) // GV.colorSets[GV.colorSetIndex][colorIndex + 1]
+                self.addChild(myLine1)
+
             }
             
         }
@@ -524,6 +551,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         if movedFromNode != nil {
+            if self.childNodeWithName("myLine") != nil {
+                self.childNodeWithName("myLine")!.removeFromParent()
+            }
             if self.childNodeWithName("myLine") != nil {
                 self.childNodeWithName("myLine")!.removeFromParent()
             }
