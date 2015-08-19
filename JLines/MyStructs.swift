@@ -402,6 +402,35 @@ struct SpriteGameData {
     
 }
 
+struct LevelParam {
+    
+    var countContainers: Int
+    var countSpritesProContainer: Int
+    var countColumns: Int
+    var countRows: Int
+    var minProzent: Int
+    var maxProzent: Int
+    var containerSize: Int
+    var spriteSize: Int
+    var targetScoreKorr: CGFloat
+    var timeLimitKorr: Int
+    
+    init()
+    {
+        self.countContainers = 0
+        self.countSpritesProContainer = 0
+        self.countColumns = 0
+        self.countRows = 0
+        self.minProzent = 0
+        self.maxProzent = 0
+        self.containerSize = 0
+        self.spriteSize = 0
+        self.targetScoreKorr = 0
+        self.timeLimitKorr = 0
+    }
+    
+}
+
 struct Level {
     var countContainers: Int
     var countSpritesProContainer: Int

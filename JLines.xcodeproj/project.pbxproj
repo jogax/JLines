@@ -72,6 +72,7 @@
 		20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FB1B62811A00FBE816 /* sprite4.png */; };
 		20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FD1B62836C00FBE816 /* sprite5.png */; };
 		20FCDB9D1B83798300C98282 /* sprite7.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCDB9C1B83798300C98282 /* sprite7.png */; };
+		20FCED771B84AA7300BFA59A /* LevelsForPlayWithSprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCED761B84AA7300BFA59A /* LevelsForPlayWithSprites.swift */; };
 		20FD48881B67C58A004FCBC8 /* sprite2.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FD48871B67C58A004FCBC8 /* sprite2.png */; };
 		20FD488C1B67F87D004FCBC8 /* SpriteGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FD488B1B67F87D004FCBC8 /* SpriteGame.swift */; };
 /* End PBXBuildFile section */
@@ -158,6 +159,7 @@
 		20FCA1FB1B62811A00FBE816 /* sprite4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite4.png; sourceTree = "<group>"; };
 		20FCA1FD1B62836C00FBE816 /* sprite5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite5.png; sourceTree = "<group>"; };
 		20FCDB9C1B83798300C98282 /* sprite7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprite7.png; path = ../sprite7.png; sourceTree = "<group>"; };
+		20FCED761B84AA7300BFA59A /* LevelsForPlayWithSprites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelsForPlayWithSprites.swift; sourceTree = "<group>"; };
 		20FD48871B67C58A004FCBC8 /* sprite2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite2.png; sourceTree = "<group>"; };
 		20FD488B1B67F87D004FCBC8 /* SpriteGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -224,6 +226,7 @@
 				202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */,
 				20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */,
 				20F813441B53D3CB0046463A /* GameScene.swift */,
+				20FCED761B84AA7300BFA59A /* LevelsForPlayWithSprites.swift */,
 				20FB88751B57B139007843A2 /* LevelsForPlayWithSprites.json */,
 				20F8134A1B53F1F90046463A /* MySKNode.swift */,
 				20F813461B53D3DA0046463A /* SKButton.swift */,
@@ -471,6 +474,7 @@
 				20002E371B40404B00F390A2 /* AppVariables.swift in Sources */,
 				200C8E961B612E08008943BF /* CloudData.swift in Sources */,
 				202CC6111B4450890074D44A /* PlayWithPointsViewController.swift in Sources */,
+				20FCED771B84AA7300BFA59A /* LevelsForPlayWithSprites.swift in Sources */,
 				200A75B61B3076EA00FA596A /* Array2D.swift in Sources */,
 				200A75981B30700900FA596A /* Extensions.swift in Sources */,
 				200A75A01B3074F300FA596A /* ChooseColorViewController.swift in Sources */,

@@ -90,7 +90,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var countColumns = 0
     var countRows = 0
     var countContainers = 0
-    var targetScoreKorr: Double = 0
+    var targetScoreKorr: CGFloat = 0
     var tableCellSize: CGFloat = 0
     var containerSize:CGFloat = 0
     var spriteSize:CGFloat = 0
@@ -121,7 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var levelScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var countdownLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var targetScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
-    var levelArray = [Level]()
+    //var levelArray = [Level]()
     var countLostGames = 0
     
     var spriteGameLastPosition = CGPointZero
@@ -136,6 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var targetScore = 0
     var spriteCount = 0
 
+    var levelsForPlayWithSprites = LevelsForPlayWithSprites()
     let yKorr1: CGFloat = GV.onIpad ? 0.9 : 0.8
     let yKorr2: CGFloat = GV.onIpad ? 2.7 : 2.0
 
@@ -158,13 +159,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 */
     override func didMoveToView(view: SKView) {
-        levelArray = GV.cloudData.readLevelDataArray()
+        //levelArray = GV.cloudData.readLevelDataArray()
         GV.currentTime = NSDate()
         GV.elapsedTime = GV.currentTime.timeIntervalSinceDate(GV.startTime) * 1000
         println("GameScene start: \(GV.elapsedTime)")
         myView = view
-        let (package, data) = Dictionary<String, AnyObject>.loadJSONFromBundle("LevelsForPlayWithSprites")
-        json = JSON(data: data!)
+//        let (package, data) = Dictionary<String, AnyObject>.loadJSONFromBundle("LevelsForPlayWithSprites")
+//        json = JSON(data: data!)
         prepareNextGame()
         generateSprites()
         
@@ -201,20 +202,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         maxUsedCells = Int(json!["levels"][levelIndex]["maxProzent"][deviceIndex].int! * countColumns * countRows / 100)
        */
         
-        if levelIndex >= levelArray.count {
-            levelIndex = levelArray.count - 1
-        }
-        countContainers = levelArray[levelIndex].countContainers
-        countSpritesProContainer = levelArray[levelIndex].countSpritesProContainer
-        targetScoreKorr = levelArray[levelIndex].targetScoreKorr
-        countColumns = levelArray[levelIndex].countColumns
-        countRows = levelArray[levelIndex].countRows
-        minUsedCells = levelArray[levelIndex].minProzent * countColumns * countRows / 100
-        maxUsedCells = levelArray[levelIndex].maxProzent * countColumns * countRows / 100
-        containerSize = CGFloat(levelArray[levelIndex].containerSize)
-        spriteSize = CGFloat(levelArray[levelIndex].spriteSize)
+//        if levelIndex >= levelArray.count {
+//            levelIndex = levelArray.count - 1
+//        }
+//        countContainers = levelArray[levelIndex].countContainers
+//        countSpritesProContainer = levelArray[levelIndex].countSpritesProContainer
+//        targetScoreKorr = levelArray[levelIndex].targetScoreKorr
+//        countColumns = levelArray[levelIndex].countColumns
+//        countRows = levelArray[levelIndex].countRows
+//        minUsedCells = levelArray[levelIndex].minProzent * countColumns * countRows / 100
+//        maxUsedCells = levelArray[levelIndex].maxProzent * countColumns * countRows / 100
+//        containerSize = CGFloat(levelArray[levelIndex].containerSize)
+//        spriteSize = CGFloat(levelArray[levelIndex].spriteSize)
         
-        timeLimit = countContainers * countSpritesProContainer! * timeLimitKorr
+        countContainers = levelsForPlayWithSprites.aktLevel.countContainers
+        countSpritesProContainer = levelsForPlayWithSprites.aktLevel.countSpritesProContainer
+        targetScoreKorr = levelsForPlayWithSprites.aktLevel.targetScoreKorr
+        countColumns = levelsForPlayWithSprites.aktLevel.countColumns
+        countRows = levelsForPlayWithSprites.aktLevel.countRows
+        minUsedCells = levelsForPlayWithSprites.aktLevel.minProzent * countColumns * countRows / 100
+        maxUsedCells = levelsForPlayWithSprites.aktLevel.maxProzent * countColumns * countRows / 100
+        containerSize = CGFloat(levelsForPlayWithSprites.aktLevel.containerSize)
+        spriteSize = CGFloat(levelsForPlayWithSprites.aktLevel.spriteSize)
+
+        timeLimit = countContainers * countSpritesProContainer! * levelsForPlayWithSprites.aktLevel.timeLimitKorr
         println("timeLimit: \(timeLimit)")
         
         gameArray.removeAll(keepCapacity: false)
@@ -323,7 +334,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         targetScoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
         targetScoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         targetScoreLabel.fontSize = 15;
-        targetScore = Int(CGFloat(countContainers * countSpritesProContainer!) * CGFloat(targetScoreKorr))
+        targetScore = Int(CGFloat(countContainers * countSpritesProContainer!) * targetScoreKorr)
         let targetScoreText: String = GV.language.getText("targetScore")
         targetScoreLabel.text = "\(targetScoreText) \(targetScore)"
         self.addChild(targetScoreLabel)
@@ -367,7 +378,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func newGame(next: Bool) {
         if next {
-            levelIndex++
+
+            levelIndex = levelsForPlayWithSprites.getNextLevel()
             gameScore += levelScore
             var spriteData = SpriteGameData()
             spriteData.spriteLevelIndex = Int64(levelIndex)
@@ -484,6 +496,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.childNodeWithName("myLine") != nil {
                 self.childNodeWithName("myLine")!.removeFromParent()
             }
+//            if self.childNodeWithName("myLine") != nil {
+//                self.childNodeWithName("myLine")!.removeFromParent()
+//            }
             let countTouches = touches.count
             let firstTouch = touches.first as! UITouch
             let touchLocation = firstTouch.locationInNode(self)
@@ -502,6 +517,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let realDest = shootAmount + movedFromNode.position
                 
                 
+                
+                
                 let pathToDraw:CGMutablePathRef = CGPathCreateMutable()
                 let myLine:SKShapeNode = SKShapeNode(path:pathToDraw)
                 myLine.lineWidth = movedFromNode.size.width
@@ -515,8 +532,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //let colorIndex = name.toInt()! - 100
                 let colorIndex = movedFromNode.colorIndex
                 
-                myLine.strokeColor = SKColor(red: 0.5, green: 0, blue: 0, alpha: 0.3) // GV.colorSets[GV.colorSetIndex][colorIndex + 1]
+                myLine.strokeColor = SKColor(red: 1.0, green: 0, blue: 0, alpha: 0.05) // GV.colorSets[GV.colorSetIndex][colorIndex + 1]
                 self.addChild(myLine)
+/*
+                var endPointOfLine = CGPointZero
+                var multiplier: CGFloat = 0
+                
+                if direction.x > 0 {
+                    endPointOfLine.x = self.size.width
+                }
+                let xLength = abs(endPointOfLine.x - movedFromNode.position.x)
+                multiplier = xLength / direction.x
+                endPointOfLine.y = abs(direction.y * multiplier)
+                
+                let pathToDraw1:CGMutablePathRef = CGPathCreateMutable()
+                let myLine1: SKShapeNode = SKShapeNode(path:pathToDraw1)
+                myLine1.lineWidth = movedFromNode.size.width
+                
+                myLine1.name = "myLine"
+                CGPathMoveToPoint(pathToDraw1, nil, endPointOfLine.x, endPointOfLine.y)
+                CGPathAddLineToPoint(pathToDraw1, nil, realDest.x, realDest.y)
+                
+                let direction1 = endPointOfLine.normalized()
+                let shootAmount1 = direction1 * 1000
+                let realDest1 = shootAmount1 + endPointOfLine
+                
+                myLine1.path = pathToDraw1
+                myLine1.strokeColor = SKColor(red: 0, green: 0, blue: 1, alpha: 0.1) // GV.colorSets[GV.colorSetIndex][colorIndex + 1]
+                self.addChild(myLine1)
+*/
             }
             
         }
@@ -527,6 +571,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.childNodeWithName("myLine") != nil {
                 self.childNodeWithName("myLine")!.removeFromParent()
             }
+//            if self.childNodeWithName("myLine") != nil {
+//                self.childNodeWithName("myLine")!.removeFromParent()
+//            }
             let countTouches = touches.count
             let firstTouch = touches.first as! UITouch
             let touchLocation = firstTouch.locationInNode(self)
