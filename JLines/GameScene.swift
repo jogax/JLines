@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 func + (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x + right.x, y: left.y + right.y)
@@ -82,7 +83,7 @@ enum LinePosition: Int, Printable {
         
 }
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     
     // Values from json File
     var params = ""
@@ -139,6 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var levelsForPlayWithSprites = LevelsForPlayWithSprites()
     let yKorr1: CGFloat = GV.onIpad ? 0.9 : 0.8
     let yKorr2: CGFloat = GV.onIpad ? 2.7 : 2.0
+    var audioPlayer: AVAudioPlayer?
 
     let scoreAddCorrected = [1:0, 2:1, 3:2, 4:4, 5:5, 6:7, 7:8, 8:10, 9:11, 10:13, 11:14, 12:16,13:17,14:19, 15:20, 16:22, 17:23, 18:24, 19:25, 20:27, 21:28, 22:30, 23:31, 24:33, 25:34, 26:36, 27:37, 28:39, 29:40, 30:42, 31:43, 32:45, 33:46, 34:47, 35:48, 36:50, 37:51, 38:53, 39:54, 40:54, 41:53, 42:53, 43:52, 44:52, 45:51, 46:51, 47:51, 48:50, 49:50, 50:50, 51:51, 52:52, 53:53, 54:54, 55:55, 56:56, 57:57, 58:58, 59:59, 60:60, 61:61, 62:62, 63:63, 64:64, 65:65, 66:66, 67:67, 68:68, 69:69, 70:70, 71:71, 72:72, 73:73, 74:74, 75:75, 76:76, 77:77, 78:78, 79:79, 80:80, 81:81, 82:82, 83:83, 84:84, 85:85, 86:86, 87:87, 88:88, 89:89, 90:90, 91:91, 92:92, 93:93, 94:94, 95:95, 96:96, 97:97, 98:98, 99:99, 1000:100]
     
@@ -160,6 +162,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 */
     override func didMoveToView(view: SKView) {
         //levelArray = GV.cloudData.readLevelDataArray()
+        let url = NSURL.fileURLWithPath(
+            NSBundle.mainBundle().pathForResource("MyMusic",
+                ofType: "m4a")!)
+        var error: NSError?
+        audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
+        if let err = error {
+            println("audioPlayer error \(err.localizedDescription)")
+        } else {
+            audioPlayer?.delegate = self
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+        }
+
         GV.currentTime = NSDate()
         GV.elapsedTime = GV.currentTime.timeIntervalSinceDate(GV.startTime) * 1000
         println("GameScene start: \(GV.elapsedTime)")
@@ -871,6 +886,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully
+        flag: Bool) {
+    }
+    
+    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer!,
+        error: NSError!) {
+    }
+    
+    func audioPlayerBeginInterruption(player: AVAudioPlayer!) {
+    }
+    
+    func audioPlayerEndInterruption(player: AVAudioPlayer!) {
+    }
+
 
 }
 
