@@ -23,6 +23,10 @@
 		2001B7E31B35A09B0029E2A6 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2001B7E21B35A09B0029E2A6 /* CoreAudio.framework */; };
 		2003035E1B31DE81003D55EA /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003035D1B31DE81003D55EA /* MyLabel.swift */; };
 		2005AE571B34744200D1DA36 /* MyButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AE561B34744200D1DA36 /* MyButtonsView.swift */; };
+		2005B3AC1B8B5C6A00B7F8B4 /* Do_1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2005B3AB1B8B5C6A00B7F8B4 /* Do_1.m4a */; };
+		2005B3B01B8B692300B7F8B4 /* Do_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2005B3AF1B8B692300B7F8B4 /* Do_2.m4a */; };
+		2005B3B21B8B6C2C00B7F8B4 /* Funk_Bot.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2005B3B11B8B6C2C00B7F8B4 /* Funk_Bot.m4a */; };
+		2005B3B41B8B711000B7F8B4 /* Drop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2005B3B31B8B711000B7F8B4 /* Drop.m4a */; };
 		200A75731B306EA700FA596A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75721B306EA700FA596A /* AppDelegate.swift */; };
 		200A75761B306EA700FA596A /* JLines.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 200A75741B306EA700FA596A /* JLines.xcdatamodeld */; };
 		200A75781B306EA700FA596A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200A75771B306EA700FA596A /* ViewController.swift */; };
@@ -106,6 +110,10 @@
 		2001B7E21B35A09B0029E2A6 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		2003035D1B31DE81003D55EA /* MyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		2005AE561B34744200D1DA36 /* MyButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyButtonsView.swift; sourceTree = "<group>"; };
+		2005B3AB1B8B5C6A00B7F8B4 /* Do_1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Do_1.m4a; sourceTree = "<group>"; };
+		2005B3AF1B8B692300B7F8B4 /* Do_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Do_2.m4a; sourceTree = "<group>"; };
+		2005B3B11B8B6C2C00B7F8B4 /* Funk_Bot.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Funk_Bot.m4a; sourceTree = "<group>"; };
+		2005B3B31B8B711000B7F8B4 /* Drop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drop.m4a; sourceTree = "<group>"; };
 		200A756D1B306EA700FA596A /* JLines.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JLines.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		200A75711B306EA700FA596A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		200A75721B306EA700FA596A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -269,6 +277,10 @@
 			isa = PBXGroup;
 			children = (
 				20FD1B451B8A1F6900B10FCB /* MyMusic.m4a */,
+				2005B3AB1B8B5C6A00B7F8B4 /* Do_1.m4a */,
+				2005B3AF1B8B692300B7F8B4 /* Do_2.m4a */,
+				2005B3B11B8B6C2C00B7F8B4 /* Funk_Bot.m4a */,
+				2005B3B31B8B711000B7F8B4 /* Drop.m4a */,
 				20FCA1EA1B6262E400FBE816 /* Pictures */,
 				20DED76F1B36EB7B00B4F098 /* PlayFiles */,
 				200A75B71B3096FD00FA596A /* Languages */,
@@ -438,6 +450,7 @@
 				2001B7D91B359D820029E2A6 /* FirstPack.json in Resources */,
 				2001B7DB1B359D8C0029E2A6 /* RegularPack.json in Resources */,
 				20FCA1F61B62706000FBE816 /* sprite0.png in Resources */,
+				2005B3AC1B8B5C6A00B7F8B4 /* Do_1.m4a in Resources */,
 				20FCA1F51B62706000FBE816 /* sprite1.png in Resources */,
 				20FD48881B67C58A004FCBC8 /* sprite2.png in Resources */,
 				20B39C5F1B834332003F3788 /* sprite3.png in Resources */,
@@ -445,9 +458,12 @@
 				20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */,
 				20F03FC71B63D52800F2F1EC /* sprite6.png in Resources */,
 				20FCDB9D1B83798300C98282 /* sprite7.png in Resources */,
+				2005B3B21B8B6C2C00B7F8B4 /* Funk_Bot.m4a in Resources */,
 				20FCA1F41B62706000FBE816 /* sprite8.png in Resources */,
 				2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */,
 				20F602231B63D064002F66C7 /* Main.storyboard in Resources */,
+				2005B3B01B8B692300B7F8B4 /* Do_2.m4a in Resources */,
+				2005B3B41B8B711000B7F8B4 /* Drop.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
