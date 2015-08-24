@@ -174,6 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             audioPlayer?.delegate = self
             audioPlayer?.prepareToPlay()
             audioPlayer?.volume = 0.01
+            audioPlayer?.numberOfLoops = -1
             audioPlayer?.play()
         }
 
@@ -675,7 +676,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 container.hitCounter += movingSprite.hitCounter
             }
             showScore()
-            playSound("Do_1", volume: 0.05)
+            playSound("Container", volume: 0.05)
         } else {
             container.hitCounter -= movingSprite.hitCounter
             showScore()
@@ -705,6 +706,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             let aktSize = spriteSize + 1.1 * CGFloat(sprite.hitCounter)
             sprite.size.width = aktSize
             sprite.size.height = aktSize
+            playSound("Sprite1", volume: 0.05)
             
             gameArray[movingSprite.column][movingSprite.row] = false
             movingSprite.removeFromParent()
@@ -722,6 +724,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             gameArray[movingSprite.column][movingSprite.row] = false
             gameArray[sprite.column][sprite.row] = false
             spriteCount--
+            playSound("Drop", volume: 0.05)
             showScore()
         }
         spriteCount--
@@ -760,7 +763,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             let actionMove = SKAction.moveTo(realDest, duration: 2.0)
             collisionActive = true
             movingSprite.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
-            playSound("Drop", volume: 0.05)
+            playSound("Mirror", volume: 0.05)
 
             checkGameFinished()
         }
@@ -827,6 +830,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         if usedCellCount == 0 || levelScore > targetScore { // Level completed, start a new game
             countDown!.invalidate()
             countDown = nil
+            playSound("Lost", volume: 0.05)
             
             if levelScore < targetScore {
                 countLostGames++
@@ -858,6 +862,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 })
                 alert.addAction(cancelAction)
                 alert.addAction(againAction)
+                playSound("Winner", volume: 0.05)
                 parentViewController!.presentViewController(alert, animated: true, completion: nil)
             }
         }
@@ -874,6 +879,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         timeLimit--
         showTimeLeft()
         if timeLimit == 0 {
+            countLostGames++
+            playSound("Timeout", volume: 0.05)
             countDown!.invalidate()
             countDown = nil
             let alert = UIAlertController(title: GV.language.getText("timeout"),

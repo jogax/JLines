@@ -67,6 +67,12 @@
 		20F813471B53D3DA0046463A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813461B53D3DA0046463A /* SKButton.swift */; };
 		20F813491B53D3E50046463A /* PlayWithSpritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */; };
 		20F8134B1B53F1F90046463A /* MySKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F8134A1B53F1F90046463A /* MySKNode.swift */; };
+		20FA924A1B8B8A0300568BE5 /* Mirror.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA92491B8B8A0300568BE5 /* Mirror.m4a */; };
+		20FA924C1B8B8BF600568BE5 /* Winner.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA924B1B8B8BF600568BE5 /* Winner.m4a */; };
+		20FA924E1B8B92A100568BE5 /* Timeout.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA924D1B8B92A100568BE5 /* Timeout.m4a */; };
+		20FA92501B8B971400568BE5 /* Lost.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA924F1B8B971400568BE5 /* Lost.m4a */; };
+		20FA92521B8B9B3D00568BE5 /* Container.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA92511B8B9B3D00568BE5 /* Container.m4a */; };
+		20FA92541B8BA60B00568BE5 /* Sprite1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA92531B8BA60B00568BE5 /* Sprite1.m4a */; };
 		20FB88761B57CB30007843A2 /* LevelsForPlayWithSprites.json in Resources */ = {isa = PBXBuildFile; fileRef = 20FB88751B57B139007843A2 /* LevelsForPlayWithSprites.json */; };
 		20FCA1EE1B626D4100FBE816 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20FCA1ED1B626D4100FBE816 /* CloudKit.framework */; };
 		20FCA1F41B62706000FBE816 /* sprite8.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1F11B62706000FBE816 /* sprite8.png */; };
@@ -159,6 +165,12 @@
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
 		20F8134A1B53F1F90046463A /* MySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySKNode.swift; sourceTree = "<group>"; };
+		20FA92491B8B8A0300568BE5 /* Mirror.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Mirror.m4a; sourceTree = "<group>"; };
+		20FA924B1B8B8BF600568BE5 /* Winner.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Winner.m4a; sourceTree = "<group>"; };
+		20FA924D1B8B92A100568BE5 /* Timeout.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Timeout.m4a; sourceTree = "<group>"; };
+		20FA924F1B8B971400568BE5 /* Lost.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Lost.m4a; sourceTree = "<group>"; };
+		20FA92511B8B9B3D00568BE5 /* Container.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Container.m4a; sourceTree = "<group>"; };
+		20FA92531B8BA60B00568BE5 /* Sprite1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sprite1.m4a; sourceTree = "<group>"; };
 		20FB88751B57B139007843A2 /* LevelsForPlayWithSprites.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LevelsForPlayWithSprites.json; sourceTree = "<group>"; };
 		20FCA1ED1B626D4100FBE816 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		20FCA1F11B62706000FBE816 /* sprite8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite8.png; sourceTree = "<group>"; };
@@ -281,6 +293,12 @@
 				2005B3AF1B8B692300B7F8B4 /* Do_2.m4a */,
 				2005B3B11B8B6C2C00B7F8B4 /* Funk_Bot.m4a */,
 				2005B3B31B8B711000B7F8B4 /* Drop.m4a */,
+				20FA92491B8B8A0300568BE5 /* Mirror.m4a */,
+				20FA924B1B8B8BF600568BE5 /* Winner.m4a */,
+				20FA924D1B8B92A100568BE5 /* Timeout.m4a */,
+				20FA924F1B8B971400568BE5 /* Lost.m4a */,
+				20FA92511B8B9B3D00568BE5 /* Container.m4a */,
+				20FA92531B8BA60B00568BE5 /* Sprite1.m4a */,
 				20FCA1EA1B6262E400FBE816 /* Pictures */,
 				20DED76F1B36EB7B00B4F098 /* PlayFiles */,
 				200A75B71B3096FD00FA596A /* Languages */,
@@ -437,8 +455,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20FA92521B8B9B3D00568BE5 /* Container.m4a in Resources */,
 				20FB88761B57CB30007843A2 /* LevelsForPlayWithSprites.json in Resources */,
 				200C8E941B612BE4008943BF /* JLines.entitlements in Resources */,
+				20FA92501B8B971400568BE5 /* Lost.m4a in Resources */,
 				20FD1B461B8A1F6900B10FCB /* MyMusic.m4a in Resources */,
 				2001B7DD1B359D920029E2A6 /* BonusPack.json in Resources */,
 				20F602301B63D320002F66C7 /* hu.json in Resources */,
@@ -450,6 +470,8 @@
 				2001B7D91B359D820029E2A6 /* FirstPack.json in Resources */,
 				2001B7DB1B359D8C0029E2A6 /* RegularPack.json in Resources */,
 				20FCA1F61B62706000FBE816 /* sprite0.png in Resources */,
+				20FA924A1B8B8A0300568BE5 /* Mirror.m4a in Resources */,
+				20FA924C1B8B8BF600568BE5 /* Winner.m4a in Resources */,
 				2005B3AC1B8B5C6A00B7F8B4 /* Do_1.m4a in Resources */,
 				20FCA1F51B62706000FBE816 /* sprite1.png in Resources */,
 				20FD48881B67C58A004FCBC8 /* sprite2.png in Resources */,
@@ -457,8 +479,10 @@
 				20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */,
 				20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */,
 				20F03FC71B63D52800F2F1EC /* sprite6.png in Resources */,
+				20FA92541B8BA60B00568BE5 /* Sprite1.m4a in Resources */,
 				20FCDB9D1B83798300C98282 /* sprite7.png in Resources */,
 				2005B3B21B8B6C2C00B7F8B4 /* Funk_Bot.m4a in Resources */,
+				20FA924E1B8B92A100568BE5 /* Timeout.m4a in Resources */,
 				20FCA1F41B62706000FBE816 /* sprite8.png in Resources */,
 				2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */,
 				20F602231B63D064002F66C7 /* Main.storyboard in Resources */,
