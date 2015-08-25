@@ -124,6 +124,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var targetScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     //var levelArray = [Level]()
     var countLostGames = 0
+    var stopped = true
     
     var spriteGameLastPosition = CGPointZero
     
@@ -184,6 +185,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         myView = view
 //        let (package, data) = Dictionary<String, AnyObject>.loadJSONFromBundle("LevelsForPlayWithSprites")
 //        json = JSON(data: data!)
+        levelsForPlayWithSprites.setAktLevel(levelIndex)
         prepareNextGame()
         generateSprites()
         
@@ -201,38 +203,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             countDown!.invalidate()
             countDown = nil
         }
-        
-        /*
-        if let testWert = json!["levels"][levelIndex]["countSpritesProContainer"][deviceIndex].int {
-            countSpritesProContainer = testWert
-        } else {
-            levelIndex = 0
-            countSpritesProContainer = json!["levels"][levelIndex]["countSpritesProContainer"][deviceIndex].int!
-        }
-        countColumns = json!["levels"][levelIndex]["countColumns"][deviceIndex].int!
-        countRows = json!["levels"][levelIndex]["countRows"][deviceIndex].int!
-        countContainers = json!["levels"][levelIndex]["countContainers"][deviceIndex].int!
-        tableCellSize = CGFloat(countContainers) / CGFloat(countColumns)
-        
-        containerSize = CGFloat(json!["levels"][levelIndex]["containerSize"][deviceIndex].int!)
-        spriteSize = CGFloat(json!["levels"][levelIndex]["spriteSize"][deviceIndex].int!)
-        minUsedCells = json!["levels"][levelIndex]["minProzent"][deviceIndex].int! * countColumns * countRows / 100
-        maxUsedCells = Int(json!["levels"][levelIndex]["maxProzent"][deviceIndex].int! * countColumns * countRows / 100)
-       */
-        
-//        if levelIndex >= levelArray.count {
-//            levelIndex = levelArray.count - 1
-//        }
-//        countContainers = levelArray[levelIndex].countContainers
-//        countSpritesProContainer = levelArray[levelIndex].countSpritesProContainer
-//        targetScoreKorr = levelArray[levelIndex].targetScoreKorr
-//        countColumns = levelArray[levelIndex].countColumns
-//        countRows = levelArray[levelIndex].countRows
-//        minUsedCells = levelArray[levelIndex].minProzent * countColumns * countRows / 100
-//        maxUsedCells = levelArray[levelIndex].maxProzent * countColumns * countRows / 100
-//        containerSize = CGFloat(levelArray[levelIndex].containerSize)
-//        spriteSize = CGFloat(levelArray[levelIndex].spriteSize)
-        
+                
         countContainers = levelsForPlayWithSprites.aktLevel.countContainers
         countSpritesProContainer = levelsForPlayWithSprites.aktLevel.countSpritesProContainer
         targetScoreKorr = levelsForPlayWithSprites.aktLevel.targetScoreKorr
@@ -395,6 +366,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     }
     
     func newGame(next: Bool) {
+        stopped = true
         if next {
 
             levelIndex = levelsForPlayWithSprites.getNextLevel()
@@ -467,6 +439,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             sprite.physicsBody?.usesPreciseCollisionDetection = true
             addChild(sprite)
         }
+        stopped = false
     }
 
     func makeLineAroundGameboard(linePosition: LinePosition) {
@@ -771,43 +744,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) {
         
-        // 1
-        var movingSprite: SKPhysicsBody
-        var partner: SKPhysicsBody
-        
-        switch (contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask) {
-        case (PhysicsCategory.Sprite, PhysicsCategory.MovingSprite):
-            movingSprite = contact.bodyB
-            partner = contact.bodyA
-            spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+        if !stopped {
+            var movingSprite: SKPhysicsBody
+            var partner: SKPhysicsBody
             
-        case (PhysicsCategory.MovingSprite, PhysicsCategory.Sprite):
-            movingSprite = contact.bodyA
-            partner = contact.bodyB
-            spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
-            
-        case (PhysicsCategory.Container, PhysicsCategory.MovingSprite):
-            movingSprite = contact.bodyB
-            partner = contact.bodyA
-            spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+            switch (contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask) {
+            case (PhysicsCategory.Sprite, PhysicsCategory.MovingSprite):
+                movingSprite = contact.bodyB
+                partner = contact.bodyA
+                spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+                
+            case (PhysicsCategory.MovingSprite, PhysicsCategory.Sprite):
+                movingSprite = contact.bodyA
+                partner = contact.bodyB
+                spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+                
+            case (PhysicsCategory.Container, PhysicsCategory.MovingSprite):
+                movingSprite = contact.bodyB
+                partner = contact.bodyA
+                spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
 
-        case (PhysicsCategory.MovingSprite, PhysicsCategory.Container):
-            movingSprite = contact.bodyA
-            partner = contact.bodyB
-            spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+            case (PhysicsCategory.MovingSprite, PhysicsCategory.Container):
+                movingSprite = contact.bodyA
+                partner = contact.bodyB
+                spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
 
-        case (PhysicsCategory.WallAround, PhysicsCategory.MovingSprite):
-            movingSprite = contact.bodyB
-            partner = contact.bodyA
-            wallAroundDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node!)
-            
-        case (PhysicsCategory.MovingSprite, PhysicsCategory.WallAround):
-            movingSprite = contact.bodyA
-            partner = contact.bodyB
-            wallAroundDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node!)
-        default: let a = 0
-            
-       }
+            case (PhysicsCategory.WallAround, PhysicsCategory.MovingSprite):
+                movingSprite = contact.bodyB
+                partner = contact.bodyA
+                wallAroundDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node!)
+                
+            case (PhysicsCategory.MovingSprite, PhysicsCategory.WallAround):
+                movingSprite = contact.bodyA
+                partner = contact.bodyB
+                wallAroundDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node!)
+            default: let a = 0
+                
+           }
+        }
     }
     
     func checkGameArray() -> Int {
@@ -879,6 +853,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         timeLimit--
         showTimeLeft()
         if timeLimit == 0 {
+            stopped = true
             countLostGames++
             playSound("Timeout", volume: 0.05)
             countDown!.invalidate()
