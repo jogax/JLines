@@ -91,7 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var countColumns = 0
     var countRows = 0
     var countContainers = 0
-    var targetScoreKorr: CGFloat = 0
+    var targetScoreKorr: Int = 0
     var tableCellSize: CGFloat = 0
     var containerSize:CGFloat = 0
     var spriteSize:CGFloat = 0
@@ -323,7 +323,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         targetScoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
         targetScoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         targetScoreLabel.fontSize = 15;
-        targetScore = Int(CGFloat(countContainers * countSpritesProContainer!) * targetScoreKorr)
+        targetScore = countContainers * countSpritesProContainer! * targetScoreKorr
         let targetScoreText: String = GV.language.getText("targetScore")
         targetScoreLabel.text = "\(targetScoreText) \(targetScore)"
         self.addChild(targetScoreLabel)
@@ -649,11 +649,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 container.hitCounter += movingSprite.hitCounter
             }
             showScore()
-            playSound("Container", volume: 0.05)
+            playSound("Container", volume: 0.03)
         } else {
             container.hitCounter -= movingSprite.hitCounter
             showScore()
-            playSound("Funk_Bot", volume: 0.05)
+            playSound("Funk_Bot", volume: 0.03)
         }
         spriteCount--
         let spriteCountText: String = GV.language.getText("spriteCount")
@@ -679,7 +679,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             let aktSize = spriteSize + 1.1 * CGFloat(sprite.hitCounter)
             sprite.size.width = aktSize
             sprite.size.height = aktSize
-            playSound("Sprite1", volume: 0.05)
+            playSound("Sprite1", volume: 0.03)
             
             gameArray[movingSprite.column][movingSprite.row] = false
             movingSprite.removeFromParent()
@@ -697,7 +697,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             gameArray[movingSprite.column][movingSprite.row] = false
             gameArray[sprite.column][sprite.row] = false
             spriteCount--
-            playSound("Drop", volume: 0.05)
+            playSound("Drop", volume: 0.03)
             showScore()
         }
         spriteCount--
@@ -732,11 +732,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             let realDest = shootAmount + movingSprite.position
             
             movingSprite.startPosition = movingSprite.position
-            movingSprite.hitCounter *= 2
+            movingSprite.hitCounter = Int(CGFloat(movingSprite.hitCounter) * 1.5)
             let actionMove = SKAction.moveTo(realDest, duration: 2.0)
             collisionActive = true
             movingSprite.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
-            playSound("Mirror", volume: 0.05)
+            playSound("Mirror", volume: 0.03)
 
             checkGameFinished()
         }
@@ -804,7 +804,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         if usedCellCount == 0 || levelScore > targetScore { // Level completed, start a new game
             countDown!.invalidate()
             countDown = nil
-            playSound("Lost", volume: 0.05)
+            playSound("Lost", volume: 0.03)
             
             if levelScore < targetScore {
                 countLostGames++
@@ -836,7 +836,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 })
                 alert.addAction(cancelAction)
                 alert.addAction(againAction)
-                playSound("Winner", volume: 0.05)
+                playSound("Winner", volume: 0.03)
                 parentViewController!.presentViewController(alert, animated: true, completion: nil)
             }
         }
@@ -855,7 +855,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         if timeLimit == 0 {
             stopped = true
             countLostGames++
-            playSound("Timeout", volume: 0.05)
+            playSound("Timeout", volume: 0.03)
             countDown!.invalidate()
             countDown = nil
             let alert = UIAlertController(title: GV.language.getText("timeout"),

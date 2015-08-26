@@ -412,7 +412,7 @@ struct LevelParam {
     var maxProzent: Int
     var containerSize: Int
     var spriteSize: Int
-    var targetScoreKorr: CGFloat
+    var targetScoreKorr: Int
     var timeLimitKorr: Int
     
     init()
