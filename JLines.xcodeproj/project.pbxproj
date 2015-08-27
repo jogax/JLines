@@ -67,6 +67,7 @@
 		20F813471B53D3DA0046463A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813461B53D3DA0046463A /* SKButton.swift */; };
 		20F813491B53D3E50046463A /* PlayWithSpritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */; };
 		20F8134B1B53F1F90046463A /* MySKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F8134A1B53F1F90046463A /* MySKNode.swift */; };
+		20F8E8D31B8F5D46004ACA0F /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F8E8D21B8F5D46004ACA0F /* Stack.swift */; };
 		20FA924A1B8B8A0300568BE5 /* Mirror.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA92491B8B8A0300568BE5 /* Mirror.m4a */; };
 		20FA924C1B8B8BF600568BE5 /* Winner.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA924B1B8B8BF600568BE5 /* Winner.m4a */; };
 		20FA924E1B8B92A100568BE5 /* Timeout.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA924D1B8B92A100568BE5 /* Timeout.m4a */; };
@@ -165,6 +166,7 @@
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
 		20F8134A1B53F1F90046463A /* MySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySKNode.swift; sourceTree = "<group>"; };
+		20F8E8D21B8F5D46004ACA0F /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		20FA92491B8B8A0300568BE5 /* Mirror.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Mirror.m4a; sourceTree = "<group>"; };
 		20FA924B1B8B8BF600568BE5 /* Winner.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Winner.m4a; sourceTree = "<group>"; };
 		20FA924D1B8B92A100568BE5 /* Timeout.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Timeout.m4a; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				202CC6101B4450890074D44A /* PlayWithPointsViewController.swift */,
 				20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */,
 				20F813441B53D3CB0046463A /* GameScene.swift */,
+				20F8E8D21B8F5D46004ACA0F /* Stack.swift */,
 				20FCED761B84AA7300BFA59A /* LevelsForPlayWithSprites.swift */,
 				20FB88751B57B139007843A2 /* LevelsForPlayWithSprites.json */,
 				20F8134A1B53F1F90046463A /* MySKNode.swift */,
@@ -521,6 +524,7 @@
 				20FCED771B84AA7300BFA59A /* LevelsForPlayWithSprites.swift in Sources */,
 				200A75B61B3076EA00FA596A /* Array2D.swift in Sources */,
 				200A75981B30700900FA596A /* Extensions.swift in Sources */,
+				20F8E8D31B8F5D46004ACA0F /* Stack.swift in Sources */,
 				200A75A01B3074F300FA596A /* ChooseColorViewController.swift in Sources */,
 				200A75781B306EA700FA596A /* ViewController.swift in Sources */,
 				200A759C1B3070D000FA596A /* SettingsViewController.swift in Sources */,

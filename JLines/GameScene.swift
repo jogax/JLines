@@ -558,10 +558,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
-        if movedFromNode != nil {
-            if self.childNodeWithName("myLine") != nil {
-                self.childNodeWithName("myLine")!.removeFromParent()
-            }
+        while self.childNodeWithName("myLine") != nil {
+            self.childNodeWithName("myLine")!.removeFromParent()
+        }
+        if movedFromNode != nil && !stopped {
 //            if self.childNodeWithName("myLine") != nil {
 //                self.childNodeWithName("myLine")!.removeFromParent()
 //            }
@@ -744,44 +744,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) {
         
-        if !stopped {
-            var movingSprite: SKPhysicsBody
-            var partner: SKPhysicsBody
+        var movingSprite: SKPhysicsBody
+        var partner: SKPhysicsBody
+        
+        switch (contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask) {
+        case (PhysicsCategory.Sprite, PhysicsCategory.MovingSprite):
+            movingSprite = contact.bodyB
+            partner = contact.bodyA
+            spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
             
-            switch (contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask) {
-            case (PhysicsCategory.Sprite, PhysicsCategory.MovingSprite):
-                movingSprite = contact.bodyB
-                partner = contact.bodyA
-                spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
-                
-            case (PhysicsCategory.MovingSprite, PhysicsCategory.Sprite):
-                movingSprite = contact.bodyA
-                partner = contact.bodyB
-                spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
-                
-            case (PhysicsCategory.Container, PhysicsCategory.MovingSprite):
-                movingSprite = contact.bodyB
-                partner = contact.bodyA
-                spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+        case (PhysicsCategory.MovingSprite, PhysicsCategory.Sprite):
+            movingSprite = contact.bodyA
+            partner = contact.bodyB
+            spriteDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+            
+        case (PhysicsCategory.Container, PhysicsCategory.MovingSprite):
+            movingSprite = contact.bodyB
+            partner = contact.bodyA
+            spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
 
-            case (PhysicsCategory.MovingSprite, PhysicsCategory.Container):
-                movingSprite = contact.bodyA
-                partner = contact.bodyB
-                spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
+        case (PhysicsCategory.MovingSprite, PhysicsCategory.Container):
+            movingSprite = contact.bodyA
+            partner = contact.bodyB
+            spriteDidCollideWithContainer(movingSprite.node as! MySKNode, node2: partner.node as! MySKNode)
 
-            case (PhysicsCategory.WallAround, PhysicsCategory.MovingSprite):
-                movingSprite = contact.bodyB
-                partner = contact.bodyA
-                wallAroundDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node!)
-                
-            case (PhysicsCategory.MovingSprite, PhysicsCategory.WallAround):
-                movingSprite = contact.bodyA
-                partner = contact.bodyB
-                wallAroundDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node!)
-            default: let a = 0
-                
-           }
-        }
+        case (PhysicsCategory.WallAround, PhysicsCategory.MovingSprite):
+            movingSprite = contact.bodyB
+            partner = contact.bodyA
+            wallAroundDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node!)
+            
+        case (PhysicsCategory.MovingSprite, PhysicsCategory.WallAround):
+            movingSprite = contact.bodyA
+            partner = contact.bodyB
+            wallAroundDidCollideWithMovingSprite(movingSprite.node as! MySKNode, node2: partner.node!)
+        default: let a = 0
+            
+       }
     }
     
     func checkGameArray() -> Int {
