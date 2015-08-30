@@ -52,10 +52,11 @@ struct PhysicsCategory {
 
 struct MyNodeTypes {
     static let none:            UInt32 = 0
-    static let GameScene:       UInt32 = 0b1
-    static let LabelNode:       UInt32 = 0b10
-    static let SpriteNode:      UInt32 = 0b100
-    static let ContainerNode:   UInt32 = 0b1000
+    static let GameScene:       UInt32 = 0b1        // 1
+    static let LabelNode:       UInt32 = 0b10       // 2
+    static let SpriteNode:      UInt32 = 0b100      // 4
+    static let ContainerNode:   UInt32 = 0b1000     // 8
+    static let ButtonNode:      UInt32 = 0b10000    // 16
 }
 
 struct Container {
@@ -65,12 +66,14 @@ struct Container {
 }
 
 struct SaveSpritePos {
-    var startPos: CGPoint
-    var endPos: CGPoint
-    init() {
-        startPos  = CGPointMake(0, 0)
-        endPos  = CGPointMake(0, 0)
-    }
+    var startPositon: CGPoint = CGPointMake(0, 0)
+    var endPosition: CGPoint = CGPointMake(0, 0)
+    var colorIndex: Int = 0
+    var size: CGSize = CGSizeMake(0, 0)
+    var hitCounter: Int = 0
+    var column: Int = 0
+    var row: Int = 0
+    
 }
 
 
@@ -117,8 +120,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var countColorsProContainer = [Int]()
     
     var movedFromNode: MySKNode!
-    var restartButton: SKButton?
-    var undoButton: SKButton?
+    var restartButton: MySKNode?
+    var undoButton: MySKNode?
     var gameArray = [[Bool]]() // true if Cell used
     var collisionActive = false
     var levelIndex = Int(GV.spriteGameData.spriteLevelIndex)
@@ -132,6 +135,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var levelScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var countdownLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
     var targetScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+    var buttonField: SKSpriteNode?
     //var levelArray = [Level]()
     var countLostGames = 0
     var stopped = true
@@ -149,8 +153,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var spriteCount = 0
 
     var levelsForPlayWithSprites = LevelsForPlayWithSprites()
-    let yKorr1: CGFloat = GV.onIpad ? 0.9 : 0.8
-    let yKorr2: CGFloat = GV.onIpad ? 2.7 : 2.0
     var audioPlayer: AVAudioPlayer?
     var soundPlayer: AVAudioPlayer?
     var stack:Stack<SaveSpritePos> = Stack()
@@ -208,7 +210,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     }
 
     func undoButtonPressed() {
-        newGame(false)
+        pull()
     }
     
     func prepareNextGame() {
@@ -218,7 +220,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             countDown!.invalidate()
             countDown = nil
         }
-                
+
+        buttonField = SKSpriteNode(texture: nil)
+        buttonField!.color = SKColor.blueColor()
+        buttonField!.position = CGPointMake(self.position.x + self.size.width / 2, self.position.y)
+        buttonField!.size = CGSizeMake(self.size.width, self.size.height * 0.2)
+        self.addChild(buttonField!)
+
         countContainers = levelsForPlayWithSprites.aktLevel.countContainers
         countSpritesProContainer = levelsForPlayWithSprites.aktLevel.countSpritesProContainer
         targetScoreKorr = levelsForPlayWithSprites.aktLevel.targetScoreKorr
@@ -255,7 +263,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             let centerY = size.height * containersPosCorr.y
             let cont: Container
             //if index == 0 {
-                cont = Container(mySKNode: MySKNode(texture: SKTexture(imageNamed:"sprite\(index)"), type: .ContainerType), label: SKLabelNode(), countHits: 0)
+            cont = Container(mySKNode: MySKNode(texture: SKTexture(imageNamed:"sprite\(index)"), type: .ContainerType), label: SKLabelNode(), countHits: 0)
 /*
         } else {
                 cont = Container(mySKNode: MySKNode(texture: containerTexture, type: .ContainerType), label: SKLabelNode(), countHits: 0)
@@ -348,23 +356,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         //let buttonTextureSelected = SKTexture(image: GV.drawButton(CGSizeMake(95,38), imageColor: UIColor.blueColor().CGColor))
 
         let restartTextureNormal = SKTexture(imageNamed: "restart")
-        let restartTextureSelected = SKTexture(imageNamed: "restartPressed")
 
-        restartButton = SKButton(normalTexture: restartTextureNormal, selectedTexture: restartTextureSelected, disabledTexture: restartTextureNormal)
+        restartButton = MySKNode(texture: restartTextureNormal, type: MySKNodeType.ButtonType)
+        //restartButton = SKButton(normalTexture: restartTextureNormal, selectedTexture: restartTextureSelected, disabledTexture: restartTextureNormal)
         restartButton!.position = CGPointMake(myView.frame.width / 2, myView.frame.height * 0.05)
         restartButton!.size = CGSizeMake(myView.frame.width / 10, myView.frame.width / 10)
-        restartButton!.setButtonAction(self, triggerEvent: .TouchUpInside, action:"restartButtonPressed")
-        restartButton!.buttonName = "restart"
+        //restartButton!.setButtonAction(self, triggerEvent: .TouchUpInside, action:"restartButtonPressed")
+        restartButton!.name = "restart"
         addChild(restartButton!)
         
         let undoTextureNormal = SKTexture(imageNamed: "undo")
-        let undoTextureSelected = SKTexture(imageNamed: "undoPressed")
         
-        undoButton = SKButton(normalTexture: undoTextureNormal, selectedTexture: undoTextureSelected, disabledTexture: undoTextureNormal)
+        //undoButton = SKButton(normalTexture: undoTextureNormal, selectedTexture: undoTextureSelected, disabledTexture: undoTextureNormal)
+        undoButton = MySKNode(texture: undoTextureNormal, type: MySKNodeType.ButtonType)
         undoButton!.position = CGPointMake(myView.frame.width / 3, myView.frame.height * 0.05)
         undoButton!.size = CGSizeMake(myView.frame.width / 10, myView.frame.width / 10)
-        undoButton!.setButtonAction(self, triggerEvent: .TouchUpInside, action:"undoButtonPressed")
-        undoButton!.buttonName = "undo"
+        //undoButton!.setButtonAction(self, triggerEvent: .TouchUpInside, action:"undoButtonPressed")
+        undoButton!.name = "undo"
         addChild(undoButton!)
         
         backgroundColor = UIColor.whiteColor() //SKColor.whiteColor()
@@ -386,10 +394,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         case is GameScene: return MyNodeTypes.GameScene
         case is SKLabelNode: return MyNodeTypes.LabelNode
         case is MySKNode:
-            if (testNode as! MySKNode).type == .ContainerType {
-                return MyNodeTypes.ContainerNode
-            } else {
-                return MyNodeTypes.SpriteNode
+            switch (testNode as! MySKNode).type {
+            case .ContainerType: return MyNodeTypes.ContainerNode
+            case .SpriteType: return MyNodeTypes.SpriteNode
+            case .ButtonType: return MyNodeTypes.ButtonNode
+            default: return MyNodeTypes.none
             }
         default: return MyNodeTypes.none
         }
@@ -440,15 +449,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             colorTab.removeAtIndex(colorTabIndex)
             
             let aktColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1].CGColor
-            var containerTexture = SKTexture()
+            var spriteTexture = SKTexture()
 //            if colorIndex == 0 {
-                containerTexture = SKTexture(imageNamed: "sprite\(colorIndex)")
+                spriteTexture = SKTexture(imageNamed: "sprite\(colorIndex)")
 //            } else {
 //                containerTexture = SKTexture(image: GV.drawCircle(CGSizeMake(spriteSize,spriteSize), imageColor: aktColor))
 //            }
-            let sprite = MySKNode(texture: containerTexture, type: .SpriteType)
+            let sprite = MySKNode(texture: spriteTexture, type: .SpriteType)
             sprite.size.width = spriteSize
             sprite.size.height = spriteSize
+            let yKorr1: CGFloat = GV.onIpad ? 0.9 : 0.8
+            let yKorr2: CGFloat = GV.onIpad ? 1.8 : 2.0
+
             let index = GV.random(0, max: positionsTab.count - 1)
             let (aktColumn, aktRow) = positionsTab[index]
             let xPosition = CGFloat(aktColumn) * tableCellSize + tableCellSize / 2
@@ -479,11 +491,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
 
         var width: CGFloat = 4
         var length: CGFloat = 0
+        let yKorrBottom = size.height * 0.1
         switch linePosition {
-        case .upperHorizontal:  myWallRect = CGRectMake(position.x, position.y, size.width, 1)
-        case .rightVertical:    myWallRect = CGRectMake(position.x + size.width, position.y,  1, size.height)
-        case .bottomHorizontal: myWallRect = CGRectMake(position.x, position.y + size.height,  size.width, 1)
-        case .leftVertical:     myWallRect = CGRectMake(position.x, position.y,  1, size.height)
+        case .bottomHorizontal:  myWallRect = CGRectMake(position.x, position.y + yKorrBottom, size.width, 1)
+        case .rightVertical:    myWallRect = CGRectMake(position.x + size.width, position.y + yKorrBottom,  1, size.height)
+        case .upperHorizontal: myWallRect = CGRectMake(position.x, position.y + size.height,  size.width, 1)
+        case .leftVertical:     myWallRect = CGRectMake(position.x, position.y + yKorrBottom,  1, size.height)
         default:                myWallRect = CGRectZero
         }
         
@@ -508,6 +521,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             case MyNodeTypes.LabelNode: movedFromNode = self.nodeAtPoint(touchLocation).parent as! MySKNode
             case MyNodeTypes.SpriteNode: movedFromNode = self.nodeAtPoint(touchLocation) as! MySKNode
             case MyNodeTypes.ContainerNode: movedFromNode = nil
+            case MyNodeTypes.ButtonNode:
+                movedFromNode = self.nodeAtPoint(touchLocation) as! MySKNode
+                let textureName = "\(testNode.name!)Pressed"
+                let textureSelected = SKTexture(imageNamed: textureName)
+                (testNode as! MySKNode).texture = textureSelected
             default: movedFromNode = nil
         }
     }
@@ -529,59 +547,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             switch aktNodeType {
                 case MyNodeTypes.LabelNode: aktNode = self.nodeAtPoint(touchLocation).parent as! MySKNode
                 case MyNodeTypes.SpriteNode: aktNode = self.nodeAtPoint(touchLocation) as! MySKNode
+                case MyNodeTypes.ButtonNode: self.nodeAtPoint(touchLocation) as! MySKNode
                 default: aktNode = nil
             }
             if movedFromNode != aktNode {
-                let offset = touchLocation - movedFromNode.position
-                let direction = offset.normalized()
-                let shootAmount = direction * 1000
-                let realDest = shootAmount + movedFromNode.position
-                
-                
-                
-                
-                let pathToDraw:CGMutablePathRef = CGPathCreateMutable()
-                let myLine:SKShapeNode = SKShapeNode(path:pathToDraw)
-                myLine.lineWidth = movedFromNode.size.width
-                
-                myLine.name = "myLine"
-                CGPathMoveToPoint(pathToDraw, nil, movedFromNode.position.x, movedFromNode.position.y)
-                CGPathAddLineToPoint(pathToDraw, nil, realDest.x, realDest.y)
-                
-                myLine.path = pathToDraw
-                //let name = movedFromNode.name!
-                //let colorIndex = name.toInt()! - 100
-                let colorIndex = movedFromNode.colorIndex
-                
-                myLine.strokeColor = SKColor(red: 1.0, green: 0, blue: 0, alpha: 0.05) // GV.colorSets[GV.colorSetIndex][colorIndex + 1]
-                self.addChild(myLine)
-/*
-                var endPointOfLine = CGPointZero
-                var multiplier: CGFloat = 0
-                
-                if direction.x > 0 {
-                    endPointOfLine.x = self.size.width
+                if movedFromNode.type == .ButtonType {
+                    movedFromNode.texture = SKTexture(imageNamed: "\(movedFromNode.name!)")
+                } else {
+                    let offset = touchLocation - movedFromNode.position
+                    let direction = offset.normalized()
+                    let shootAmount = direction * 1000
+                    let realDest = shootAmount + movedFromNode.position
+                    
+                    let pathToDraw:CGMutablePathRef = CGPathCreateMutable()
+                    let myLine:SKShapeNode = SKShapeNode(path:pathToDraw)
+                    myLine.lineWidth = movedFromNode.size.width
+                    
+                    myLine.name = "myLine"
+                    CGPathMoveToPoint(pathToDraw, nil, movedFromNode.position.x, movedFromNode.position.y)
+                    CGPathAddLineToPoint(pathToDraw, nil, realDest.x, realDest.y)
+                    
+                    myLine.path = pathToDraw
+                    //let name = movedFromNode.name!
+                    //let colorIndex = name.toInt()! - 100
+                    let colorIndex = movedFromNode.colorIndex
+                    
+                    myLine.strokeColor = SKColor(red: 1.0, green: 0, blue: 0, alpha: 0.05) // GV.colorSets[GV.colorSetIndex][colorIndex + 1]
+                    self.addChild(myLine)
                 }
-                let xLength = abs(endPointOfLine.x - movedFromNode.position.x)
-                multiplier = xLength / direction.x
-                endPointOfLine.y = abs(direction.y * multiplier)
-                
-                let pathToDraw1:CGMutablePathRef = CGPathCreateMutable()
-                let myLine1: SKShapeNode = SKShapeNode(path:pathToDraw1)
-                myLine1.lineWidth = movedFromNode.size.width
-                
-                myLine1.name = "myLine"
-                CGPathMoveToPoint(pathToDraw1, nil, endPointOfLine.x, endPointOfLine.y)
-                CGPathAddLineToPoint(pathToDraw1, nil, realDest.x, realDest.y)
-                
-                let direction1 = endPointOfLine.normalized()
-                let shootAmount1 = direction1 * 1000
-                let realDest1 = shootAmount1 + endPointOfLine
-                
-                myLine1.path = pathToDraw1
-                myLine1.strokeColor = SKColor(red: 0, green: 0, blue: 1, alpha: 0.1) // GV.colorSets[GV.colorSetIndex][colorIndex + 1]
-                self.addChild(myLine1)
-*/
             }
             
         }
@@ -605,34 +598,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             switch aktNodeType {
                 case MyNodeTypes.LabelNode: aktNode = self.nodeAtPoint(touchLocation).parent as! MySKNode
                 case MyNodeTypes.SpriteNode: aktNode = self.nodeAtPoint(touchLocation) as! MySKNode
+                case MyNodeTypes.ButtonNode:
+                    (testNode as! MySKNode).texture = SKTexture(imageNamed: "\(testNode.name!)")
                 default: aktNode = nil
             }
 
-            if aktNode == nil || (aktNode as! MySKNode) != movedFromNode {
-                let node = movedFromNode// as! SKSpriteNode
-                node!.physicsBody = SKPhysicsBody(circleOfRadius: node!.size.width/2)
-                //println("nodeSize:\(node.size.width)")
-                node.physicsBody?.dynamic = true
-                node.physicsBody?.categoryBitMask = PhysicsCategory.MovingSprite
-                node.physicsBody?.contactTestBitMask = PhysicsCategory.Sprite | PhysicsCategory.Container | PhysicsCategory.WallAround
-                node.physicsBody?.collisionBitMask = PhysicsCategory.None
-                
-                node.physicsBody?.usesPreciseCollisionDetection = true
-                let offset = touchLocation - movedFromNode.position
+            if aktNode != nil && (aktNode as! MySKNode).type == .ButtonType {
+                switch (aktNode as! MySKNode).name! {
+                    case "restart": restartButtonPressed()
+                    case "undo": undoButtonPressed()
+                    default: undoButtonPressed()
+                }
+            } else {
+                if aktNode == nil || (aktNode as! MySKNode) != movedFromNode {
+                    let node = movedFromNode// as! SKSpriteNode
+                    node!.physicsBody = SKPhysicsBody(circleOfRadius: node!.size.width/2)
+                    //println("nodeSize:\(node.size.width)")
+                    node.physicsBody?.dynamic = true
+                    node.physicsBody?.categoryBitMask = PhysicsCategory.MovingSprite
+                    node.physicsBody?.contactTestBitMask = PhysicsCategory.Sprite | PhysicsCategory.Container | PhysicsCategory.WallAround
+                    node.physicsBody?.collisionBitMask = PhysicsCategory.None
+                    
+                    node.physicsBody?.usesPreciseCollisionDetection = true
+                    let offset = touchLocation - movedFromNode.position
 
-                let direction = offset.normalized()
-                
-                // 7 - Make it shoot far enough to be guaranteed off screen
-                let shootAmount = direction * 1000
-                
-                // 8 - Add the shoot amount to the current position
-                let realDest = shootAmount + movedFromNode.position
-                
-                // 9 - Create the actions
-                let actionMove = SKAction.moveTo(realDest, duration: 2.0)
-                //let actionMoveDone = SKAction.removeFromParent()
-                collisionActive = true
-                movedFromNode.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
+                    let direction = offset.normalized()
+                    
+                    // 7 - Make it shoot far enough to be guaranteed off screen
+                    let shootAmount = direction * 1000
+                    
+                    // 8 - Add the shoot amount to the current position
+                    let realDest = shootAmount + movedFromNode.position
+                    
+                    // 9 - Create the actions
+                    let actionMove = SKAction.moveTo(realDest, duration: 2.0)
+                    //let actionMoveDone = SKAction.removeFromParent()
+                    collisionActive = true
+                    movedFromNode.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
+                }
             }
         }
     }
@@ -774,7 +777,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             collisionActive = true
             movingSprite.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
             playSound("Mirror", volume: 0.03)
-
+            //push(movingSprite)
             checkGameFinished()
         }
     }
@@ -926,11 +929,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     
     func push(sprite: MySKNode) {
         var saveSpritePos = SaveSpritePos()
-        saveSpritePos.startPos = sprite.startPosition
-        saveSpritePos.endPos = sprite.position
+        saveSpritePos.startPositon = sprite.startPosition
+        saveSpritePos.endPosition = sprite.position
+        saveSpritePos.colorIndex = sprite.colorIndex
+        saveSpritePos.size = sprite.size
+        saveSpritePos.hitCounter = sprite.hitCounter
+        saveSpritePos.column = sprite.column
+        saveSpritePos.row = sprite.row
         stack.push(saveSpritePos)
     }
     
+    func pull() {
+        if let saveSpritePos = stack.pull() {
+            let spriteTexture = SKTexture(imageNamed: "sprite\(saveSpritePos.colorIndex)")
+            var sprite = MySKNode(texture: spriteTexture, type: .SpriteType)
+            sprite.position = saveSpritePos.endPosition
+            sprite.startPosition = saveSpritePos.startPositon
+            sprite.size = saveSpritePos.size
+            sprite.column = saveSpritePos.column
+            sprite.row = saveSpritePos.row
+            sprite.hitCounter = saveSpritePos.hitCounter
+            self.addChild(sprite)
+            let actionMove = SKAction.moveTo(sprite.startPosition, duration: 1.0)
+            sprite.runAction(SKAction.sequence([actionMove]))
+
+        }
+    }
+
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully
         flag: Bool) {
     }

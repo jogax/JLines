@@ -41,8 +41,8 @@ class PlayWithSpritesViewController: UIViewController {
         view.addSubview(undoButton)
         
         GV.spriteGameData = GV.dataStore.getSpriteData()        
-        let gameWidth = view.frame.size.width * CGFloat(GV.onIpad ? 0.7 : 0.9)
-        let gameHeight = view.frame.size.height * CGFloat(GV.onIpad ? 0.85 : 0.85)
+        let gameWidth = view.frame.size.width * CGFloat(GV.onIpad ? 0.8 : 0.9)
+        let gameHeight = view.frame.size.height * CGFloat(GV.onIpad ? 0.9 : 0.85)
         let gameX = (view.frame.size.width - gameWidth) / 2
         let gameY = (view.frame.size.height - gameHeight) / 3
         let frame = CGRectMake(gameX, gameY, gameWidth, gameHeight)

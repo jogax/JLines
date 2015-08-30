@@ -20,9 +20,13 @@ class Stack<T> {
     }
     
     func pull () -> T? {
-        let value = stack.last
-        stack.removeLast()
-        return value!
+
+        if stack.count > 0 {
+            let value = stack.last
+            stack.removeLast()
+            return value!
+        } else {
+            return nil
+        }
     }
-    
 }
