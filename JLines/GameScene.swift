@@ -64,6 +64,15 @@ struct Container {
     var countHits: Int
 }
 
+struct SaveSpritePos {
+    var startPos: CGPoint
+    var endPos: CGPoint
+    init() {
+        startPos  = CGPointMake(0, 0)
+        endPos  = CGPointMake(0, 0)
+    }
+}
+
 
 enum LinePosition: Int, Printable {
     case upperHorizontal = 0, rightVertical, bottomHorizontal, leftVertical
@@ -108,7 +117,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var countColorsProContainer = [Int]()
     
     var movedFromNode: MySKNode!
-    var backButton: SKButton?
+    var restartButton: SKButton?
+    var undoButton: SKButton?
     var gameArray = [[Bool]]() // true if Cell used
     var collisionActive = false
     var levelIndex = Int(GV.spriteGameData.spriteLevelIndex)
@@ -143,8 +153,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     let yKorr2: CGFloat = GV.onIpad ? 2.7 : 2.0
     var audioPlayer: AVAudioPlayer?
     var soundPlayer: AVAudioPlayer?
+    var stack:Stack<SaveSpritePos> = Stack()
     
-    let scoreAddCorrected = [1:0, 2:1, 3:2, 4:4, 5:5, 6:7, 7:8, 8:10, 9:11, 10:13, 11:14, 12:16,13:17,14:19, 15:20, 16:22, 17:23, 18:24, 19:25, 20:27, 21:28, 22:30, 23:31, 24:33, 25:34, 26:36, 27:37, 28:39, 29:40, 30:42, 31:43, 32:45, 33:46, 34:47, 35:48, 36:50, 37:51, 38:53, 39:54, 40:54, 41:53, 42:53, 43:52, 44:52, 45:51, 46:51, 47:51, 48:50, 49:50, 50:50, 51:51, 52:52, 53:53, 54:54, 55:55, 56:56, 57:57, 58:58, 59:59, 60:60, 61:61, 62:62, 63:63, 64:64, 65:65, 66:66, 67:67, 68:68, 69:69, 70:70, 71:71, 72:72, 73:73, 74:74, 75:75, 76:76, 77:77, 78:78, 79:79, 80:80, 81:81, 82:82, 83:83, 84:84, 85:85, 86:86, 87:87, 88:88, 89:89, 90:90, 91:91, 92:92, 93:93, 94:94, 95:95, 96:96, 97:97, 98:98, 99:99, 1000:100]
+    let scoreAddCorrected = [1:0, 2:1, 3:2, 4:4, 5:5, 6:7, 7:8, 8:10, 9:11, 10:13, 11:14, 12:16,13:17,14:19, 15:20, 16:22, 17:23, 18:24, 19:25, 20:27, 21:28, 22:30, 23:31, 24:33, 25:34, 26:36, 27:37, 28:39, 29:40, 30:42, 31:43, 32:45, 33:46, 34:47, 35:48, 36:50, 37:51, 38:53, 39:54, 40:54, 41:53, 42:53, 43:52, 44:52, 45:51, 46:51, 47:51, 48:50, 49:50, 50:50, 51:51, 52:52, 53:53, 54:54, 55:55, 56:56, 57:57, 58:58, 59:59, 60:60, 61:61, 62:62, 63:63, 64:64, 65:65, 66:66, 67:67, 68:68, 69:69, 70:70, 71:71, 72:72, 73:73, 74:74, 75:75, 76:76, 77:77, 78:78, 79:79, 80:80, 81:81, 82:82, 83:83, 84:84, 85:85, 86:86, 87:87, 88:88, 89:89, 90:90, 91:91, 92:92, 93:93, 94:94, 95:95, 96:96, 97:97, 98:98, 99:99, 100:100]
     
 
     
@@ -196,6 +207,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         newGame(false)
     }
 
+    func undoButtonPressed() {
+        newGame(false)
+    }
+    
     func prepareNextGame() {
         //var currentTime = NSDate()
         GV.startTime = NSDate()
@@ -329,14 +344,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         self.addChild(targetScoreLabel)
         
         
-        let buttonTextureNormal = SKTexture(image: GV.drawButton(CGSizeMake(100,40), imageColor: UIColor.blueColor().CGColor))
-        let buttonTextureSelected = SKTexture(image: GV.drawButton(CGSizeMake(95,38), imageColor: UIColor.blueColor().CGColor))
-        backButton = SKButton(normalTexture: buttonTextureNormal, selectedTexture: buttonTextureSelected, disabledTexture: buttonTextureNormal)
-        backButton!.position = CGPointMake(myView.frame.width / 2, myView.frame.height * 0.10)
-        backButton!.size = CGSizeMake(myView.frame.width / 5, myView.frame.height / 15)
-        backButton!.setButtonLabel(title: "Restart", font: "HelveticaBold", fontSize: 15)
-        backButton!.setButtonAction(self, triggerEvent: .TouchUpInside, action:"restartButtonPressed")
-        addChild(backButton!)
+        //let buttonTextureNormal = SKTexture(image: GV.drawButton(CGSizeMake(100,40), imageColor: UIColor.blueColor().CGColor))
+        //let buttonTextureSelected = SKTexture(image: GV.drawButton(CGSizeMake(95,38), imageColor: UIColor.blueColor().CGColor))
+
+        let restartTextureNormal = SKTexture(imageNamed: "restart")
+        let restartTextureSelected = SKTexture(imageNamed: "restartPressed")
+
+        restartButton = SKButton(normalTexture: restartTextureNormal, selectedTexture: restartTextureSelected, disabledTexture: restartTextureNormal)
+        restartButton!.position = CGPointMake(myView.frame.width / 2, myView.frame.height * 0.05)
+        restartButton!.size = CGSizeMake(myView.frame.width / 10, myView.frame.width / 10)
+        restartButton!.setButtonAction(self, triggerEvent: .TouchUpInside, action:"restartButtonPressed")
+        restartButton!.buttonName = "restart"
+        addChild(restartButton!)
+        
+        let undoTextureNormal = SKTexture(imageNamed: "undo")
+        let undoTextureSelected = SKTexture(imageNamed: "undoPressed")
+        
+        undoButton = SKButton(normalTexture: undoTextureNormal, selectedTexture: undoTextureSelected, disabledTexture: undoTextureNormal)
+        undoButton!.position = CGPointMake(myView.frame.width / 3, myView.frame.height * 0.05)
+        undoButton!.size = CGSizeMake(myView.frame.width / 10, myView.frame.width / 10)
+        undoButton!.setButtonAction(self, triggerEvent: .TouchUpInside, action:"undoButtonPressed")
+        undoButton!.buttonName = "undo"
+        addChild(undoButton!)
+        
         backgroundColor = UIColor.whiteColor() //SKColor.whiteColor()
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -641,6 +671,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         let containerColorIndex = container.colorIndex
         let spriteColorIndex = movingSprite.colorIndex
         var OK = containerColorIndex == spriteColorIndex
+        
+        push(movingSprite)
+        
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
             if movingSprite.hitCounter < 100 {
@@ -673,8 +706,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         let spriteColorIndex = sprite.colorIndex
         let aktColor = GV.colorSets[GV.colorSetIndex][sprite.colorIndex + 1].CGColor
         collisionActive = false
+        push(movingSprite)
+        
         var OK = movingSpriteColorIndex == spriteColorIndex
         if OK {
+            
             sprite.hitCounter = movingSprite.hitCounter + sprite.hitCounter
             let aktSize = spriteSize + 1.1 * CGFloat(sprite.hitCounter)
             sprite.size.width = aktSize
@@ -684,6 +720,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             gameArray[movingSprite.column][movingSprite.row] = false
             movingSprite.removeFromParent()
         } else {
+            push(sprite)
             movingSprite.physicsBody?.categoryBitMask = PhysicsCategory.None
             containers[movingSprite.colorIndex].mySKNode.hitCounter -= movingSprite.hitCounter
             containers[sprite.colorIndex].mySKNode.hitCounter -= sprite.hitCounter
@@ -885,6 +922,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             }
             println()
         }
+    }
+    
+    func push(sprite: MySKNode) {
+        var saveSpritePos = SaveSpritePos()
+        saveSpritePos.startPos = sprite.startPosition
+        saveSpritePos.endPos = sprite.position
+        stack.push(saveSpritePos)
     }
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully

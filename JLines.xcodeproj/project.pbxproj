@@ -67,6 +67,10 @@
 		20F813471B53D3DA0046463A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813461B53D3DA0046463A /* SKButton.swift */; };
 		20F813491B53D3E50046463A /* PlayWithSpritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */; };
 		20F8134B1B53F1F90046463A /* MySKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F8134A1B53F1F90046463A /* MySKNode.swift */; };
+		20F89B321B8F90010030A9B6 /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F89B311B8F90010030A9B6 /* undo.png */; };
+		20F89B341B8F90F00030A9B6 /* undoPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F89B331B8F90EF0030A9B6 /* undoPressed.png */; };
+		20F89B371B8F96400030A9B6 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F89B351B8F96400030A9B6 /* restart.png */; };
+		20F89B381B8F96400030A9B6 /* restartPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F89B361B8F96400030A9B6 /* restartPressed.png */; };
 		20F8E8D31B8F5D46004ACA0F /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F8E8D21B8F5D46004ACA0F /* Stack.swift */; };
 		20FA924A1B8B8A0300568BE5 /* Mirror.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA92491B8B8A0300568BE5 /* Mirror.m4a */; };
 		20FA924C1B8B8BF600568BE5 /* Winner.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FA924B1B8B8BF600568BE5 /* Winner.m4a */; };
@@ -166,6 +170,10 @@
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
 		20F8134A1B53F1F90046463A /* MySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySKNode.swift; sourceTree = "<group>"; };
+		20F89B311B8F90010030A9B6 /* undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo.png; sourceTree = "<group>"; };
+		20F89B331B8F90EF0030A9B6 /* undoPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undoPressed.png; sourceTree = "<group>"; };
+		20F89B351B8F96400030A9B6 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
+		20F89B361B8F96400030A9B6 /* restartPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restartPressed.png; sourceTree = "<group>"; };
 		20F8E8D21B8F5D46004ACA0F /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		20FA92491B8B8A0300568BE5 /* Mirror.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Mirror.m4a; sourceTree = "<group>"; };
 		20FA924B1B8B8BF600568BE5 /* Winner.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Winner.m4a; sourceTree = "<group>"; };
@@ -352,6 +360,10 @@
 		20FCA1EA1B6262E400FBE816 /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
+				20F89B311B8F90010030A9B6 /* undo.png */,
+				20F89B351B8F96400030A9B6 /* restart.png */,
+				20F89B361B8F96400030A9B6 /* restartPressed.png */,
+				20F89B331B8F90EF0030A9B6 /* undoPressed.png */,
 				20FCA1F91B627B4A00FBE816 /* Holz.png */,
 				20FCA1F31B62706000FBE816 /* sprite0.png */,
 				20FCA1F21B62706000FBE816 /* sprite1.png */,
@@ -464,6 +476,7 @@
 				20FA92501B8B971400568BE5 /* Lost.m4a in Resources */,
 				20FD1B461B8A1F6900B10FCB /* MyMusic.m4a in Resources */,
 				2001B7DD1B359D920029E2A6 /* BonusPack.json in Resources */,
+				20F89B341B8F90F00030A9B6 /* undoPressed.png in Resources */,
 				20F602301B63D320002F66C7 /* hu.json in Resources */,
 				20F602331B63D320002F66C7 /* ru.json in Resources */,
 				20F602311B63D320002F66C7 /* de.json in Resources */,
@@ -478,6 +491,7 @@
 				2005B3AC1B8B5C6A00B7F8B4 /* Do_1.m4a in Resources */,
 				20FCA1F51B62706000FBE816 /* sprite1.png in Resources */,
 				20FD48881B67C58A004FCBC8 /* sprite2.png in Resources */,
+				20F89B381B8F96400030A9B6 /* restartPressed.png in Resources */,
 				20B39C5F1B834332003F3788 /* sprite3.png in Resources */,
 				20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */,
 				20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */,
@@ -487,6 +501,8 @@
 				2005B3B21B8B6C2C00B7F8B4 /* Funk_Bot.m4a in Resources */,
 				20FA924E1B8B92A100568BE5 /* Timeout.m4a in Resources */,
 				20FCA1F41B62706000FBE816 /* sprite8.png in Resources */,
+				20F89B321B8F90010030A9B6 /* undo.png in Resources */,
+				20F89B371B8F96400030A9B6 /* restart.png in Resources */,
 				2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */,
 				20F602231B63D064002F66C7 /* Main.storyboard in Resources */,
 				2005B3B01B8B692300B7F8B4 /* Do_2.m4a in Resources */,

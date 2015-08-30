@@ -27,6 +27,7 @@ class SKButton: SKSpriteNode {
     var defaultTexture: SKTexture
     var selectedTexture: SKTexture
     var label: SKLabelNode
+    var buttonName: String = ""
     
     
     required init(coder: NSCoder) {
