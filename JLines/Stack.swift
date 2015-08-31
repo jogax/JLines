@@ -9,17 +9,17 @@
 import Foundation
 
 class Stack<T> {
-    private var stack: Array<T?>
+    private var stack: Array<SavedSprite>
     
     init() {
-        stack = Array<T?>()
+        stack = Array<SavedSprite>()
     }
     
-    func push (value: T?) {
+    func push (value: SavedSprite) {
         stack.append(value)
     }
     
-    func pull () -> T? {
+    func pull () -> SavedSprite? {
 
         if stack.count > 0 {
             let value = stack.last
