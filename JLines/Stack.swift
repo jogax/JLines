@@ -29,4 +29,12 @@ class Stack<T> {
             return nil
         }
     }
+    
+    func countChangesInStack() -> Int {
+        var counter = 0
+        for index in 0..<stack.count {
+            if stack[index].status != .Added {counter++}
+        }
+        return counter
+    }
 }

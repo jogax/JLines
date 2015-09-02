@@ -65,17 +65,20 @@ struct Container {
     var countHits: Int
 }
 
+enum SpriteStatus: Int {
+    case Added = 0, MovingStarted, SizeChanged, Mirrored, Falling, HitcounterChanged, Removed
+}
+
 struct SavedSprite {
-    var first = true
-    var new = true
-    var startPositon: CGPoint = CGPointMake(0, 0)
+    var status: SpriteStatus = .Added
+    var name: String = ""
+    var startPosition: CGPoint = CGPointMake(0, 0)
     var endPosition: CGPoint = CGPointMake(0, 0)
     var colorIndex: Int = 0
     var size: CGSize = CGSizeMake(0, 0)
     var hitCounter: Int = 0
     var column: Int = 0
     var row: Int = 0
-    
 }
 
 
@@ -111,13 +114,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var spriteSize:CGFloat = 0
     var minUsedCells = 0
     var maxUsedCells = 0
+    
 
     let timeLimitKorr = 5 // sec for pro Sprite
     var timeLimit = 0 // seconds
 
     var timer: NSTimer?
     var countDown: NSTimer?
-    var colorTab = [Int]()
+    
+    struct ColorTabLine {
+        var colorIndex: Int
+        var spriteName: String
+        init(colorIndex: Int, spriteName: String){
+            self.colorIndex = colorIndex
+            self.spriteName = spriteName
+        }
+    }
+    
+    var colorTab = [ColorTabLine]()
     var containers = [Container]()
     var countColorsProContainer = [Int]()
     
@@ -159,7 +173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var soundPlayer: AVAudioPlayer?
     var stack:Stack<SavedSprite> = Stack()
     
-    let scoreAddCorrected = [1:0, 2:1, 3:2, 4:4, 5:5, 6:7, 7:8, 8:10, 9:11, 10:13, 11:14, 12:16,13:17,14:19, 15:20, 16:22, 17:23, 18:24, 19:25, 20:27, 21:28, 22:30, 23:31, 24:33, 25:34, 26:36, 27:37, 28:39, 29:40, 30:42, 31:43, 32:45, 33:46, 34:47, 35:48, 36:50, 37:51, 38:53, 39:54, 40:54, 41:53, 42:53, 43:52, 44:52, 45:51, 46:51, 47:51, 48:50, 49:50, 50:50, 51:51, 52:52, 53:53, 54:54, 55:55, 56:56, 57:57, 58:58, 59:59, 60:60, 61:61, 62:62, 63:63, 64:64, 65:65, 66:66, 67:67, 68:68, 69:69, 70:70, 71:71, 72:72, 73:73, 74:74, 75:75, 76:76, 77:77, 78:78, 79:79, 80:80, 81:81, 82:82, 83:83, 84:84, 85:85, 86:86, 87:87, 88:88, 89:89, 90:90, 91:91, 92:92, 93:93, 94:94, 95:95, 96:96, 97:97, 98:98, 99:99, 100:100]
+    let scoreAddCorrected = [1:1, 2:2, 3:3, 4:4, 5:5, 6:7, 7:8, 8:10, 9:11, 10:13, 11:14, 12:16,13:17,14:19, 15:20, 16:22, 17:23, 18:24, 19:25, 20:27, 21:28, 22:30, 23:31, 24:33, 25:34, 26:36, 27:37, 28:39, 29:40, 30:42, 31:43, 32:45, 33:46, 34:47, 35:48, 36:50, 37:51, 38:53, 39:54, 40:54, 41:53, 42:53, 43:52, 44:52, 45:51, 46:51, 47:51, 48:50, 49:50, 50:50, 51:51, 52:52, 53:53, 54:54, 55:55, 56:56, 57:57, 58:58, 59:59, 60:60, 61:61, 62:62, 63:63, 64:64, 65:65, 66:66, 67:67, 68:68, 69:69, 70:70, 71:71, 72:72, 73:73, 74:74, 75:75, 76:76, 77:77, 78:78, 79:79, 80:80, 81:81, 82:82, 83:83, 84:84, 85:85, 86:86, 87:87, 88:88, 89:89, 90:90, 91:91, 92:92, 93:93, 94:94, 95:95, 96:96, 97:97, 98:98, 99:99, 100:100]
     
 
     
@@ -251,9 +265,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         }
         
         colorTab.removeAll(keepCapacity: false)
+        var spriteName = 10000
         for containerIndex in 0..<countContainers {
             for index in 0..<countSpritesProContainer! {
-                colorTab.append(containerIndex)
+                let colorTabLine = ColorTabLine(colorIndex: containerIndex, spriteName: "\(spriteName++)")
+                colorTab.append(colorTabLine)
             }
         }
         
@@ -273,6 +289,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             }
 */
             containers.append(cont)
+            containers[index].mySKNode.name = "\(index)"
             containers[index].mySKNode.position = CGPoint(x: centerX, y: centerY)
             containers[index].mySKNode.size.width = containerSize
             containers[index].mySKNode.size.height = containerSize
@@ -448,7 +465,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
 
         while colorTab.count > 0 && checkGameArray() < maxUsedCells {
             let colorTabIndex = GV.random(0, max: colorTab.count - 1)
-            let colorIndex = colorTab[colorTabIndex]
+            let colorIndex = colorTab[colorTabIndex].colorIndex
+            let spriteName = colorTab[colorTabIndex].spriteName
             colorTab.removeAtIndex(colorTabIndex)
             
             let aktColor = GV.colorSets[GV.colorSetIndex][colorIndex + 1].CGColor
@@ -475,7 +493,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             
             sprite.column = aktColumn
             sprite.row = aktRow
-            sprite.name = "\(aktRow * countColumns + aktColumn)"
+            sprite.name = spriteName
             sprite.colorIndex = colorIndex
             sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width/2)
             sprite.physicsBody?.dynamic = true
@@ -483,7 +501,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             sprite.physicsBody?.contactTestBitMask = PhysicsCategory.MovingSprite
             sprite.physicsBody?.collisionBitMask = PhysicsCategory.None
             sprite.physicsBody?.usesPreciseCollisionDetection = true
-            //push(sprite, first:false, new: true)
+            push(sprite, status: .Added)
             addChild(sprite)
         }
         stopped = false
@@ -635,7 +653,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                     // 8 - Add the shoot amount to the current position
                     let realDest = shootAmount + movedFromNode.position
                     
-                    push(sprite, first: true, new: false)
+                    push(sprite, status: .MovingStarted)
                     // 9 - Create the actions
                     let actionMove = SKAction.moveTo(realDest, duration: 2.0)
                     //let actionMoveDone = SKAction.removeFromParent()
@@ -681,7 +699,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         let spriteColorIndex = movingSprite.colorIndex
         var OK = containerColorIndex == spriteColorIndex
         
-        push(movingSprite, first:false, new: false)
+        push(container, status: .HitcounterChanged)
+        push(movingSprite, status: .Removed)
+        
         
         //println("spriteName: \(containerColorIndex), containerName: \(spriteColorIndex)")
         if OK {
@@ -697,6 +717,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             showScore()
             playSound("Funk_Bot", volume: 0.03)
         }
+        
         spriteCount--
         let spriteCountText: String = GV.language.getText("spriteCount")
         spriteCountLabel.text = "\(spriteCountText) \(spriteCount)"
@@ -719,25 +740,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         var OK = movingSpriteColorIndex == spriteColorIndex
         if OK {
             
+            push(sprite, status: .SizeChanged)
+            push(movingSprite, status: .Removed)
+            
             sprite.hitCounter = movingSprite.hitCounter + sprite.hitCounter
-            let aktSize = spriteSize + 1.1 * CGFloat(sprite.hitCounter)
+            let aktSize = spriteSize + 1.2 * CGFloat(sprite.hitCounter)
             sprite.size.width = aktSize
             sprite.size.height = aktSize
             playSound("Sprite1", volume: 0.03)
             
-            push(sprite, first:false, new: false)
             gameArray[movingSprite.column][movingSprite.row] = false
             movingSprite.removeFromParent()
         } else {
-            push(sprite, first:false, new: false)
+            push(sprite, status: .Falling)
+            push(movingSprite, status: .Falling)
+            
             movingSprite.physicsBody?.categoryBitMask = PhysicsCategory.None
             containers[movingSprite.colorIndex].mySKNode.hitCounter -= movingSprite.hitCounter
             containers[sprite.colorIndex].mySKNode.hitCounter -= sprite.hitCounter
-            var movingSpriteDest = CGPointMake(movingSprite.position.x * 0.5, 0)
+            let movingSpriteDest = CGPointMake(movingSprite.position.x * 0.5, 0)
+            
+            movingSprite.startPosition = movingSprite.position
+            movingSprite.position = movingSpriteDest
+            push(movingSprite, status: .Removed)
+            
             let movingSpriteAction = SKAction.moveTo(movingSpriteDest, duration: 1.0)
             let actionMoveDone = SKAction.removeFromParent()
             movingSprite.runAction(SKAction.sequence([movingSpriteAction, actionMoveDone]))
+            
+            
             var spriteDest = CGPointMake(sprite.position.x * 1.5, 0)
+            sprite.startPosition = sprite.position
+            sprite.position = spriteDest
+            push(sprite, status: .Removed)
+            
+
             let actionMove2 = SKAction.moveTo(spriteDest, duration: 1.5)
             sprite.runAction(SKAction.sequence([actionMove2, actionMoveDone]))
             gameArray[movingSprite.column][movingSprite.row] = false
@@ -779,7 +816,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             
             movingSprite.startPosition = movingSprite.position
             movingSprite.hitCounter = Int(CGFloat(movingSprite.hitCounter) * 1.5)
-            push(movingSprite, first: false, new: false)
+            push(movingSprite, status: .Mirrored)
             
             let actionMove = SKAction.moveTo(realDest, duration: 2.0)
             collisionActive = true
@@ -934,11 +971,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         }
     }
     
-    func push(sprite: MySKNode, first: Bool, new: Bool) {
+    func push(sprite: MySKNode, status: SpriteStatus) {
         var savedSprite = SavedSprite()
-        savedSprite.first = first
-        savedSprite.new = new
-        savedSprite.startPositon = sprite.startPosition
+        savedSprite.name = sprite.name!
+        savedSprite.status = status
+        savedSprite.startPosition = sprite.startPosition
         savedSprite.endPosition = sprite.position
         savedSprite.colorIndex = sprite.colorIndex
         savedSprite.size = sprite.size
@@ -952,41 +989,112 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         if let savedSprite = stack.pull() {
             var savedSpriteInCycle = savedSprite
             var run = false
-            if savedSprite.new {
-                let searchName = "\(savedSprite.row * countRows + savedSprite.column)"
-                self.childNodeWithName(searchName)!.removeFromParent()
-                colorTab.append(savedSprite.colorIndex)
-                gameArray[savedSprite.column][savedSprite.row] = false
-                if checkGameArray() <= minUsedCells {
-                    generateSprites()
-                }
-            } else {
+            if savedSpriteInCycle.status == .Added && stack.countChangesInStack() > 0 {
+                
+                run = true
                 do {
-                    run = !savedSpriteInCycle.first
+                        let spriteName = savedSpriteInCycle.name
+                        let colorIndex = savedSpriteInCycle.colorIndex
+                        let searchName = "\(spriteName)"
+                        self.childNodeWithName(searchName)!.removeFromParent()
+                        let colorTabLine = ColorTabLine(colorIndex: colorIndex, spriteName: spriteName)
+                        colorTab.append(colorTabLine)
+                        gameArray[savedSpriteInCycle.column][savedSpriteInCycle.row] = false
+                    
+//                        if checkGameArray() <= minUsedCells {
+//                            generateSprites()
+//                            run = false
+//                        }
+                        if let savedSprite = stack.pull() {
+                                                        
+                            savedSpriteInCycle = savedSprite
+                            if savedSpriteInCycle.status != .Added {
+                                run = false
+                            }
+                        } else {
+                            run = false
+                    }
+                } while run
+        }
+        run = true
+        var stopSoon = false
+        
+        if savedSpriteInCycle.status != .Added {
+            do {
+                switch savedSpriteInCycle.status {
+                case .Removed:
                     let spriteTexture = SKTexture(imageNamed: "sprite\(savedSpriteInCycle.colorIndex)")
                     var sprite = MySKNode(texture: spriteTexture, type: .SpriteType)
-                    sprite.position = savedSpriteInCycle.endPosition
-                    sprite.startPosition = savedSpriteInCycle.startPositon
+                    sprite.position = savedSpriteInCycle.startPosition
+                    sprite.startPosition = savedSpriteInCycle.endPosition
                     sprite.size = savedSpriteInCycle.size
                     sprite.column = savedSpriteInCycle.column
                     sprite.row = savedSpriteInCycle.row
                     sprite.hitCounter = savedSpriteInCycle.hitCounter
-                    sprite.name = "\(savedSpriteInCycle.row * countRows + savedSpriteInCycle.column)"
+                    sprite.name = savedSpriteInCycle.name
                     self.addChild(sprite)
-                    let actionMove = SKAction.moveTo(sprite.startPosition, duration: 0.2)
+                    
+                case .HitcounterChanged:
+                    containers[savedSpriteInCycle.colorIndex].countHits = savedSpriteInCycle.hitCounter
+                    
+                case .MovingStarted:
+                    var sprite = self.childNodeWithName(savedSpriteInCycle.name)! as! MySKNode
+                    sprite.position = savedSpriteInCycle.startPosition
+                    sprite.startPosition = savedSpriteInCycle.endPosition
+                    sprite.size = savedSpriteInCycle.size
+                    sprite.column = savedSpriteInCycle.column
+                    sprite.row = savedSpriteInCycle.row
+                    sprite.hitCounter = savedSpriteInCycle.hitCounter
+                    let actionMove = SKAction.moveTo(sprite.startPosition, duration: 2.0)
                     sprite.runAction(SKAction.sequence([actionMove]))
-                    if run {
-                        if let savedSprite = stack.pull() {
-                            savedSpriteInCycle = savedSprite
-                        } else {
-                            run = false
-                        }
+                
+                default: run = false
+                }
+                if let savedSprite = stack.pull() {
+                    savedSpriteInCycle = savedSprite
+                    if savedSpriteInCycle.status == .Added || stopSoon {
+                        stack.push(savedSpriteInCycle)
+                        run = false
                     }
-                } while run
-            }
+                    if savedSpriteInCycle.status == .MovingStarted {
+                        stopSoon = true
+                    }
+                } else {
+                    run = false
+                }
+            } while run
+        }
+            
+
+//                case .SizeChanged:
+            
+//
+//
+//                    do {
+//                        run = !savedSpriteInCycle.first
+//                        let spriteTexture = SKTexture(imageNamed: "sprite\(savedSpriteInCycle.colorIndex)")
+//                        var sprite = MySKNode(texture: spriteTexture, type: .SpriteType)
+//                        sprite.position = savedSpriteInCycle.endPosition
+//                        sprite.startPosition = savedSpriteInCycle.startPositon
+//                        sprite.size = savedSpriteInCycle.size
+//                        sprite.column = savedSpriteInCycle.column
+//                        sprite.row = savedSpriteInCycle.row
+//                        sprite.hitCounter = savedSpriteInCycle.hitCounter
+//                        sprite.name = "\(savedSpriteInCycle.row * countRows + savedSpriteInCycle.column)"
+//                        self.addChild(sprite)
+//                        let actionMove = SKAction.moveTo(sprite.startPosition, duration: 0.2)
+//                        sprite.runAction(SKAction.sequence([actionMove]))
+//                        if run {
+//                            if let savedSprite = stack.pull() {
+//                                savedSpriteInCycle = savedSprite
+//                            } else {
+//                                run = false
+//                            }
+//                        }
+            
         }
     }
-
+    
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully
         flag: Bool) {
     }
