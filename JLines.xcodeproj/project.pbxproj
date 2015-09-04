@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20000F301B999091009FBD06 /* sprite7.png in Resources */ = {isa = PBXBuildFile; fileRef = 20000F2F1B999091009FBD06 /* sprite7.png */; };
 		20002E371B40404B00F390A2 /* AppVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20002E361B40404B00F390A2 /* AppVariables.swift */; };
 		2001B7C91B359BD90029E2A6 /* PagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2001B7C81B359BD90029E2A6 /* PagedViewController.swift */; };
 		2001B7CB1B359BF90029E2A6 /* MyScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2001B7CA1B359BF90029E2A6 /* MyScrollView.swift */; };
@@ -86,7 +87,6 @@
 		20FCA1FA1B627B4A00FBE816 /* Holz.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1F91B627B4A00FBE816 /* Holz.png */; };
 		20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FB1B62811A00FBE816 /* sprite4.png */; };
 		20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCA1FD1B62836C00FBE816 /* sprite5.png */; };
-		20FCDB9D1B83798300C98282 /* sprite7.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FCDB9C1B83798300C98282 /* sprite7.png */; };
 		20FCED771B84AA7300BFA59A /* LevelsForPlayWithSprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCED761B84AA7300BFA59A /* LevelsForPlayWithSprites.swift */; };
 		20FD1B461B8A1F6900B10FCB /* MyMusic.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 20FD1B451B8A1F6900B10FCB /* MyMusic.m4a */; };
 		20FD48881B67C58A004FCBC8 /* sprite2.png in Resources */ = {isa = PBXBuildFile; fileRef = 20FD48871B67C58A004FCBC8 /* sprite2.png */; };
@@ -104,6 +104,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		20000F2F1B999091009FBD06 /* sprite7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite7.png; sourceTree = "<group>"; };
 		20002E311B403AC800F390A2 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		20002E361B40404B00F390A2 /* AppVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppVariables.swift; sourceTree = "<group>"; };
 		2001B7C81B359BD90029E2A6 /* PagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedViewController.swift; sourceTree = "<group>"; };
@@ -189,7 +190,6 @@
 		20FCA1F91B627B4A00FBE816 /* Holz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Holz.png; sourceTree = "<group>"; };
 		20FCA1FB1B62811A00FBE816 /* sprite4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite4.png; sourceTree = "<group>"; };
 		20FCA1FD1B62836C00FBE816 /* sprite5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite5.png; sourceTree = "<group>"; };
-		20FCDB9C1B83798300C98282 /* sprite7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprite7.png; path = ../sprite7.png; sourceTree = "<group>"; };
 		20FCED761B84AA7300BFA59A /* LevelsForPlayWithSprites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelsForPlayWithSprites.swift; sourceTree = "<group>"; };
 		20FD1B451B8A1F6900B10FCB /* MyMusic.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = MyMusic.m4a; sourceTree = "<group>"; };
 		20FD48871B67C58A004FCBC8 /* sprite2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprite2.png; sourceTree = "<group>"; };
@@ -372,7 +372,7 @@
 				20FCA1FB1B62811A00FBE816 /* sprite4.png */,
 				20FCA1FD1B62836C00FBE816 /* sprite5.png */,
 				20F03FC61B63D52800F2F1EC /* sprite6.png */,
-				20FCDB9C1B83798300C98282 /* sprite7.png */,
+				20000F2F1B999091009FBD06 /* sprite7.png */,
 				20FCA1F11B62706000FBE816 /* sprite8.png */,
 			);
 			name = Pictures;
@@ -486,21 +486,21 @@
 				2001B7D91B359D820029E2A6 /* FirstPack.json in Resources */,
 				2001B7DB1B359D8C0029E2A6 /* RegularPack.json in Resources */,
 				20FCA1F61B62706000FBE816 /* sprite0.png in Resources */,
-				20FA924A1B8B8A0300568BE5 /* Mirror.m4a in Resources */,
-				20FA924C1B8B8BF600568BE5 /* Winner.m4a in Resources */,
-				2005B3AC1B8B5C6A00B7F8B4 /* Do_1.m4a in Resources */,
 				20FCA1F51B62706000FBE816 /* sprite1.png in Resources */,
 				20FD48881B67C58A004FCBC8 /* sprite2.png in Resources */,
-				20F89B381B8F96400030A9B6 /* restartPressed.png in Resources */,
 				20B39C5F1B834332003F3788 /* sprite3.png in Resources */,
 				20FCA1FC1B62811A00FBE816 /* sprite4.png in Resources */,
 				20FCA1FE1B62836C00FBE816 /* sprite5.png in Resources */,
 				20F03FC71B63D52800F2F1EC /* sprite6.png in Resources */,
+				20000F301B999091009FBD06 /* sprite7.png in Resources */,
+				20FCA1F41B62706000FBE816 /* sprite8.png in Resources */,
+				20FA924A1B8B8A0300568BE5 /* Mirror.m4a in Resources */,
+				20FA924C1B8B8BF600568BE5 /* Winner.m4a in Resources */,
+				2005B3AC1B8B5C6A00B7F8B4 /* Do_1.m4a in Resources */,
+				20F89B381B8F96400030A9B6 /* restartPressed.png in Resources */,
 				20FA92541B8BA60B00568BE5 /* Sprite1.m4a in Resources */,
-				20FCDB9D1B83798300C98282 /* sprite7.png in Resources */,
 				2005B3B21B8B6C2C00B7F8B4 /* Funk_Bot.m4a in Resources */,
 				20FA924E1B8B92A100568BE5 /* Timeout.m4a in Resources */,
-				20FCA1F41B62706000FBE816 /* sprite8.png in Resources */,
 				20F89B321B8F90010030A9B6 /* undo.png in Resources */,
 				20F89B371B8F96400030A9B6 /* restart.png in Resources */,
 				2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */,
