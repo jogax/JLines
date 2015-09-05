@@ -556,6 +556,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 (testNode as! MySKNode).texture = textureSelected
             default: movedFromNode = nil
         }
+        let fingerNode = SKSpriteNode(imageNamed: "finger.png")
+        fingerNode.name = "finger"
+        fingerNode.position = touchLocation
+        fingerNode.size = CGSizeMake(25,25)
+        addChild(fingerNode)
     }
     
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -604,7 +609,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                     self.addChild(myLine)
                 }
             }
-            
+            let fingerNode = self.childNodeWithName("finger")! as! SKSpriteNode
+            fingerNode.position = touchLocation
         }
     }
     
@@ -667,6 +673,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 }
             }
         }
+        (self.childNodeWithName("finger")! as! SKSpriteNode).removeFromParent()
     }
         
     
