@@ -65,8 +65,28 @@ struct Container {
     var countHits: Int
 }
 
-enum SpriteStatus: Int {
+enum SpriteStatus: Int, Printable {
     case Added = 0, MovingStarted, SizeChanged, Mirrored, FallingMovingSprite, FallingSprite, HitcounterChanged, Removed
+
+    var statusName: String {
+        let statusNames = [
+            "Added",
+            "MovingStarted",
+            "SizeChanged",
+            "Mirrored",
+            "FallingMovingSprite",
+            "FallingSprite",
+            "HitcounterChanged",
+            "Removed"
+        ]
+        
+        return statusNames[rawValue]
+    }
+
+    var description: String {
+        return statusName
+    }
+    
 }
 
 struct SavedSprite {
@@ -556,11 +576,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 (testNode as! MySKNode).texture = textureSelected
             default: movedFromNode = nil
         }
-        let fingerNode = SKSpriteNode(imageNamed: "finger.png")
-        fingerNode.name = "finger"
-        fingerNode.position = touchLocation
-        fingerNode.size = CGSizeMake(25,25)
-        addChild(fingerNode)
+//        let fingerNode = SKSpriteNode(imageNamed: "finger.png")
+//        fingerNode.name = "finger"
+//        fingerNode.position = touchLocation
+//        fingerNode.size = CGSizeMake(25,25)
+//        addChild(fingerNode)
     }
     
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -609,8 +629,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                     self.addChild(myLine)
                 }
             }
-            let fingerNode = self.childNodeWithName("finger")! as! SKSpriteNode
-            fingerNode.position = touchLocation
+//            let fingerNode = self.childNodeWithName("finger")! as? SKSpriteNode
+//            fingerNode!.position = touchLocation
         }
     }
     
@@ -618,6 +638,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         while self.childNodeWithName("myLine") != nil {
             self.childNodeWithName("myLine")!.removeFromParent()
         }
+//        (self.childNodeWithName("finger")! as! SKSpriteNode).removeFromParent()
         if movedFromNode != nil && !stopped {
 //            if self.childNodeWithName("myLine") != nil {
 //                self.childNodeWithName("myLine")!.removeFromParent()
@@ -673,7 +694,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 }
             }
         }
-        (self.childNodeWithName("finger")! as! SKSpriteNode).removeFromParent()
     }
         
     
@@ -767,6 +787,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             push(sprite, status: .FallingSprite)
             push(movingSprite, status: .FallingMovingSprite)
             
+            sprite.zPosition = 0
+            movingSprite.zPosition = 0
             movingSprite.physicsBody?.categoryBitMask = PhysicsCategory.None
             containers[movingSprite.colorIndex].mySKNode.hitCounter -= movingSprite.hitCounter
             containers[sprite.colorIndex].mySKNode.hitCounter -= sprite.hitCounter
@@ -994,11 +1016,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         savedSprite.hitCounter = sprite.hitCounter
         savedSprite.column = sprite.column
         savedSprite.row = sprite.row
+        if savedSprite.status != .Added {
+            println("push -> status: \(savedSprite.status), name: \(savedSprite.name), sPos: \(savedSprite.startPosition), ePos: \(savedSprite.endPosition)" )
+        }
         stack.push(savedSprite)
     }
     
     func pull() {
-        
+        let duration = 0.5
         var actionMoveArray = [SKAction]()
         if let savedSprite = stack.pull() {
             var savedSpriteInCycle = savedSprite
@@ -1031,6 +1056,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         
         if savedSpriteInCycle.status != .Added {
             do {
+                println("pull -> status: \(savedSpriteInCycle.status),  name: \(savedSpriteInCycle.name), sPos: \(savedSpriteInCycle.startPosition), ePos: \(savedSpriteInCycle.endPosition)" )
                 switch savedSpriteInCycle.status {
                 case .Removed:
                     let spriteTexture = SKTexture(imageNamed: "sprite\(savedSpriteInCycle.colorIndex)")
@@ -1063,26 +1089,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                     var sprite = self.childNodeWithName(savedSpriteInCycle.name)! as! MySKNode
                     sprite.hitCounter = savedSpriteInCycle.hitCounter
                     sprite.startPosition = savedSpriteInCycle.startPosition
-                    actionMoveArray.append(SKAction.moveTo(savedSpriteInCycle.endPosition, duration: 0.1))
+                    actionMoveArray.append(SKAction.moveTo(savedSpriteInCycle.endPosition, duration: duration))
                     sprite.runAction(SKAction.sequence(actionMoveArray))
 
                 case .FallingMovingSprite:
                     var sprite = self.childNodeWithName(savedSpriteInCycle.name)! as! MySKNode
                     sprite.hitCounter = savedSpriteInCycle.hitCounter
                     containers[savedSpriteInCycle.colorIndex].mySKNode.hitCounter += sprite.hitCounter
-                    actionMoveArray.append(SKAction.moveTo(savedSpriteInCycle.endPosition, duration: 0.1))
+                    actionMoveArray.append(SKAction.moveTo(savedSpriteInCycle.endPosition, duration: duration))
                     
                 case .FallingSprite:
                     var sprite = self.childNodeWithName(savedSpriteInCycle.name)! as! MySKNode
                     sprite.hitCounter = savedSpriteInCycle.hitCounter
                     sprite.startPosition = savedSpriteInCycle.startPosition
                     containers[savedSpriteInCycle.colorIndex].mySKNode.hitCounter += sprite.hitCounter
-                    let moveFallingSprite = SKAction.moveTo(savedSpriteInCycle.startPosition, duration: 0.1)
+                    let moveFallingSprite = SKAction.moveTo(savedSpriteInCycle.startPosition, duration: duration)
                     sprite.runAction(SKAction.sequence([moveFallingSprite]))
                     
                 case .Mirrored:
                     var sprite = self.childNodeWithName(savedSpriteInCycle.name)! as! MySKNode
-                    actionMoveArray.append(SKAction.moveTo(savedSpriteInCycle.endPosition, duration: 0.1))
+                    actionMoveArray.append(SKAction.moveTo(savedSpriteInCycle.endPosition, duration: duration))
                     
                 default: run = false
                 }

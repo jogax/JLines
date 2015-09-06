@@ -22,7 +22,7 @@
 		2001B7DD1B359D920029E2A6 /* BonusPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 2001B7DC1B359D920029E2A6 /* BonusPack.json */; };
 		2001B7DF1B359D990029E2A6 /* GreenPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 2001B7DE1B359D990029E2A6 /* GreenPack.json */; };
 		2001B7E31B35A09B0029E2A6 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2001B7E21B35A09B0029E2A6 /* CoreAudio.framework */; };
-		2002AF8B1B9AD39E001B444A /* Finger.png in Resources */ = {isa = PBXBuildFile; fileRef = 2002AF8A1B9AD39E001B444A /* Finger.png */; };
+		2002AF8B1B9AD39E001B444A /* finger.png in Resources */ = {isa = PBXBuildFile; fileRef = 2002AF8A1B9AD39E001B444A /* finger.png */; };
 		2003035E1B31DE81003D55EA /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003035D1B31DE81003D55EA /* MyLabel.swift */; };
 		2005AE571B34744200D1DA36 /* MyButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2005AE561B34744200D1DA36 /* MyButtonsView.swift */; };
 		2005B3AC1B8B5C6A00B7F8B4 /* Do_1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2005B3AB1B8B5C6A00B7F8B4 /* Do_1.m4a */; };
@@ -121,7 +121,7 @@
 		2001B7DC1B359D920029E2A6 /* BonusPack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BonusPack.json; sourceTree = "<group>"; };
 		2001B7DE1B359D990029E2A6 /* GreenPack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GreenPack.json; sourceTree = "<group>"; };
 		2001B7E21B35A09B0029E2A6 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
-		2002AF8A1B9AD39E001B444A /* Finger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Finger.png; sourceTree = "<group>"; };
+		2002AF8A1B9AD39E001B444A /* finger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = finger.png; sourceTree = "<group>"; };
 		2003035D1B31DE81003D55EA /* MyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		2005AE561B34744200D1DA36 /* MyButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyButtonsView.swift; sourceTree = "<group>"; };
 		2005B3AB1B8B5C6A00B7F8B4 /* Do_1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Do_1.m4a; sourceTree = "<group>"; };
@@ -366,7 +366,7 @@
 				20F89B351B8F96400030A9B6 /* restart.png */,
 				20F89B361B8F96400030A9B6 /* restartPressed.png */,
 				20F89B331B8F90EF0030A9B6 /* undoPressed.png */,
-				2002AF8A1B9AD39E001B444A /* Finger.png */,
+				2002AF8A1B9AD39E001B444A /* finger.png */,
 				20FCA1F91B627B4A00FBE816 /* Holz.png */,
 				20FCA1F31B62706000FBE816 /* sprite0.png */,
 				20FCA1F21B62706000FBE816 /* sprite1.png */,
@@ -482,7 +482,7 @@
 				20F89B341B8F90F00030A9B6 /* undoPressed.png in Resources */,
 				20F602301B63D320002F66C7 /* hu.json in Resources */,
 				20F602331B63D320002F66C7 /* ru.json in Resources */,
-				2002AF8B1B9AD39E001B444A /* Finger.png in Resources */,
+				2002AF8B1B9AD39E001B444A /* finger.png in Resources */,
 				20F602311B63D320002F66C7 /* de.json in Resources */,
 				20F602321B63D320002F66C7 /* en.json in Resources */,
 				200A757D1B306EA700FA596A /* Images.xcassets in Resources */,
