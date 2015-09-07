@@ -69,6 +69,7 @@
 		20F813471B53D3DA0046463A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813461B53D3DA0046463A /* SKButton.swift */; };
 		20F813491B53D3E50046463A /* PlayWithSpritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */; };
 		20F8134B1B53F1F90046463A /* MySKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F8134A1B53F1F90046463A /* MySKNode.swift */; };
+		20F854601B9C43AE0004DE8C /* aquarium.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F8545F1B9C43AE0004DE8C /* aquarium.png */; };
 		20F89B321B8F90010030A9B6 /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F89B311B8F90010030A9B6 /* undo.png */; };
 		20F89B341B8F90F00030A9B6 /* undoPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F89B331B8F90EF0030A9B6 /* undoPressed.png */; };
 		20F89B371B8F96400030A9B6 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F89B351B8F96400030A9B6 /* restart.png */; };
@@ -173,6 +174,7 @@
 		20F813461B53D3DA0046463A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		20F813481B53D3E50046463A /* PlayWithSpritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayWithSpritesViewController.swift; sourceTree = "<group>"; };
 		20F8134A1B53F1F90046463A /* MySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySKNode.swift; sourceTree = "<group>"; };
+		20F8545F1B9C43AE0004DE8C /* aquarium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aquarium.png; sourceTree = "<group>"; };
 		20F89B311B8F90010030A9B6 /* undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo.png; sourceTree = "<group>"; };
 		20F89B331B8F90EF0030A9B6 /* undoPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undoPressed.png; sourceTree = "<group>"; };
 		20F89B351B8F96400030A9B6 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 				20F89B361B8F96400030A9B6 /* restartPressed.png */,
 				20F89B331B8F90EF0030A9B6 /* undoPressed.png */,
 				2002AF8A1B9AD39E001B444A /* finger.png */,
+				20F8545F1B9C43AE0004DE8C /* aquarium.png */,
 				20FCA1F91B627B4A00FBE816 /* Holz.png */,
 				20FCA1F31B62706000FBE816 /* sprite0.png */,
 				20FCA1F21B62706000FBE816 /* sprite1.png */,
@@ -511,6 +514,7 @@
 				20F602231B63D064002F66C7 /* Main.storyboard in Resources */,
 				2005B3B01B8B692300B7F8B4 /* Do_2.m4a in Resources */,
 				2005B3B41B8B711000B7F8B4 /* Drop.m4a in Resources */,
+				20F854601B9C43AE0004DE8C /* aquarium.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

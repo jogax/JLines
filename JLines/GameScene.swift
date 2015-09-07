@@ -135,12 +135,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var minUsedCells = 0
     var maxUsedCells = 0
     
-
+    var countMovingSprites = 0
+    
     let timeLimitKorr = 5 // sec for pro Sprite
     var timeLimit = 0 // seconds
 
     var timer: NSTimer?
     var countDown: NSTimer?
+    var waitForSKActionEnded: NSTimer?
     
     struct ColorTabLine {
         var colorIndex: Int
@@ -217,6 +219,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             NSBundle.mainBundle().pathForResource("MyMusic",
                 ofType: "m4a")!)
         var error: NSError?
+        //backgroundColor = SKColor(patternImage: UIImage(named: "aquarium.png")!)
+        var bgImage = SKSpriteNode(imageNamed: "aquarium.png")
+        bgImage.size = CGSizeMake(1200, 1600)
+        bgImage.zPosition = -1000
+        
+        self.addChild(bgImage)
         audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
         if let err = error {
             println("audioPlayer error \(err.localizedDescription)")
@@ -563,11 +571,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         let countTouches = touches.count
         let firstTouch = touches.first as! UITouch
         let touchLocation = firstTouch.locationInNode(self)
+        
         let testNode = self.nodeAtPoint(touchLocation)
+        
         let aktNodeType = analyzeNode(testNode)
         switch aktNodeType {
             case MyNodeTypes.LabelNode: movedFromNode = self.nodeAtPoint(touchLocation).parent as! MySKNode
-            case MyNodeTypes.SpriteNode: movedFromNode = self.nodeAtPoint(touchLocation) as! MySKNode
+            case MyNodeTypes.SpriteNode:
+                movedFromNode = self.nodeAtPoint(touchLocation) as! MySKNode
+                let fingerNode = SKSpriteNode(imageNamed: "finger.png")
+                fingerNode.name = "finger"
+                fingerNode.position = touchLocation
+                fingerNode.size = CGSizeMake(25,25)
+                addChild(fingerNode)
+            
+
             case MyNodeTypes.ContainerNode: movedFromNode = nil
             case MyNodeTypes.ButtonNode:
                 movedFromNode = self.nodeAtPoint(touchLocation) as! MySKNode
@@ -576,11 +594,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 (testNode as! MySKNode).texture = textureSelected
             default: movedFromNode = nil
         }
-//        let fingerNode = SKSpriteNode(imageNamed: "finger.png")
-//        fingerNode.name = "finger"
-//        fingerNode.position = touchLocation
-//        fingerNode.size = CGSizeMake(25,25)
-//        addChild(fingerNode)
     }
     
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -629,8 +642,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                     self.addChild(myLine)
                 }
             }
-//            let fingerNode = self.childNodeWithName("finger")! as? SKSpriteNode
-//            fingerNode!.position = touchLocation
+
+            let fingerNode = self.childNodeWithName("finger")! as? SKSpriteNode
+            fingerNode!.position = touchLocation
         }
     }
     
@@ -638,11 +652,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         while self.childNodeWithName("myLine") != nil {
             self.childNodeWithName("myLine")!.removeFromParent()
         }
-//        (self.childNodeWithName("finger")! as! SKSpriteNode).removeFromParent()
         if movedFromNode != nil && !stopped {
-//            if self.childNodeWithName("myLine") != nil {
-//                self.childNodeWithName("myLine")!.removeFromParent()
-//            }
             let countTouches = touches.count
             let firstTouch = touches.first as! UITouch
             let touchLocation = firstTouch.locationInNode(self)
@@ -665,6 +675,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                     default: undoButtonPressed()
                 }
             } else {
+                if let fingerNode = self.childNodeWithName("finger")! as? SKSpriteNode {
+                    fingerNode.removeFromParent()
+                }
+
                 if aktNode == nil || (aktNode as! MySKNode) != movedFromNode {
                     let sprite = movedFromNode// as! SKSpriteNode
                     sprite!.physicsBody = SKPhysicsBody(circleOfRadius: sprite!.size.width/2)
@@ -690,6 +704,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                     let actionMove = SKAction.moveTo(realDest, duration: 2.0)
                     //let actionMoveDone = SKAction.removeFromParent()
                     collisionActive = true
+                    
+                    self.userInteractionEnabled = false  // userInteraction forbidden!
+                    countMovingSprites = 1
+                    self.waitForSKActionEnded = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("checkCountMovingSprites"), userInfo: nil, repeats: false) // start timer for check
+
                     movedFromNode.runAction(SKAction.sequence([actionMove]))//, actionMoveDone]))
                 }
             }
@@ -749,7 +768,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             showScore()
             playSound("Funk_Bot", volume: 0.03)
         }
-        
+
+        countMovingSprites = 0
+
         spriteCount--
         let spriteCountText: String = GV.language.getText("spriteCount")
         spriteCountLabel.text = "\(spriteCountText) \(spriteCount)"
@@ -783,6 +804,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             
             gameArray[movingSprite.column][movingSprite.row] = false
             movingSprite.removeFromParent()
+            countMovingSprites = 0
         } else {
             push(sprite, status: .FallingSprite)
             push(movingSprite, status: .FallingMovingSprite)
@@ -798,9 +820,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             movingSprite.position = movingSpriteDest
             push(movingSprite, status: .Removed)
             
+            countMovingSprites = 2
+
             let movingSpriteAction = SKAction.moveTo(movingSpriteDest, duration: 1.0)
             let actionMoveDone = SKAction.removeFromParent()
-            movingSprite.runAction(SKAction.sequence([movingSpriteAction, actionMoveDone]))
+            
+            movingSprite.runAction(SKAction.sequence([movingSpriteAction, actionMoveDone]), completion: {countMovingSprites--})
             
             
             var spriteDest = CGPointMake(sprite.position.x * 1.5, 0)
@@ -810,7 +835,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             
 
             let actionMove2 = SKAction.moveTo(spriteDest, duration: 1.5)
-            sprite.runAction(SKAction.sequence([actionMove2, actionMoveDone]))
+            sprite.runAction(SKAction.sequence([actionMove2, actionMoveDone]), completion: {countMovingSprites--})
             gameArray[movingSprite.column][movingSprite.row] = false
             gameArray[sprite.column][sprite.row] = false
             spriteCount--
@@ -821,6 +846,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         let spriteCountText: String = GV.language.getText("spriteCount")
         spriteCountLabel.text = "\(spriteCountText) \(spriteCount)"
         checkGameFinished()
+    }
+
+    func checkCountMovingSprites() {
+        if  countMovingSprites > 0 {
+            //println("countMovingSprites: \(countMovingSprites)")
+            self.waitForSKActionEnded = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("checkCountMovingSprites"), userInfo: nil, repeats: false)
+        } else {
+            self.userInteractionEnabled = true
+        }
     }
     
     func wallAroundDidCollideWithMovingSprite(node1: MySKNode, node2: SKNode) {
@@ -1017,7 +1051,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         savedSprite.column = sprite.column
         savedSprite.row = sprite.row
         if savedSprite.status != .Added {
-            println("push -> status: \(savedSprite.status), name: \(savedSprite.name), sPos: \(savedSprite.startPosition), ePos: \(savedSprite.endPosition)" )
+//            println("push -> status: \(savedSprite.status), name: \(savedSprite.name), sPos: \(savedSprite.startPosition), ePos: \(savedSprite.endPosition)" )
         }
         stack.push(savedSprite)
     }
@@ -1027,11 +1061,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         var actionMoveArray = [SKAction]()
         if let savedSprite = stack.pull() {
             var savedSpriteInCycle = savedSprite
-            var run = false
-            if savedSpriteInCycle.status == .Added && stack.countChangesInStack() > 0 {
-                
-                run = true
-                do {
+            var run = true
+            var stopSoon = false
+        
+//        if savedSpriteInCycle.status != .Added {
+            do {
+//                println("pull -> status: \(savedSpriteInCycle.status),  name: \(savedSpriteInCycle.name), sPos: \(savedSpriteInCycle.startPosition), ePos: \(savedSpriteInCycle.endPosition)" )
+                switch savedSpriteInCycle.status {
+                case .Added:
+                    if stack.countChangesInStack() > 0 {
                         let spriteName = savedSpriteInCycle.name
                         let colorIndex = savedSpriteInCycle.colorIndex
                         let searchName = "\(spriteName)"
@@ -1039,25 +1077,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                         let colorTabLine = ColorTabLine(colorIndex: colorIndex, spriteName: spriteName)
                         colorTab.append(colorTabLine)
                         gameArray[savedSpriteInCycle.column][savedSpriteInCycle.row] = false
-                    
-                        if let savedSprite = stack.pull() {
-                                                        
-                            savedSpriteInCycle = savedSprite
-                            if savedSpriteInCycle.status != .Added {
-                                run = false
-                            }
-                        } else {
-                            run = false
                     }
-                } while run
-        }
-        run = true
-        var stopSoon = false
-        
-        if savedSpriteInCycle.status != .Added {
-            do {
-                println("pull -> status: \(savedSpriteInCycle.status),  name: \(savedSpriteInCycle.name), sPos: \(savedSpriteInCycle.startPosition), ePos: \(savedSpriteInCycle.endPosition)" )
-                switch savedSpriteInCycle.status {
                 case .Removed:
                     let spriteTexture = SKTexture(imageNamed: "sprite\(savedSpriteInCycle.colorIndex)")
                     var sprite = MySKNode(texture: spriteTexture, type: .SpriteType)
@@ -1114,7 +1134,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 }
                 if let savedSprite = stack.pull() {
                     savedSpriteInCycle = savedSprite
-                    if savedSpriteInCycle.status == .Added || stopSoon {
+                    if (savedSpriteInCycle.status == .Added && stack.countChangesInStack() == 0) || stopSoon {
                         stack.push(savedSpriteInCycle)
                         run = false
                     }
@@ -1130,7 +1150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             
 
             
-        }
+//        }
     }
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully
